@@ -255,10 +255,10 @@ This profile is focused on building and publishing:
 **[Rodstark Global Solutions, Inc.](https://github.com/Rodstark-Global-Solutions-Inc)**  
 Software, AI systems, enterprise solutions, and agentic operating structures.
 
-**[NexGen LAVA, Inc.](https://github.com/NexGen-LAVA-Inc)**
+**[NexGen LAVA, Inc.](https://github.com/NexGen-LAVA-Inc)**  
 SaaS platforms, management systems, IT solutions, and enterprise-grade business applications.
 
-**[FrostByte Constructs LLC](https://github.com/FrostByte-Constructs-LLC)**
+**[FrostByte Constructs LLC](https://github.com/FrostByte-Constructs-LLC)**  
 Discord bots, APIs, automation tools, cybersecurity research, and advanced software utilities.
 
 ---
