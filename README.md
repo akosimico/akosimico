@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/profile-banner.png" alt="LucyAI · Agentic Systems · Enterprise Software Architecture" width="100%" />
+  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/main/assets/profile-banner.png" alt="LucyAI · Agentic Systems · Enterprise Software Architecture" width="100%" />
 </p>
 
 <h3 align="center">Lucifer Rodstark, Ph.D.</h3>
@@ -15,7 +15,6 @@
 <p align="center">
   <a href="https://github.com/itsmfknlucy">GitHub</a>&nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/Rodstark-Global-Solutions-Inc">Rodstark Global Solutions</a>&nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="https://github.com/itsmfknlucy/LucyOS-Portfolio">LucyOS Portfolio</a>&nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/Rodstark-Global-Solutions-Inc/Agentics">Agentics</a>
 </p>
 
@@ -39,7 +38,7 @@ I’m building an interconnected ecosystem around enterprise software, intellige
 - **Agentic Engineering** — role-based AI workflows for planning, coding, QA, security, performance, database work, and documentation.
 - **Academic Research Systems** — structured thesis, dissertation, citation, methodology, and research integrity workflows.
 - **Company Operating Systems** — agentic teams for HR, marketing, finance, risk, multimedia, software, cybersecurity, and operations.
-- **AI-Native Personal Platforms** — LucyOS, LucyAI, Agentics, and next-generation portfolio systems.
+- **AI-Native Personal Platforms** — LucyAI, Agentics, and next-generation portfolio systems.
 
 ## The Stack
 
@@ -99,18 +98,6 @@ A collection of agentic setups for software engineering, academic research, ente
 - Integration Team Workflow
 - Brand OS / Website OS
 - Agentic workflows for coding, QA, architecture, research, and business execution
-
-### LucyOS Portfolio
-
-An AI-native personal platform and portfolio system built around identity, architecture, software engineering, AI systems, and intelligent presentation.
-
-Built for:
-
-- personal brand
-- technical credibility
-- AI-native portfolio presentation
-- project ecosystem mapping
-- enterprise architecture positioning
 
 ### Workforce LAVA .NET
 
@@ -261,15 +248,18 @@ This profile is focused on building and publishing:
 - Full Stack .NET engineering systems
 - Academic research automation workflows
 - Company-scale AI execution systems
-- LucyOS and LucyAI platform experiments
+- LucyAI platform experiments
 
 ## Organizations
 
 **[Rodstark Global Solutions, Inc.](https://github.com/Rodstark-Global-Solutions-Inc)**  
 Software, AI systems, enterprise solutions, and agentic operating structures.
 
-**[itsmfknlucy](https://github.com/itsmfknlucy)**  
-Personal engineering, AI systems, LucyOS, portfolio work, experiments, and public builds.
+**[NexGen LAVA, Inc.](https://github.com/NexGen-LAVA-Inc)**
+SaaS platforms, management systems, IT solutions, and enterprise-grade business applications.
+
+**[FrostByte Constructs LLC](https://github.com/FrostByte-Constructs-LLC)**
+Discord bots, APIs, automation tools, cybersecurity research, and advanced software utilities.
 
 ---
 
