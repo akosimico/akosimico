@@ -252,15 +252,16 @@ strategy → department routing → execution workflow → risk control → outp
 - portfolio and brand systems
 - intelligent documentation systems
 
-## GitHub Activity
+## GitHub Direction
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=itsmfknlucy&show_icons=true&theme=tokyonight&hide_border=true" alt="Lucy GitHub Stats" />
-</p>
+This profile is focused on building and publishing:
 
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=itsmfknlucy&layout=compact&theme=tokyonight&hide_border=true" alt="Lucy Top Languages" />
-</p>
+- Agentic operating systems
+- Enterprise software architecture patterns
+- Full Stack .NET engineering systems
+- Academic research automation workflows
+- Company-scale AI execution systems
+- LucyOS and LucyAI platform experiments
 
 ## Organizations
 
