@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/main/assets/profile-banner.png" alt="LucyAI · Agentic Systems · Enterprise Software Architecture" width="100%" />
+  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/profile-banner.png" alt="LucyAI · Agentic Systems · Enterprise Software Architecture" width="100%" />
 </p>
 
 <h3 align="center">Lucifer Rodstark, Ph.D.</h3>
