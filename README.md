@@ -99,7 +99,7 @@ A collection of agentic setups for software engineering, academic research, ente
 - Brand OS / Website OS
 - Agentic workflows for coding, QA, architecture, research, and business execution
 
-### Workforce LAVA .NET
+### LAVA Workforce .NET
 
 An offline/LAN workforce, payroll, attendance, HR, reporting, and licensing system for SMEs.
 
