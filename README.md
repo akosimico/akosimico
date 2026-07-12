@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/lucy.png" alt="Lucy" width="100%" />
+  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/lucy.png" alt="Lucy" width="10%" />
 </p>
 
 <p align="center">
