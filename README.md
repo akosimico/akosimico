@@ -13,6 +13,10 @@
 </p>
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/lucy.png" alt="Lucy" width="100%" />
+</p>
+
+<p align="center">
   <a href="https://github.com/itsmfknlucy">GitHub</a>&nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/Rodstark-Global-Solutions-Inc">Rodstark Global Solutions</a>&nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/Rodstark-Global-Solutions-Inc/Agentics">Agentics</a>
