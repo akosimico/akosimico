@@ -5,54 +5,33 @@ from __future__ import annotations
 import calendar
 import datetime as dt
 import html
+from pathlib import Path
 from typing import Final
 
 from .models import ProfileStats
 
 
-CARD_WIDTH: Final[int] = 1280
+CARD_WIDTH: Final[int] = 1500
 CARD_HEIGHT: Final[int] = 690
-ASCII_X: Final[int] = 25
-DIVIDER_X: Final[int] = 405
-ASCII_FONT_SIZE: Final[int] = 12
-ASCII_GUTTER: Final[int] = 28
-ASCII_LINE_HEIGHT: Final[int] = 17
-ASCII_START_Y: Final[int] = 52
+ASCII_X: Final[int] = 20
+DIVIDER_X: Final[int] = 550
+ASCII_FONT_SIZE: Final[int] = 8
+ASCII_RENDER_WIDTH: Final[int] = 500
+ASCII_GUTTER: Final[int] = 20
+ASCII_LINE_HEIGHT: Final[int] = 11
+ASCII_START_Y: Final[int] = 50
 BIRTH_DATE: Final[dt.date] = dt.date(1998, 11, 23)
+ASCII_SOURCE_PATH: Final[Path] = Path(__file__).resolve().parents[1] / "assets" / "ascii-portrait.txt"
 
-ASCII_PORTRAIT: Final[tuple[str, ...]] = (
-    "                  :rA3MGH2r:",
-    "               .rA23hMMhhhMM5i",
-    "              r525522AAAXXA5hM3,",
-    "             i5X255AXAXXXAAA2AhM,",
-    "             XAsAXsssXAA52AXXsAMA",
-    "            :AAXsA3G99&@@@@9G2X2A",
-    "            :ssXh#&@@@@@@@@@@B3Xr",
-    "            .rs59&@@@@@@@@@@@@B5i",
-    "            :hA##GS&@@@@@@@@9#BSi",
-    "            s9MB#GGHH#&@@9GHS9B&3",
-    "            i#SB&9SHG9&@@&SM#B@@S",
-    "             H99@@@@@@@@@@@@@@@@2",
-    "              :#&@@@&&@@@@@@@@@G",
-    "               h&BBB9B99B&@BB&@2",
-    "              ,;GB&##S9B99B&B@S.",
-    "             :riASB&BS#9##@@@h",
-    "          ,;rsrirXh#&@@@@@@92;,",
-    "      ,;rsXssrr;iriXhS99B9HArXXXr:,",
-    "  .:isAAAXssssrr;iriirAh3AssrssXXXXsi,.",
-    ";sXAAAAXXXXsssssr;rrssXXXXXsisssssXXXXXsi:",
-    ":XAXXXXXXXsXXssssrirrhB&BAirissssssXXXXXXX:",
-    " .XXXXXXXXssXsssssrrrrH@HrsrrssssssssXssrs;",
-    "  ,XsXXXXXXssXsssssrsi5Bhisrrsssssssssssrs;",
-    "   iXsssXXsXssXssssrrAH9#Asrrsssssssssssrrr.",
-    "   .ssssssssssssssssr2G9BSrrsssssssssrrrrri,",
-    "    ;sssssssssrsssssr2S99Bsissssssssrrrriii:",
-    "    .rssssssssssssssr2G99&Xissssrssrrrrriii;",
-    "     ;ssssssssssrsssr2G9#BXrssssrrrrrrriiiii.",
-    "    .;isssssssssrrssrAHS#92rsssrrrrrrriiiiii.",
-    "    .;;rrrrssssssrrssr3SSSArssrrrrrriiiiriii:",
-    "    .;:rrrrrrsssssirsr2GS3sssrrrrrriiiiiiiii;",
-)
+
+def _load_ascii_portrait(path: Path = ASCII_SOURCE_PATH) -> tuple[str, ...]:
+    lines = tuple(path.read_text(encoding="utf-8").splitlines())
+    if len(lines) != 55 or any(len(line) != 100 for line in lines):
+        raise ValueError("ASCII portrait must contain exactly 55 lines of 100 characters")
+    return lines
+
+
+ASCII_PORTRAIT: Final[tuple[str, ...]] = _load_ascii_portrait()
 
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
@@ -63,7 +42,7 @@ THEMES: Final[dict[str, dict[str, str]]] = {
         "key": "#ff5c5c",
         "value": "#fff0f0",
         "muted": "#9b7777",
-        "ascii": "#ffb0b0",
+        "ascii": "#ff8d8d",
         "glow": "#b42318",
     },
     "light": {
@@ -98,7 +77,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     signals_complete = stats.coverage.upper().startswith("COMPLETE")
 
     ascii_spans = "\n".join(
-        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}">{_escape(line)}</tspan>'
+        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}" textLength="{ASCII_RENDER_WIDTH}" lengthAdjust="spacingAndGlyphs">{_escape(line)}</tspan>'
         for index, line in enumerate(ASCII_PORTRAIT)
     )
 
@@ -145,8 +124,8 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     )
     size_value = "—" if inventory_pending else _format_size_kib(inventory.size_kib)
     commit_value = (
-        f"{stats.commit_contributions:,} commits / "
-        f"{stats.restricted_contributions:,} private contributions"
+        f"{stats.commit_contributions:,} commit contributions / "
+        f"{stats.restricted_contributions:,} restricted"
         if signals_complete
         else "—"
     )
@@ -193,7 +172,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     </radialGradient>
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
-      .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 600; }}
+      .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 500; }}
       .header {{ fill: {colors['title']}; font-size: 19px; font-weight: 700; }}
       .section {{ fill: {colors['muted']}; font-size: 15px; font-weight: 700; }}
       .key {{ fill: {colors['key']}; font-size: 15px; font-weight: 700; }}
@@ -206,15 +185,15 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
   <circle cx="34" cy="30" r="5" fill="{colors['key']}"/>
   <circle cx="52" cy="30" r="5" fill="{colors['ascii']}" opacity="0.78"/>
   <circle cx="70" cy="30" r="5" fill="{colors['muted']}" opacity="0.72"/>
-  <text class="ascii" aria-hidden="true">
+  <text class="ascii" aria-hidden="true" xml:space="preserve">
 {ascii_spans}
   </text>
   <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="660" stroke="{colors['border']}" stroke-width="1"/>
   <text>
-    <tspan x="430" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
-    <tspan x="430" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————</tspan>
+    <tspan x="580" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
+    <tspan x="580" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
 {profile_spans}
-    <tspan x="430" y="410" class="section">— GITHUB STATS ————————————————————————————————————————</tspan>
+    <tspan x="580" y="410" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
 {stats_spans}
   </text>
 </svg>
@@ -223,8 +202,8 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
 
 def _row(label: str, value: str, element_id: str, y: int) -> str:
     return (
-        f'      <tspan x="430" y="{y}" class="key">{_escape(label)}</tspan>'
-        f'<tspan x="760" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
+        f'      <tspan x="580" y="{y}" class="key">{_escape(label)}</tspan>'
+        f'<tspan x="920" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
     )
 
 
@@ -232,7 +211,7 @@ def _repository_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
     return (
         f"{inventory.total:,} total / {inventory.owned:,} owned / "
-        f"{inventory.organization_member:,} organization / {inventory.collaborator:,} collaborator"
+        f"{inventory.organization_member:,} org / {inventory.collaborator:,} collaborator"
     )
 
 

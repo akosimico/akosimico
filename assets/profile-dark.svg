@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="690" viewBox="0 0 1280 690" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="690" viewBox="0 0 1500 690" role="img" aria-labelledby="title desc">
   <title id="title">Lucifer Rodstark, Ph.D. GitHub profile identity and account statistics</title>
   <desc id="desc">Terminal-style identity card with an ASCII portrait and aggregate GitHub account statistics.</desc>
   <defs>
@@ -13,75 +13,99 @@
     </radialGradient>
     <style>
       text { font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }
-      .ascii { fill: #ffb0b0; font-size: 12px; font-weight: 600; }
+      .ascii { fill: #ff8d8d; font-size: 8px; font-weight: 500; }
       .header { fill: #fff5f5; font-size: 19px; font-weight: 700; }
       .section { fill: #9b7777; font-size: 15px; font-weight: 700; }
       .key { fill: #ff5c5c; font-size: 15px; font-weight: 700; }
       .value { fill: #fff0f0; font-size: 15px; font-weight: 500; }
     </style>
   </defs>
-  <rect width="1280" height="690" rx="22" fill="#090909"/>
-  <rect x="10" y="10" width="1260" height="670" rx="18" fill="url(#panel-gradient)" stroke="#4a1d1d" stroke-width="2"/>
-  <rect x="10" y="10" width="1260" height="670" rx="18" fill="url(#accent-glow)"/>
+  <rect width="1500" height="690" rx="22" fill="#090909"/>
+  <rect x="10" y="10" width="1480" height="670" rx="18" fill="url(#panel-gradient)" stroke="#4a1d1d" stroke-width="2"/>
+  <rect x="10" y="10" width="1480" height="670" rx="18" fill="url(#accent-glow)"/>
   <circle cx="34" cy="30" r="5" fill="#ff5c5c"/>
-  <circle cx="52" cy="30" r="5" fill="#ffb0b0" opacity="0.78"/>
+  <circle cx="52" cy="30" r="5" fill="#ff8d8d" opacity="0.78"/>
   <circle cx="70" cy="30" r="5" fill="#9b7777" opacity="0.72"/>
-  <text class="ascii" aria-hidden="true">
-      <tspan x="25" y="52">                  :rA3MGH2r:</tspan>
-      <tspan x="25" y="69">               .rA23hMMhhhMM5i</tspan>
-      <tspan x="25" y="86">              r525522AAAXXA5hM3,</tspan>
-      <tspan x="25" y="103">             i5X255AXAXXXAAA2AhM,</tspan>
-      <tspan x="25" y="120">             XAsAXsssXAA52AXXsAMA</tspan>
-      <tspan x="25" y="137">            :AAXsA3G99&amp;@@@@9G2X2A</tspan>
-      <tspan x="25" y="154">            :ssXh#&amp;@@@@@@@@@@B3Xr</tspan>
-      <tspan x="25" y="171">            .rs59&amp;@@@@@@@@@@@@B5i</tspan>
-      <tspan x="25" y="188">            :hA##GS&amp;@@@@@@@@9#BSi</tspan>
-      <tspan x="25" y="205">            s9MB#GGHH#&amp;@@9GHS9B&amp;3</tspan>
-      <tspan x="25" y="222">            i#SB&amp;9SHG9&amp;@@&amp;SM#B@@S</tspan>
-      <tspan x="25" y="239">             H99@@@@@@@@@@@@@@@@2</tspan>
-      <tspan x="25" y="256">              :#&amp;@@@&amp;&amp;@@@@@@@@@G</tspan>
-      <tspan x="25" y="273">               h&amp;BBB9B99B&amp;@BB&amp;@2</tspan>
-      <tspan x="25" y="290">              ,;GB&amp;##S9B99B&amp;B@S.</tspan>
-      <tspan x="25" y="307">             :riASB&amp;BS#9##@@@h</tspan>
-      <tspan x="25" y="324">          ,;rsrirXh#&amp;@@@@@@92;,</tspan>
-      <tspan x="25" y="341">      ,;rsXssrr;iriXhS99B9HArXXXr:,</tspan>
-      <tspan x="25" y="358">  .:isAAAXssssrr;iriirAh3AssrssXXXXsi,.</tspan>
-      <tspan x="25" y="375">;sXAAAAXXXXsssssr;rrssXXXXXsisssssXXXXXsi:</tspan>
-      <tspan x="25" y="392">:XAXXXXXXXsXXssssrirrhB&amp;BAirissssssXXXXXXX:</tspan>
-      <tspan x="25" y="409"> .XXXXXXXXssXsssssrrrrH@HrsrrssssssssXssrs;</tspan>
-      <tspan x="25" y="426">  ,XsXXXXXXssXsssssrsi5Bhisrrsssssssssssrs;</tspan>
-      <tspan x="25" y="443">   iXsssXXsXssXssssrrAH9#Asrrsssssssssssrrr.</tspan>
-      <tspan x="25" y="460">   .ssssssssssssssssr2G9BSrrsssssssssrrrrri,</tspan>
-      <tspan x="25" y="477">    ;sssssssssrsssssr2S99Bsissssssssrrrriii:</tspan>
-      <tspan x="25" y="494">    .rssssssssssssssr2G99&amp;Xissssrssrrrrriii;</tspan>
-      <tspan x="25" y="511">     ;ssssssssssrsssr2G9#BXrssssrrrrrrriiiii.</tspan>
-      <tspan x="25" y="528">    .;isssssssssrrssrAHS#92rsssrrrrrrriiiiii.</tspan>
-      <tspan x="25" y="545">    .;;rrrrssssssrrssr3SSSArssrrrrrriiiiriii:</tspan>
-      <tspan x="25" y="562">    .;:rrrrrrsssssirsr2GS3sssrrrrrriiiiiiiii;</tspan>
+  <text class="ascii" aria-hidden="true" xml:space="preserve">
+      <tspan x="20" y="50" textLength="500" lengthAdjust="spacingAndGlyphs">....................................:...:::::::::::::::------::::::::.......:::::::.................</tspan>
+      <tspan x="20" y="61" textLength="500" lengthAdjust="spacingAndGlyphs">..............................::....::::::::::::::::::::---::::::::::::::::::::::::::..::...........</tspan>
+      <tspan x="20" y="72" textLength="500" lengthAdjust="spacingAndGlyphs">............................:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::...........</tspan>
+      <tspan x="20" y="83" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::.:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::...:.......</tspan>
+      <tspan x="20" y="94" textLength="500" lengthAdjust="spacingAndGlyphs">............................::::::::::::::::::---=+****+-:::::::::::::::::::::::::::::::.::::::.....</tspan>
+      <tspan x="20" y="105" textLength="500" lengthAdjust="spacingAndGlyphs">............................:::::::::::::::-:--=++******++==-::::::::::-::::::::.........:::::......</tspan>
+      <tspan x="20" y="116" textLength="500" lengthAdjust="spacingAndGlyphs">..............................:::::.::::--:--====+==+----+**+=--:::-------::::...........::::.......</tspan>
+      <tspan x="20" y="127" textLength="500" lengthAdjust="spacingAndGlyphs">............................:::::::.::=-:--::-=-:::::....::--==++-----=------:::::.......:::........</tspan>
+      <tspan x="20" y="138" textLength="500" lengthAdjust="spacingAndGlyphs">...........................::::::..:-=:::--=-::::::::::::::--=-==+=:-----===--::::::.....:::........</tspan>
+      <tspan x="20" y="149" textLength="500" lengthAdjust="spacingAndGlyphs">..........................:::::::::--:::--=-::::::::::.::::::::-==+=::----=---:::::::....::.........</tspan>
+      <tspan x="20" y="160" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::::::::::::..:-::::-::::....::...:.::.:-++-::-----::::::::................</tspan>
+      <tspan x="20" y="171" textLength="500" lengthAdjust="spacingAndGlyphs">........................:::::::::::::...:::.......::::-::::.::...--==:::---::.:.....................</tspan>
+      <tspan x="20" y="182" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::::::::::::::...:::-+**##%%@@@@%#*+=-.:::-=:::::::::......................</tspan>
+      <tspan x="20" y="193" textLength="500" lengthAdjust="spacingAndGlyphs">.....................::::::::::::::....:::=*#%@@@@@@@@@@@@@@@%#=::::-:::::::::......................</tspan>
+      <tspan x="20" y="204" textLength="500" lengthAdjust="spacingAndGlyphs">....................:::::::::::........:=*%%@@@@@@@@@@@@@@@@@@@%+:.::-:::::::.......................</tspan>
+      <tspan x="20" y="215" textLength="500" lengthAdjust="spacingAndGlyphs">....................:::::::::::::.....:+#%%%@@@@@@@@@@@@@@@@@@@%%+:.:-:::::.........................</tspan>
+      <tspan x="20" y="226" textLength="500" lengthAdjust="spacingAndGlyphs">......................:::::::::::....:=##%%%@@@@@@@@@@@@@@@@@@@%%%+::-:::::.........................</tspan>
+      <tspan x="20" y="237" textLength="500" lengthAdjust="spacingAndGlyphs">.....................:..:::::....-=.:=####%%@@@@@@@@@@@@@@@@@@%%%%#---:::::.........................</tspan>
+      <tspan x="20" y="248" textLength="500" lengthAdjust="spacingAndGlyphs">.............................::::+*=:*##*=-==*%@@@@@@@@@@@@%*++==#%=+---::::........................</tspan>
+      <tspan x="20" y="259" textLength="500" lengthAdjust="spacingAndGlyphs">..............................:::*%#=#%###%%%#+++#%@@@@%#+**%@@@%%%*%---:::::::::...................</tspan>
+      <tspan x="20" y="270" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::::.:::*#+*#%%%#*+=--+###%%%%%#*=::=+*%@%%@--:::::::::::..................</tspan>
+      <tspan x="20" y="281" textLength="500" lengthAdjust="spacingAndGlyphs">........................:::::::::+%#*#%%%%%%##%%#%%@@@@@@%##%@@@@@@%%=----:::::::::.................</tspan>
+      <tspan x="20" y="292" textLength="500" lengthAdjust="spacingAndGlyphs">.........................:::::::::%%##%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=----------::::................</tspan>
+      <tspan x="20" y="303" textLength="500" lengthAdjust="spacingAndGlyphs">.........................:::::::::-**#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@*-------------::::...............</tspan>
+      <tspan x="20" y="314" textLength="500" lengthAdjust="spacingAndGlyphs">..........................:::::::::::+%%%@@@@@@%%@@@@@@@@@%@@@@@@@%=-----------:::::................</tspan>
+      <tspan x="20" y="325" textLength="500" lengthAdjust="spacingAndGlyphs">...........................::::::::::=#%%%%@@%%#%%%%@@@@@@@%%@@@%%#----------::::::.................</tspan>
+      <tspan x="20" y="336" textLength="500" lengthAdjust="spacingAndGlyphs">...........................::::::::::-*#%%%####%%%#**#%%%@@%*#%%%%*---------::::::..................</tspan>
+      <tspan x="20" y="347" textLength="500" lengthAdjust="spacingAndGlyphs">...........................:::::::---::*#%%%%##%%%%%@@@@@@@%%%%%%#--:::::::::::::...................</tspan>
+      <tspan x="20" y="358" textLength="500" lengthAdjust="spacingAndGlyphs">.........................:::::::::--:  .*#%@@%##*=*#%##+=*@@@@@%#=-::::::::::::::...................</tspan>
+      <tspan x="20" y="369" textLength="500" lengthAdjust="spacingAndGlyphs">......................:::::::::::-:.. ..:**#%%%%###%%###%@@@@@%*=--:::::::::::::::..................</tspan>
+      <tspan x="20" y="380" textLength="500" lengthAdjust="spacingAndGlyphs">....................:::::::::::::....  ..:**#%%%%%%###%%@@@@%*-===--::::::::::::::..................</tspan>
+      <tspan x="20" y="391" textLength="500" lengthAdjust="spacingAndGlyphs">...................:::::::::::.......  ....:+*#%@@@@@@@@@@%#=...-==--::::..::--:::..................</tspan>
+      <tspan x="20" y="402" textLength="500" lengthAdjust="spacingAndGlyphs">..................:::::-::...........   ......+*#%%%%%%%%#*:.....::::::::..::--::::.................</tspan>
+      <tspan x="20" y="413" textLength="500" lengthAdjust="spacingAndGlyphs">.................::::::::::...........   .......-=+++++**:........:::::::::::-::::::................</tspan>
+      <tspan x="20" y="424" textLength="500" lengthAdjust="spacingAndGlyphs">.................:::::::::::...........   .........=++=:..... .....::....::::--:::::::..............</tspan>
+      <tspan x="20" y="435" textLength="500" lengthAdjust="spacingAndGlyphs">..............::::::::::::::............   .................. .............:::::::::::::............</tspan>
+      <tspan x="20" y="446" textLength="500" lengthAdjust="spacingAndGlyphs">............::::::::::::::::.............   ....... .. ::...  ..............:....:::::::............</tspan>
+      <tspan x="20" y="457" textLength="500" lengthAdjust="spacingAndGlyphs">...........::::::::::::::::...............   ...-#%%%%%*. ..  ......................................</tspan>
+      <tspan x="20" y="468" textLength="500" lengthAdjust="spacingAndGlyphs">............:.::::::::::::................. ... .=##%@#:.... .......................................</tspan>
+      <tspan x="20" y="479" textLength="500" lengthAdjust="spacingAndGlyphs">.............:....:....:..........................=#%%+..... .......................................</tspan>
+      <tspan x="20" y="490" textLength="500" lengthAdjust="spacingAndGlyphs">................................................. :+##-..... .......................................</tspan>
+      <tspan x="20" y="501" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................:=*%%+..... .......................................</tspan>
+      <tspan x="20" y="512" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................==*##*=.... ......................... .............</tspan>
+      <tspan x="20" y="523" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................++*#%%#=... ...................... ..  ............</tspan>
+      <tspan x="20" y="534" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=*##%%%#.......................... .   ............</tspan>
+      <tspan x="20" y="545" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=*##%%%%.  ......................  .  .............</tspan>
+      <tspan x="20" y="556" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=*##%%%%:  ......................    . ............</tspan>
+      <tspan x="20" y="567" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=+*#%%%%-  .....................        ...........</tspan>
+      <tspan x="20" y="578" textLength="500" lengthAdjust="spacingAndGlyphs">................... .............................-*###%%%- ......................       ............</tspan>
+      <tspan x="20" y="589" textLength="500" lengthAdjust="spacingAndGlyphs">.................... ............................=+######= ....................          ...........</tspan>
+      <tspan x="20" y="600" textLength="500" lengthAdjust="spacingAndGlyphs">.................     ...........................=+*#####+ ....................    .     ...........</tspan>
+      <tspan x="20" y="611" textLength="500" lengthAdjust="spacingAndGlyphs">................... . ................... .......:++**##%+....................   .   .    ..........</tspan>
+      <tspan x="20" y="622" textLength="500" lengthAdjust="spacingAndGlyphs">.........  ........ .  ................... .......=+*##**=...............        ....     ..........</tspan>
+      <tspan x="20" y="633" textLength="500" lengthAdjust="spacingAndGlyphs">...................    .................... ......:+*##*+:...............                 ..........</tspan>
+      <tspan x="20" y="644" textLength="500" lengthAdjust="spacingAndGlyphs">....................   ..................... ......=+**+:...............        .        . .........</tspan>
   </text>
-  <line x1="405" y1="30" x2="405" y2="660" stroke="#4a1d1d" stroke-width="1"/>
+  <line x1="550" y1="30" x2="550" y2="660" stroke="#4a1d1d" stroke-width="1"/>
   <text>
-    <tspan x="430" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
-    <tspan x="430" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————</tspan>
-      <tspan x="430" y="90" class="key">OS</tspan><tspan x="760" y="90" class="value" id="os_data">Windows 11</tspan>
-      <tspan x="430" y="116" class="key">Uptime</tspan><tspan x="760" y="116" class="value" id="uptime_data">27 years, 8 months, 11 days</tspan>
-      <tspan x="430" y="142" class="key">Host</tspan><tspan x="760" y="142" class="value" id="host_data">Rodstark Global Solutions, Inc.</tspan>
-      <tspan x="430" y="168" class="key">Kernel</tspan><tspan x="760" y="168" class="value" id="kernel_data">Enterprise Architecture / .NET / Cloud / AI</tspan>
-      <tspan x="430" y="194" class="key">IDE</tspan><tspan x="760" y="194" class="value" id="ide_data">VS Code / Codex / Visual Studio</tspan>
-      <tspan x="430" y="238" class="key">Languages.Programming</tspan><tspan x="760" y="238" class="value" id="programming_data">C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS</tspan>
-      <tspan x="430" y="264" class="key">Languages.Computer</tspan><tspan x="760" y="264" class="value" id="computer_data">HTML, CSS, SASS, SQL, JSON, XML, YAML</tspan>
-      <tspan x="430" y="290" class="key">Languages.Real</tspan><tspan x="760" y="290" class="value" id="real_language_data">English, Filipino, German, Japanese</tspan>
-      <tspan x="430" y="334" class="key">Hobbies.Software</tspan><tspan x="760" y="334" class="value" id="software_hobby_data">Modding, SaaS, Gaming, AI Systems, Automation</tspan>
-      <tspan x="430" y="360" class="key">Hobbies.Hardware</tspan><tspan x="760" y="360" class="value" id="hardware_hobby_data">PC Building, Performance Tuning, Undervolting</tspan>
-    <tspan x="430" y="410" class="section">— GITHUB STATS ————————————————————————————————————————</tspan>
-      <tspan x="430" y="440" class="key">Repositories</tspan><tspan x="760" y="440" class="value" id="repo_total">18 total / 6 owned / 12 organization / 0 collaborator</tspan>
-      <tspan x="430" y="465" class="key">Visibility</tspan><tspan x="760" y="465" class="value" id="visibility_data">1 public / 17 private / 0 internal</tspan>
-      <tspan x="430" y="490" class="key">State</tspan><tspan x="760" y="490" class="value" id="state_data">0 archived / 0 forks / 0 disabled</tspan>
-      <tspan x="430" y="515" class="key">Organizations</tspan><tspan x="760" y="515" class="value" id="organization_data">3 organizations / 4 resource owners</tspan>
-      <tspan x="430" y="540" class="key">Repo Size</tspan><tspan x="760" y="540" class="value" id="size_data">796.8 MiB</tspan>
-      <tspan x="430" y="565" class="key">Commits</tspan><tspan x="760" y="565" class="value" id="commit_data">10 commits / 28,047 private contributions</tspan>
-      <tspan x="430" y="590" class="key">Signals</tspan><tspan x="760" y="590" class="value" id="signal_data">14 stars / 5 followers</tspan>
-      <tspan x="430" y="615" class="key">Coverage</tspan><tspan x="760" y="615" class="value" id="coverage_data">COMPLETE</tspan>
-      <tspan x="430" y="640" class="key">Last Sync</tspan><tspan x="760" y="640" class="value" id="generated_data">2026-08-03 01:52 UTC</tspan>
+    <tspan x="580" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
+    <tspan x="580" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
+      <tspan x="580" y="90" class="key">OS</tspan><tspan x="920" y="90" class="value" id="os_data">Windows 11</tspan>
+      <tspan x="580" y="116" class="key">Uptime</tspan><tspan x="920" y="116" class="value" id="uptime_data">27 years, 8 months, 11 days</tspan>
+      <tspan x="580" y="142" class="key">Host</tspan><tspan x="920" y="142" class="value" id="host_data">Rodstark Global Solutions, Inc.</tspan>
+      <tspan x="580" y="168" class="key">Kernel</tspan><tspan x="920" y="168" class="value" id="kernel_data">Enterprise Architecture / .NET / Cloud / AI</tspan>
+      <tspan x="580" y="194" class="key">IDE</tspan><tspan x="920" y="194" class="value" id="ide_data">VS Code / Codex / Visual Studio</tspan>
+      <tspan x="580" y="238" class="key">Languages.Programming</tspan><tspan x="920" y="238" class="value" id="programming_data">C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS</tspan>
+      <tspan x="580" y="264" class="key">Languages.Computer</tspan><tspan x="920" y="264" class="value" id="computer_data">HTML, CSS, SASS, SQL, JSON, XML, YAML</tspan>
+      <tspan x="580" y="290" class="key">Languages.Real</tspan><tspan x="920" y="290" class="value" id="real_language_data">English, Filipino, German, Japanese</tspan>
+      <tspan x="580" y="334" class="key">Hobbies.Software</tspan><tspan x="920" y="334" class="value" id="software_hobby_data">Modding, SaaS, Gaming, AI Systems, Automation</tspan>
+      <tspan x="580" y="360" class="key">Hobbies.Hardware</tspan><tspan x="920" y="360" class="value" id="hardware_hobby_data">PC Building, Performance Tuning, Undervolting</tspan>
+    <tspan x="580" y="410" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
+      <tspan x="580" y="440" class="key">Repositories</tspan><tspan x="920" y="440" class="value" id="repo_total">18 total / 6 owned / 12 org / 0 collaborator</tspan>
+      <tspan x="580" y="465" class="key">Visibility</tspan><tspan x="920" y="465" class="value" id="visibility_data">1 public / 17 private / 0 internal</tspan>
+      <tspan x="580" y="490" class="key">State</tspan><tspan x="920" y="490" class="value" id="state_data">0 archived / 0 forks / 0 disabled</tspan>
+      <tspan x="580" y="515" class="key">Organizations</tspan><tspan x="920" y="515" class="value" id="organization_data">3 organizations / 4 resource owners</tspan>
+      <tspan x="580" y="540" class="key">Repo Size</tspan><tspan x="920" y="540" class="value" id="size_data">796.8 MiB</tspan>
+      <tspan x="580" y="565" class="key">Commits</tspan><tspan x="920" y="565" class="value" id="commit_data">10 commit contributions / 28,047 restricted</tspan>
+      <tspan x="580" y="590" class="key">Signals</tspan><tspan x="920" y="590" class="value" id="signal_data">14 stars / 5 followers</tspan>
+      <tspan x="580" y="615" class="key">Coverage</tspan><tspan x="920" y="615" class="value" id="coverage_data">COMPLETE</tspan>
+      <tspan x="580" y="640" class="key">Last Sync</tspan><tspan x="920" y="640" class="value" id="generated_data">2026-08-03 01:52 UTC</tspan>
   </text>
 </svg>

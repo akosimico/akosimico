@@ -9,6 +9,7 @@ on:
       - production
     paths:
       - "profile_generator/**"
+      - "assets/ascii-portrait.txt"
       - "tests/**"
       - ".github/workflows/profile-stats.yml"
       - "README.md"

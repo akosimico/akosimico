@@ -42,6 +42,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertFalse((ROOT / "docs" / "superpowers").exists())
         self.assertFalse((ROOT / "assets" / "profile-banner.png").exists())
         self.assertFalse((ROOT / "assets" / "lucy.png").exists())
+        self.assertTrue((ROOT / "assets" / "ascii-portrait.txt").is_file())
 
     def test_workflow_uses_current_official_actions_and_environment_only_secrets(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")
@@ -52,6 +53,7 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("workflow_dispatch:", workflow)
         self.assertIn("schedule:", workflow)
         self.assertIn("contents: write", workflow)
+        self.assertIn('"assets/ascii-portrait.txt"', workflow)
         self.assertIn("PROFILE_STATS_TOKENS: |", workflow)
         generation_step = workflow.index("- name: Generate authenticated profile statistics")
         token_environment = workflow.index("PROFILE_STATS_TOKENS: |")
