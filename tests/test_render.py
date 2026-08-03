@@ -21,7 +21,7 @@ class RenderTests(unittest.TestCase):
             generated_at="2026-08-03T04:17:00Z",
             account_created_at="2018-03-01T00:00:00Z",
             commit_contributions=1234,
-            restricted_contributions=0,
+            restricted_contributions=28_047,
             followers=42,
             coverage=coverage,
             inventory=InventoryStats(
@@ -38,7 +38,7 @@ class RenderTests(unittest.TestCase):
                 organizations=3,
                 resource_owners=4,
                 stars_owned=7,
-                size_kib=1024 * 1024,
+                size_kib=815_829,
             ),
         )
 
@@ -51,7 +51,16 @@ class RenderTests(unittest.TestCase):
             self.assertTrue(root.tag.endswith("svg"))
             ids = {element.attrib.get("id") for element in root.iter()}
             for expected_id in (
-                "identity_data",
+                "os_data",
+                "uptime_data",
+                "host_data",
+                "kernel_data",
+                "ide_data",
+                "programming_data",
+                "computer_data",
+                "real_language_data",
+                "software_hobby_data",
+                "hardware_hobby_data",
                 "repo_total",
                 "commit_data",
                 "coverage_data",
@@ -62,6 +71,64 @@ class RenderTests(unittest.TestCase):
             self.assertNotIn("script", tags)
             self.assertNotIn("foreignObject", tags)
             self.assertNotIn("image", tags)
+
+    def test_profile_contains_requested_identity_details_and_no_contact_section(self):
+        svg = render_svg(self.make_stats(), "dark")
+        root = ET.fromstring(svg)
+        by_id = {element.attrib.get("id"): element.text for element in root.iter()}
+
+        self.assertEqual(by_id["os_data"], "Windows 11")
+        self.assertEqual(by_id["uptime_data"], "27 years, 8 months, 11 days")
+        self.assertEqual(by_id["host_data"], "Rodstark Global Solutions, Inc.")
+        self.assertEqual(
+            by_id["kernel_data"],
+            "Enterprise Architecture / .NET / Cloud / AI",
+        )
+        self.assertEqual(by_id["ide_data"], "VS Code / Codex / Visual Studio")
+        self.assertEqual(
+            by_id["programming_data"],
+            "C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS",
+        )
+        self.assertEqual(
+            by_id["computer_data"],
+            "HTML, CSS, SASS, SQL, JSON, XML, YAML",
+        )
+        self.assertEqual(
+            by_id["real_language_data"],
+            "English, Filipino, German, Japanese",
+        )
+        self.assertEqual(
+            by_id["software_hobby_data"],
+            "Modding, SaaS, Gaming, AI Systems, Automation",
+        )
+        self.assertEqual(
+            by_id["hardware_hobby_data"],
+            "PC Building, Performance Tuning, Undervolting",
+        )
+        self.assertNotIn("Contact", svg)
+        self.assertNotIn("Email", svg)
+        self.assertNotIn("LinkedIn", svg)
+        self.assertNotIn("Discord", svg)
+        self.assertEqual(
+            by_id["commit_data"],
+            "1,234 commits / 28,047 private contributions",
+        )
+
+    def test_dark_theme_is_red_and_black_without_purple_palette(self):
+        svg = render_svg(self.make_stats(), "dark").casefold()
+
+        for expected in ("#090909", "#160b0b", "#ff5c5c", "#ffb0b0"):
+            self.assertIn(expected, svg)
+        for forbidden in ("#6d28d9", "#c7b8ff", "#b7a7ff", "#5b21b6"):
+            self.assertNotIn(forbidden, svg)
+
+    def test_light_theme_is_red_and_white_without_purple_palette(self):
+        svg = render_svg(self.make_stats(), "light").casefold()
+
+        for expected in ("#fffafa", "#ffffff", "#b42318", "#7a271a"):
+            self.assertIn(expected, svg)
+        for forbidden in ("#c4b5fd", "#5b21b6", "#4c1d95", "#9d174d"):
+            self.assertNotIn(forbidden, svg)
 
     def test_ascii_portrait_respects_the_left_panel_gutter(self):
         estimated_right_edge = (
@@ -79,16 +146,6 @@ class RenderTests(unittest.TestCase):
         )
         self.assertNotIn("ui-monospace", svg)
 
-    def test_card_protocol_uses_portable_ascii_arrows(self):
-        svg = render_svg(self.make_stats(), "dark")
-        root = ET.fromstring(svg)
-        protocol = next(
-            element for element in root.iter() if element.attrib.get("id") == "protocol_data"
-        )
-
-        self.assertEqual(protocol.text, "Plan -> Design -> Build -> Verify")
-        self.assertNotIn("→", svg)
-
     def test_dynamic_text_is_xml_escaped(self):
         svg = render_svg(self.make_stats("COMPLETE & VERIFIED <SAFE>"), "dark")
         root = ET.fromstring(svg)
@@ -96,6 +153,28 @@ class RenderTests(unittest.TestCase):
 
         self.assertEqual(coverage.text, "COMPLETE & VERIFIED <SAFE>")
         self.assertIn("COMPLETE &amp; VERIFIED &lt;SAFE&gt;", svg)
+
+    def test_inventory_bootstrap_shows_verified_repository_counts_but_not_unknown_signals(self):
+        stats = self.make_stats("INVENTORY_COMPLETE")
+        stats = ProfileStats(
+            schema_version=stats.schema_version,
+            login=stats.login,
+            generated_at=stats.generated_at,
+            account_created_at=stats.account_created_at,
+            commit_contributions=0,
+            restricted_contributions=0,
+            followers=0,
+            coverage=stats.coverage,
+            inventory=stats.inventory,
+        )
+
+        root = ET.fromstring(render_svg(stats, "dark"))
+        by_id = {element.attrib.get("id"): element for element in root.iter()}
+
+        self.assertIn("18 total", by_id["repo_total"].text)
+        self.assertEqual(by_id["commit_data"].text, "—")
+        self.assertEqual(by_id["signal_data"].text, "—")
+        self.assertEqual(by_id["coverage_data"].text, "INVENTORY_COMPLETE")
 
     def test_pending_bootstrap_does_not_present_zeroes_as_verified_metrics(self):
         stats = ProfileStats(
@@ -132,11 +211,13 @@ class RenderTests(unittest.TestCase):
         self.assertEqual(by_id["commit_data"].text, "—")
         self.assertEqual(by_id["coverage_data"].text, "PENDING_AUTHENTICATED_SYNC")
 
-    def test_source_assets_and_private_identity_fields_are_not_embedded(self):
+    def test_card_has_no_extra_footer_or_source_asset_reference(self):
         svg = render_svg(self.make_stats(), "dark")
 
         for forbidden in (
             "source-portrait.png",
+            "original portrait not stored",
+            "transformed locally",
             "legal-identity-placeholder",
             "private-email@example.invalid",
             ".png",

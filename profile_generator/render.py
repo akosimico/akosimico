@@ -1,7 +1,8 @@
-"""Render aggregate profile statistics as GitHub-compatible SVG."""
+"""Render the GitHub profile identity card and aggregate account statistics."""
 
 from __future__ import annotations
 
+import calendar
 import datetime as dt
 import html
 from typing import Final
@@ -9,64 +10,72 @@ from typing import Final
 from .models import ProfileStats
 
 
-ASCII_X: Final[int] = 30
+CARD_WIDTH: Final[int] = 1280
+CARD_HEIGHT: Final[int] = 690
+ASCII_X: Final[int] = 25
 DIVIDER_X: Final[int] = 405
-ASCII_FONT_SIZE: Final[int] = 13
-ASCII_GUTTER: Final[int] = 32
-ASCII_LINE_HEIGHT: Final[int] = 19
-ASCII_START_Y: Final[int] = 48
+ASCII_FONT_SIZE: Final[int] = 12
+ASCII_GUTTER: Final[int] = 28
+ASCII_LINE_HEIGHT: Final[int] = 17
+ASCII_START_Y: Final[int] = 52
+BIRTH_DATE: Final[dt.date] = dt.date(1998, 11, 23)
 
-# Generated locally from the supplied portrait after foreground segmentation.
-# The source photograph is intentionally not stored in the repository.
 ASCII_PORTRAIT: Final[tuple[str, ...]] = (
-    "                 ##+=-=*",
-    "               ###***##*++*",
-    "             ###*#%%%%%%##*+",
-    "             %@%%%@%%%%@%%%**",
-    "            %%%@#+:.    .=%%*",
-    "            @@@=.         :%%",
-    "             @+.           -#",
-    "            =+::=-:    .:::.=",
-    "            --. :==:   :+:  .",
-    "             :.             -",
-    "              -",
-    "               . .....  .. -",
-    "              @+. .-:.:.  :",
-    "            @@@@*:       *",
-    "        %%@@@@@@@@*-...-#@@%%",
-    "     %%%%%@@@@@@@@@@%*#@@@@@@@%%",
-    "  @%%%%%%%@@@@@@@@@%++*@@@@@@@@@@@@%",
-    "   %%%%%@@@@@@@@@@@%: #@@@@@@@@@@@@@@",
-    "    @@@@@@@@@@@@@@@@=.@@@@@@@@@@@@@@@",
-    "     @@@@@@@@@@@@@@%=.+@@@@@@@@@@@@@@",
-    "     @@@@@@@@@@@@@@#-..%@@@@@@@@@@@@@@",
-    "      @@@@@@@@@@@@@#:..#@@@@@@@@@@@@@@",
-    "      @@@@@@@@@@@@@%-..*@@@@@@@@@@@@@@",
+    "                  :rA3MGH2r:",
+    "               .rA23hMMhhhMM5i",
+    "              r525522AAAXXA5hM3,",
+    "             i5X255AXAXXXAAA2AhM,",
+    "             XAsAXsssXAA52AXXsAMA",
+    "            :AAXsA3G99&@@@@9G2X2A",
+    "            :ssXh#&@@@@@@@@@@B3Xr",
+    "            .rs59&@@@@@@@@@@@@B5i",
+    "            :hA##GS&@@@@@@@@9#BSi",
+    "            s9MB#GGHH#&@@9GHS9B&3",
+    "            i#SB&9SHG9&@@&SM#B@@S",
+    "             H99@@@@@@@@@@@@@@@@2",
+    "              :#&@@@&&@@@@@@@@@G",
+    "               h&BBB9B99B&@BB&@2",
+    "              ,;GB&##S9B99B&B@S.",
+    "             :riASB&BS#9##@@@h",
+    "          ,;rsrirXh#&@@@@@@92;,",
+    "      ,;rsXssrr;iriXhS99B9HArXXXr:,",
+    "  .:isAAAXssssrr;iriirAh3AssrssXXXXsi,.",
+    ";sXAAAAXXXXsssssr;rrssXXXXXsisssssXXXXXsi:",
+    ":XAXXXXXXXsXXssssrirrhB&BAirissssssXXXXXXX:",
+    " .XXXXXXXXssXsssssrrrrH@HrsrrssssssssXssrs;",
+    "  ,XsXXXXXXssXsssssrsi5Bhisrrsssssssssssrs;",
+    "   iXsssXXsXssXssssrrAH9#Asrrsssssssssssrrr.",
+    "   .ssssssssssssssssr2G9BSrrsssssssssrrrrri,",
+    "    ;sssssssssrsssssr2S99Bsissssssssrrrriii:",
+    "    .rssssssssssssssr2G99&Xissssrssrrrrriii;",
+    "     ;ssssssssssrsssr2G9#BXrssssrrrrrrriiiii.",
+    "    .;isssssssssrrssrAHS#92rsssrrrrrrriiiiii.",
+    "    .;;rrrrssssssrrssr3SSSArssrrrrrriiiiriii:",
+    "    .;:rrrrrrsssssirsr2GS3sssrrrrrriiiiiiiii;",
 )
-
 
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
-        "background": "#090b10",
-        "panel": "#0e1118",
-        "border": "#2b3140",
-        "title": "#f0f3f6",
-        "key": "#ff5d73",
-        "value": "#c7b8ff",
-        "muted": "#768390",
-        "ascii": "#b7a7ff",
-        "glow": "#6d28d9",
+        "background": "#090909",
+        "panel": "#160b0b",
+        "border": "#4a1d1d",
+        "title": "#fff5f5",
+        "key": "#ff5c5c",
+        "value": "#fff0f0",
+        "muted": "#9b7777",
+        "ascii": "#ffb0b0",
+        "glow": "#b42318",
     },
     "light": {
-        "background": "#f7f8fb",
+        "background": "#fffafa",
         "panel": "#ffffff",
-        "border": "#d8dee9",
-        "title": "#1f2328",
-        "key": "#9d174d",
-        "value": "#5b21b6",
-        "muted": "#6e7781",
-        "ascii": "#4c1d95",
-        "glow": "#c4b5fd",
+        "border": "#e7b5b0",
+        "title": "#2b0b0b",
+        "key": "#b42318",
+        "value": "#7a271a",
+        "muted": "#7f5a55",
+        "ascii": "#b42318",
+        "glow": "#fecdca",
     },
 }
 
@@ -85,104 +94,162 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
         raise ValueError(f"unsupported theme: {theme}")
     colors = THEMES[theme]
     inventory = stats.inventory
-    pending = stats.coverage.upper().startswith("PENDING")
+    inventory_pending = stats.coverage.upper().startswith("PENDING")
+    signals_complete = stats.coverage.upper().startswith("COMPLETE")
 
     ascii_spans = "\n".join(
         f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}">{_escape(line)}</tspan>'
         for index, line in enumerate(ASCII_PORTRAIT)
     )
 
-    rows = [
-        ("ID", "LUCY-ARCH-01", "id_data"),
-        ("Alias", "Lucifer Rodstark, Ph.D.", "identity_data"),
-        ("Class", "Enterprise Software Architect", "class_data"),
-        ("Kernel", "Full Stack .NET / Cloud / AI", "kernel_data"),
-        ("Runtime", "Enterprise · Agentic · Research", "runtime_data"),
-        ("Protocol", "Plan -> Design -> Build -> Verify", "protocol_data"),
-        ("Repositories", "—" if pending else _repository_line(stats), "repo_total"),
-        ("Visibility", "—" if pending else _visibility_line(stats), "visibility_data"),
-        ("State", "—" if pending else _state_line(stats), "state_data"),
-        ("Organizations", "—" if pending else f"{inventory.organizations:,} organization owners · {inventory.resource_owners:,} resource owners", "organization_data"),
-        ("Repo size", "—" if pending else f"{_format_size_kib(inventory.size_kib)} GitHub-reported", "size_data"),
-        ("Contributions", "—" if pending else f"{stats.commit_contributions:,} commit contributions", "commit_data"),
-        ("Signals", "—" if pending else f"{inventory.stars_owned:,} owned stars · {stats.followers:,} followers", "signal_data"),
-        ("Coverage", stats.coverage, "coverage_data"),
-        ("Last sync", _display_timestamp(stats.generated_at), "generated_data"),
-    ]
+    profile_rows = (
+        ("OS", "Windows 11", "os_data"),
+        ("Uptime", _display_uptime(stats.generated_at), "uptime_data"),
+        ("Host", "Rodstark Global Solutions, Inc.", "host_data"),
+        ("Kernel", "Enterprise Architecture / .NET / Cloud / AI", "kernel_data"),
+        ("IDE", "VS Code / Codex / Visual Studio", "ide_data"),
+        (
+            "Languages.Programming",
+            "C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS",
+            "programming_data",
+        ),
+        (
+            "Languages.Computer",
+            "HTML, CSS, SASS, SQL, JSON, XML, YAML",
+            "computer_data",
+        ),
+        (
+            "Languages.Real",
+            "English, Filipino, German, Japanese",
+            "real_language_data",
+        ),
+        (
+            "Hobbies.Software",
+            "Modding, SaaS, Gaming, AI Systems, Automation",
+            "software_hobby_data",
+        ),
+        (
+            "Hobbies.Hardware",
+            "PC Building, Performance Tuning, Undervolting",
+            "hardware_hobby_data",
+        ),
+    )
 
-    row_spans = []
-    y = 66
-    for index, (label, value, element_id) in enumerate(rows):
-        if index == 6:
-            row_spans.append(
-                f'      <tspan x="430" y="{y - 8}" class="section">— ACCOUNT COVERAGE —————————————————————————————</tspan>'
-            )
-            y += 22
-        row_spans.append(
-            f'      <tspan x="430" y="{y}" class="key">{_escape(label)}</tspan>'
-            f'<tspan x="570" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
-        )
-        y += 28
+    repository_value = "—" if inventory_pending else _repository_line(stats)
+    visibility_value = "—" if inventory_pending else _visibility_line(stats)
+    state_value = "—" if inventory_pending else _state_line(stats)
+    organization_value = (
+        "—"
+        if inventory_pending
+        else f"{inventory.organizations:,} organizations / {inventory.resource_owners:,} resource owners"
+    )
+    size_value = "—" if inventory_pending else _format_size_kib(inventory.size_kib)
+    commit_value = (
+        f"{stats.commit_contributions:,} commits / "
+        f"{stats.restricted_contributions:,} private contributions"
+        if signals_complete
+        else "—"
+    )
+    signal_value = (
+        f"{inventory.stars_owned:,} stars / {stats.followers:,} followers"
+        if signals_complete
+        else "—"
+    )
+
+    stats_rows = (
+        ("Repositories", repository_value, "repo_total"),
+        ("Visibility", visibility_value, "visibility_data"),
+        ("State", state_value, "state_data"),
+        ("Organizations", organization_value, "organization_data"),
+        ("Repo Size", size_value, "size_data"),
+        ("Commits", commit_value, "commit_data"),
+        ("Signals", signal_value, "signal_data"),
+        ("Coverage", stats.coverage, "coverage_data"),
+        ("Last Sync", _display_timestamp(stats.generated_at), "generated_data"),
+    )
+
+    profile_y = (90, 116, 142, 168, 194, 238, 264, 290, 334, 360)
+    profile_spans = "\n".join(
+        _row(label, value, element_id, y)
+        for (label, value, element_id), y in zip(profile_rows, profile_y, strict=True)
+    )
+    stats_spans = "\n".join(
+        _row(label, value, element_id, 440 + index * 25)
+        for index, (label, value, element_id) in enumerate(stats_rows)
+    )
 
     return f'''<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
-  <title id="title">Lucifer Rodstark GitHub profile identity and aggregate account statistics</title>
-  <desc id="desc">ASCII portrait, enterprise systems identity, and aggregate statistics for every repository accessible to the authenticated account.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{CARD_HEIGHT}" viewBox="0 0 {CARD_WIDTH} {CARD_HEIGHT}" role="img" aria-labelledby="title desc">
+  <title id="title">Lucifer Rodstark, Ph.D. GitHub profile identity and account statistics</title>
+  <desc id="desc">Terminal-style identity card with an ASCII portrait and aggregate GitHub account statistics.</desc>
   <defs>
     <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="{colors['panel']}"/>
       <stop offset="1" stop-color="{colors['background']}"/>
     </linearGradient>
     <radialGradient id="accent-glow" cx="0.12" cy="0.2" r="0.75">
-      <stop offset="0" stop-color="{colors['glow']}" stop-opacity="0.22"/>
+      <stop offset="0" stop-color="{colors['glow']}" stop-opacity="0.24"/>
       <stop offset="1" stop-color="{colors['glow']}" stop-opacity="0"/>
     </radialGradient>
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
       .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 600; }}
       .header {{ fill: {colors['title']}; font-size: 19px; font-weight: 700; }}
-      .section {{ fill: {colors['muted']}; font-size: 15px; font-weight: 600; }}
-      .key {{ fill: {colors['key']}; font-size: 16px; font-weight: 700; }}
-      .value {{ fill: {colors['value']}; font-size: 16px; font-weight: 500; }}
-      .muted {{ fill: {colors['muted']}; font-size: 13px; }}
+      .section {{ fill: {colors['muted']}; font-size: 15px; font-weight: 700; }}
+      .key {{ fill: {colors['key']}; font-size: 15px; font-weight: 700; }}
+      .value {{ fill: {colors['value']}; font-size: 15px; font-weight: 500; }}
     </style>
   </defs>
-  <rect width="1200" height="560" rx="22" fill="{colors['background']}"/>
-  <rect x="10" y="10" width="1180" height="540" rx="18" fill="url(#panel-gradient)" stroke="{colors['border']}" stroke-width="2"/>
-  <rect x="10" y="10" width="1180" height="540" rx="18" fill="url(#accent-glow)"/>
+  <rect width="{CARD_WIDTH}" height="{CARD_HEIGHT}" rx="22" fill="{colors['background']}"/>
+  <rect x="10" y="10" width="{CARD_WIDTH - 20}" height="{CARD_HEIGHT - 20}" rx="18" fill="url(#panel-gradient)" stroke="{colors['border']}" stroke-width="2"/>
+  <rect x="10" y="10" width="{CARD_WIDTH - 20}" height="{CARD_HEIGHT - 20}" rx="18" fill="url(#accent-glow)"/>
   <circle cx="34" cy="30" r="5" fill="{colors['key']}"/>
-  <circle cx="52" cy="30" r="5" fill="{colors['value']}" opacity="0.78"/>
+  <circle cx="52" cy="30" r="5" fill="{colors['ascii']}" opacity="0.78"/>
   <circle cx="70" cy="30" r="5" fill="{colors['muted']}" opacity="0.72"/>
   <text class="ascii" aria-hidden="true">
 {ascii_spans}
   </text>
-  <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="528" stroke="{colors['border']}" stroke-width="1"/>
+  <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="660" stroke="{colors['border']}" stroke-width="1"/>
   <text>
-    <tspan x="430" y="38" class="header">lucifer@rodstark :: LUCY-ID/ARCH-01</tspan>
-    <tspan x="430" y="50" class="section">——————————————————————————————————————————————————</tspan>
-{chr(10).join(row_spans)}
+    <tspan x="430" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
+    <tspan x="430" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————</tspan>
+{profile_spans}
+    <tspan x="430" y="410" class="section">— GITHUB STATS ————————————————————————————————————————</tspan>
+{stats_spans}
   </text>
-  <text x="30" y="532" class="muted">ASCII source transformed locally · original portrait not stored</text>
 </svg>
 '''
+
+
+def _row(label: str, value: str, element_id: str, y: int) -> str:
+    return (
+        f'      <tspan x="430" y="{y}" class="key">{_escape(label)}</tspan>'
+        f'<tspan x="760" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
+    )
 
 
 def _repository_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
     return (
-        f"{inventory.total:,} total · {inventory.owned:,} owned · "
-        f"{inventory.organization_member:,} org · {inventory.collaborator:,} collaborator"
+        f"{inventory.total:,} total / {inventory.owned:,} owned / "
+        f"{inventory.organization_member:,} organization / {inventory.collaborator:,} collaborator"
     )
 
 
 def _visibility_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
-    return f"{inventory.public:,} public · {inventory.private:,} private · {inventory.internal:,} internal"
+    return (
+        f"{inventory.public:,} public / {inventory.private:,} private / "
+        f"{inventory.internal:,} internal"
+    )
 
 
 def _state_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
-    return f"{inventory.archived:,} archived · {inventory.forks:,} forks · {inventory.disabled:,} disabled"
+    return (
+        f"{inventory.archived:,} archived / {inventory.forks:,} forks / "
+        f"{inventory.disabled:,} disabled"
+    )
 
 
 def _format_size_kib(size_kib: int) -> str:
@@ -199,9 +266,28 @@ def _format_size_kib(size_kib: int) -> str:
     return f"{value:,.1f} {unit}"
 
 
+def _display_uptime(value: str) -> str:
+    current = _parse_timestamp(value).date()
+    years = current.year - BIRTH_DATE.year
+    months = current.month - BIRTH_DATE.month
+    days = current.day - BIRTH_DATE.day
+    if days < 0:
+        previous_month = current.month - 1 or 12
+        previous_year = current.year if current.month > 1 else current.year - 1
+        days += calendar.monthrange(previous_year, previous_month)[1]
+        months -= 1
+    if months < 0:
+        months += 12
+        years -= 1
+    return f"{years} years, {months} months, {days} days"
+
+
 def _display_timestamp(value: str) -> str:
-    parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
-    return parsed.astimezone(dt.timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    return _parse_timestamp(value).strftime("%Y-%m-%d %H:%M UTC")
+
+
+def _parse_timestamp(value: str) -> dt.datetime:
+    return dt.datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(dt.timezone.utc)
 
 
 def _escape(value: object) -> str:

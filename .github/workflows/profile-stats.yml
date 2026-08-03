@@ -1,4 +1,4 @@
-name: Profile telemetry
+name: Profile README build
 
 on:
   workflow_dispatch:
@@ -11,27 +11,25 @@ on:
       - "profile_generator/**"
       - "tests/**"
       - ".github/workflows/profile-stats.yml"
-      - "docs/profile-generator.md"
       - "README.md"
-      - "SECURITY.md"
 
 permissions:
   contents: write
 
 concurrency:
-  group: profile-telemetry-production
+  group: profile-readme-production
   cancel-in-progress: false
 
 jobs:
   build:
-    name: Collect, validate, and publish aggregate telemetry
+    name: Collect, validate, and publish profile statistics
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       PROFILE_LOGIN: itsmfknlucy
       PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC' }}
       PROFILE_MIN_REPOSITORIES: ${{ vars.PROFILE_MIN_REPOSITORIES || '18' }}
-      TELEMETRY_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' }}
+      PROFILE_STATS_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' }}
 
     steps:
       - name: Check out production
@@ -51,12 +49,12 @@ jobs:
       - name: Compile Python sources
         run: python -m compileall -q profile_generator tests
 
-      - name: Preserve bootstrap assets without telemetry credentials
-        if: env.TELEMETRY_CONFIGURED != 'true'
-        run: echo "No primary telemetry credential is installed; preserving current generated assets."
+      - name: Preserve current assets without profile credentials
+        if: env.PROFILE_STATS_CONFIGURED != 'true'
+        run: echo "Profile credentials are not configured; current assets remain unchanged."
 
-      - name: Generate authenticated aggregate telemetry
-        if: env.TELEMETRY_CONFIGURED == 'true'
+      - name: Generate authenticated profile statistics
+        if: env.PROFILE_STATS_CONFIGURED == 'true'
         env:
           PROFILE_STATS_TOKENS: |
             ${{ secrets.PROFILE_STATS_TOKEN }}
@@ -69,7 +67,7 @@ jobs:
         run: python -m profile_generator
 
       - name: Validate generated assets and repository hygiene
-        if: env.TELEMETRY_CONFIGURED == 'true'
+        if: env.PROFILE_STATS_CONFIGURED == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -96,7 +94,7 @@ jobs:
           fi
 
       - name: Commit changed generated outputs
-        if: env.TELEMETRY_CONFIGURED == 'true'
+        if: env.PROFILE_STATS_CONFIGURED == 'true'
         shell: bash
         run: |
           set -euo pipefail
@@ -104,8 +102,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/profile-dark.svg assets/profile-light.svg generated/profile-stats.json
           if git diff --cached --quiet; then
-            echo "Profile telemetry is already current."
+            echo "Profile statistics are already current."
             exit 0
           fi
-          git commit -m "chore: refresh profile telemetry"
+          git commit -m "chore: refresh profile statistics"
           git push origin HEAD:production
