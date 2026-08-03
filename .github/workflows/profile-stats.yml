@@ -9,7 +9,7 @@ on:
       - production
     paths:
       - "profile_generator/**"
-      - "assets/ascii-portrait.txt"
+      - "assets/profile-banner.png"
       - "tests/**"
       - ".github/workflows/profile-stats.yml"
       - "README.md"
@@ -30,7 +30,7 @@ jobs:
       PROFILE_LOGIN: itsmfknlucy
       PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC' }}
       PROFILE_MIN_REPOSITORIES: ${{ vars.PROFILE_MIN_REPOSITORIES || '18' }}
-      PROFILE_STATS_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' }}
+      PROFILE_STATS_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' || secrets.PROFILE_STATS_TOKEN_RODSTARK != '' || secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA != '' || secrets.PROFILE_STATS_TOKEN_FROSTBYTE != '' || secrets.PROFILE_STATS_TOKEN_EXTERNAL_1 != '' || secrets.PROFILE_STATS_TOKEN_EXTERNAL_2 != '' }}
 
     steps:
       - name: Check out production
@@ -83,10 +83,16 @@ jobs:
                   raise SystemExit(f"{path} does not have an SVG root")
 
           payload = json.loads(Path("generated/profile-stats.json").read_text(encoding="utf-8"))
+          if payload.get("schema_version", 0) < 2:
+              raise SystemExit("generated profile schema is not version 2")
           if payload.get("coverage") != "COMPLETE":
               raise SystemExit("generated profile coverage is not COMPLETE")
           if payload.get("repositories", {}).get("total", 0) < 1:
               raise SystemExit("generated repository inventory is empty")
+          activity = payload.get("activity", {})
+          for section in ("commits", "contributions", "lines"):
+              if not isinstance(activity.get(section), dict):
+                  raise SystemExit(f"generated profile activity.{section} is missing")
           PY
           git diff --check
           if git grep -nE '(github[_]pat_[A-Za-z0-9_]{20,}|gh[pousr]_[A-Za-z0-9]{20,})'; then
