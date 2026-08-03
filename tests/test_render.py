@@ -2,7 +2,15 @@ import unittest
 import xml.etree.ElementTree as ET
 
 from profile_generator.models import InventoryStats, ProfileStats
-from profile_generator.render import render_all, render_svg
+from profile_generator.render import (
+    ASCII_FONT_SIZE,
+    ASCII_GUTTER,
+    ASCII_PORTRAIT,
+    ASCII_X,
+    DIVIDER_X,
+    render_all,
+    render_svg,
+)
 
 
 class RenderTests(unittest.TestCase):
@@ -54,6 +62,32 @@ class RenderTests(unittest.TestCase):
             self.assertNotIn("script", tags)
             self.assertNotIn("foreignObject", tags)
             self.assertNotIn("image", tags)
+
+    def test_ascii_portrait_respects_the_left_panel_gutter(self):
+        estimated_right_edge = (
+            ASCII_X + max(map(len, ASCII_PORTRAIT)) * ASCII_FONT_SIZE * 0.62
+        )
+
+        self.assertLessEqual(estimated_right_edge, DIVIDER_X - ASCII_GUTTER)
+
+    def test_svg_forces_a_portable_monospace_font_before_generic_fallbacks(self):
+        svg = render_svg(self.make_stats(), "dark")
+
+        self.assertIn(
+            'font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace;',
+            svg,
+        )
+        self.assertNotIn("ui-monospace", svg)
+
+    def test_card_protocol_uses_portable_ascii_arrows(self):
+        svg = render_svg(self.make_stats(), "dark")
+        root = ET.fromstring(svg)
+        protocol = next(
+            element for element in root.iter() if element.attrib.get("id") == "protocol_data"
+        )
+
+        self.assertEqual(protocol.text, "Plan -> Design -> Build -> Verify")
+        self.assertNotIn("→", svg)
 
     def test_dynamic_text_is_xml_escaped(self):
         svg = render_svg(self.make_stats("COMPLETE & VERIFIED <SAFE>"), "dark")
@@ -110,7 +144,6 @@ class RenderTests(unittest.TestCase):
             self.assertNotIn(forbidden, svg)
         self.assertIn("Lucifer Rodstark, Ph.D.", svg)
         self.assertIn("LUCY-ARCH-01", svg)
-
 
 
 if __name__ == "__main__":

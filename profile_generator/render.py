@@ -9,33 +9,41 @@ from typing import Final
 from .models import ProfileStats
 
 
+ASCII_X: Final[int] = 30
+DIVIDER_X: Final[int] = 405
+ASCII_FONT_SIZE: Final[int] = 13
+ASCII_GUTTER: Final[int] = 32
+ASCII_LINE_HEIGHT: Final[int] = 19
+ASCII_START_Y: Final[int] = 48
+
+# Generated locally from the supplied portrait after foreground segmentation.
+# The source photograph is intentionally not stored in the repository.
 ASCII_PORTRAIT: Final[tuple[str, ...]] = (
-    "                  *++",
-    "               **+-----=*",
-    "             +***+**##*+==",
-    "            *#*+*#*####**+-",
-    "           #*#####*+==+*##++",
-    "           ###*=.........+#*",
-    "           %%#:...........+*",
-    "           *#-.............*",
-    "           --..:::.....:...-",
-    "           -:...-:.....-....",
-    "            :..............-",
-    "             :.............",
-    "             +............-",
-    "            #%+...:......:",
-    "          #%%@%*:.......*+",
-    "      *###%%%@%%%*-...-#%%###",
-    "   #######%%%%@@%%%#+#%%%%#%###**",
-    " ##########%%%%%%%*--=%%%%%%########",
-    "  #######%%##%%%%%*..*%%%%%%%%###%%%",
-    "   #######%%#%%%%%%-.%%%%%%%%%%%%%%%",
-    "   %%%%####%%%%%%%*:.=%%%%%%%%%%%%%%",
-    "    %%%%%%%%%%%%%%*:..#%%%%%%%%%%%%@%",
-    "    %%%%%%%%%%%%%%*...*%%%%%%%%%%%@@%",
-    "     %%%%%%%%%%%%%*:..+%%%%%%%%%%@@@%",
-    "     @%%%%%%%%%%%%*:..=%%%%%%%@@@@@@%",
+    "                 ##+=-=*",
+    "               ###***##*++*",
+    "             ###*#%%%%%%##*+",
+    "             %@%%%@%%%%@%%%**",
+    "            %%%@#+:.    .=%%*",
+    "            @@@=.         :%%",
+    "             @+.           -#",
+    "            =+::=-:    .:::.=",
+    "            --. :==:   :+:  .",
+    "             :.             -",
+    "              -",
+    "               . .....  .. -",
+    "              @+. .-:.:.  :",
+    "            @@@@*:       *",
+    "        %%@@@@@@@@*-...-#@@%%",
+    "     %%%%%@@@@@@@@@@%*#@@@@@@@%%",
+    "  @%%%%%%%@@@@@@@@@%++*@@@@@@@@@@@@%",
+    "   %%%%%@@@@@@@@@@@%: #@@@@@@@@@@@@@@",
+    "    @@@@@@@@@@@@@@@@=.@@@@@@@@@@@@@@@",
+    "     @@@@@@@@@@@@@@%=.+@@@@@@@@@@@@@@",
+    "     @@@@@@@@@@@@@@#-..%@@@@@@@@@@@@@@",
+    "      @@@@@@@@@@@@@#:..#@@@@@@@@@@@@@@",
+    "      @@@@@@@@@@@@@%-..*@@@@@@@@@@@@@@",
 )
+
 
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
@@ -80,7 +88,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     pending = stats.coverage.upper().startswith("PENDING")
 
     ascii_spans = "\n".join(
-        f'      <tspan x="30" y="{48 + index * 18}">{_escape(line)}</tspan>'
+        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}">{_escape(line)}</tspan>'
         for index, line in enumerate(ASCII_PORTRAIT)
     )
 
@@ -90,7 +98,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
         ("Class", "Enterprise Software Architect", "class_data"),
         ("Kernel", "Full Stack .NET / Cloud / AI", "kernel_data"),
         ("Runtime", "Enterprise · Agentic · Research", "runtime_data"),
-        ("Protocol", "Plan → Design → Build → Verify", "protocol_data"),
+        ("Protocol", "Plan -> Design -> Build -> Verify", "protocol_data"),
         ("Repositories", "—" if pending else _repository_line(stats), "repo_total"),
         ("Visibility", "—" if pending else _visibility_line(stats), "visibility_data"),
         ("State", "—" if pending else _state_line(stats), "state_data"),
@@ -130,8 +138,8 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
       <stop offset="1" stop-color="{colors['glow']}" stop-opacity="0"/>
     </radialGradient>
     <style>
-      text {{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; white-space: pre; }}
-      .ascii {{ fill: {colors['ascii']}; font-size: 15px; font-weight: 600; }}
+      text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
+      .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 600; }}
       .header {{ fill: {colors['title']}; font-size: 19px; font-weight: 700; }}
       .section {{ fill: {colors['muted']}; font-size: 15px; font-weight: 600; }}
       .key {{ fill: {colors['key']}; font-size: 16px; font-weight: 700; }}
@@ -148,7 +156,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
   <text class="ascii" aria-hidden="true">
 {ascii_spans}
   </text>
-  <line x1="405" y1="30" x2="405" y2="528" stroke="{colors['border']}" stroke-width="1"/>
+  <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="528" stroke="{colors['border']}" stroke-width="1"/>
   <text>
     <tspan x="430" y="38" class="header">lucifer@rodstark :: LUCY-ID/ARCH-01</tspan>
     <tspan x="430" y="50" class="section">——————————————————————————————————————————————————</tspan>

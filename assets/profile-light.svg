@@ -12,8 +12,8 @@
       <stop offset="1" stop-color="#c4b5fd" stop-opacity="0"/>
     </radialGradient>
     <style>
-      text { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; white-space: pre; }
-      .ascii { fill: #4c1d95; font-size: 15px; font-weight: 600; }
+      text { font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }
+      .ascii { fill: #4c1d95; font-size: 13px; font-weight: 600; }
       .header { fill: #1f2328; font-size: 19px; font-weight: 700; }
       .section { fill: #6e7781; font-size: 15px; font-weight: 600; }
       .key { fill: #9d174d; font-size: 16px; font-weight: 700; }
@@ -28,31 +28,29 @@
   <circle cx="52" cy="30" r="5" fill="#5b21b6" opacity="0.78"/>
   <circle cx="70" cy="30" r="5" fill="#6e7781" opacity="0.72"/>
   <text class="ascii" aria-hidden="true">
-      <tspan x="30" y="48">                  *++</tspan>
-      <tspan x="30" y="66">               **+-----=*</tspan>
-      <tspan x="30" y="84">             +***+**##*+==</tspan>
-      <tspan x="30" y="102">            *#*+*#*####**+-</tspan>
-      <tspan x="30" y="120">           #*#####*+==+*##++</tspan>
-      <tspan x="30" y="138">           ###*=.........+#*</tspan>
-      <tspan x="30" y="156">           %%#:...........+*</tspan>
-      <tspan x="30" y="174">           *#-.............*</tspan>
-      <tspan x="30" y="192">           --..:::.....:...-</tspan>
-      <tspan x="30" y="210">           -:...-:.....-....</tspan>
-      <tspan x="30" y="228">            :..............-</tspan>
-      <tspan x="30" y="246">             :.............</tspan>
-      <tspan x="30" y="264">             +............-</tspan>
-      <tspan x="30" y="282">            #%+...:......:</tspan>
-      <tspan x="30" y="300">          #%%@%*:.......*+</tspan>
-      <tspan x="30" y="318">      *###%%%@%%%*-...-#%%###</tspan>
-      <tspan x="30" y="336">   #######%%%%@@%%%#+#%%%%#%###**</tspan>
-      <tspan x="30" y="354"> ##########%%%%%%%*--=%%%%%%########</tspan>
-      <tspan x="30" y="372">  #######%%##%%%%%*..*%%%%%%%%###%%%</tspan>
-      <tspan x="30" y="390">   #######%%#%%%%%%-.%%%%%%%%%%%%%%%</tspan>
-      <tspan x="30" y="408">   %%%%####%%%%%%%*:.=%%%%%%%%%%%%%%</tspan>
-      <tspan x="30" y="426">    %%%%%%%%%%%%%%*:..#%%%%%%%%%%%%@%</tspan>
-      <tspan x="30" y="444">    %%%%%%%%%%%%%%*...*%%%%%%%%%%%@@%</tspan>
-      <tspan x="30" y="462">     %%%%%%%%%%%%%*:..+%%%%%%%%%%@@@%</tspan>
-      <tspan x="30" y="480">     @%%%%%%%%%%%%*:..=%%%%%%%@@@@@@%</tspan>
+      <tspan x="30" y="48">                 ##+=-=*</tspan>
+      <tspan x="30" y="67">               ###***##*++*</tspan>
+      <tspan x="30" y="86">             ###*#%%%%%%##*+</tspan>
+      <tspan x="30" y="105">             %@%%%@%%%%@%%%**</tspan>
+      <tspan x="30" y="124">            %%%@#+:.    .=%%*</tspan>
+      <tspan x="30" y="143">            @@@=.         :%%</tspan>
+      <tspan x="30" y="162">             @+.           -#</tspan>
+      <tspan x="30" y="181">            =+::=-:    .:::.=</tspan>
+      <tspan x="30" y="200">            --. :==:   :+:  .</tspan>
+      <tspan x="30" y="219">             :.             -</tspan>
+      <tspan x="30" y="238">              -</tspan>
+      <tspan x="30" y="257">               . .....  .. -</tspan>
+      <tspan x="30" y="276">              @+. .-:.:.  :</tspan>
+      <tspan x="30" y="295">            @@@@*:       *</tspan>
+      <tspan x="30" y="314">        %%@@@@@@@@*-...-#@@%%</tspan>
+      <tspan x="30" y="333">     %%%%%@@@@@@@@@@%*#@@@@@@@%%</tspan>
+      <tspan x="30" y="352">  @%%%%%%%@@@@@@@@@%++*@@@@@@@@@@@@%</tspan>
+      <tspan x="30" y="371">   %%%%%@@@@@@@@@@@%: #@@@@@@@@@@@@@@</tspan>
+      <tspan x="30" y="390">    @@@@@@@@@@@@@@@@=.@@@@@@@@@@@@@@@</tspan>
+      <tspan x="30" y="409">     @@@@@@@@@@@@@@%=.+@@@@@@@@@@@@@@</tspan>
+      <tspan x="30" y="428">     @@@@@@@@@@@@@@#-..%@@@@@@@@@@@@@@</tspan>
+      <tspan x="30" y="447">      @@@@@@@@@@@@@#:..#@@@@@@@@@@@@@@</tspan>
+      <tspan x="30" y="466">      @@@@@@@@@@@@@%-..*@@@@@@@@@@@@@@</tspan>
   </text>
   <line x1="405" y1="30" x2="405" y2="528" stroke="#d8dee9" stroke-width="1"/>
   <text>
@@ -63,7 +61,7 @@
       <tspan x="430" y="122" class="key">Class</tspan><tspan x="570" y="122" class="value" id="class_data">Enterprise Software Architect</tspan>
       <tspan x="430" y="150" class="key">Kernel</tspan><tspan x="570" y="150" class="value" id="kernel_data">Full Stack .NET / Cloud / AI</tspan>
       <tspan x="430" y="178" class="key">Runtime</tspan><tspan x="570" y="178" class="value" id="runtime_data">Enterprise · Agentic · Research</tspan>
-      <tspan x="430" y="206" class="key">Protocol</tspan><tspan x="570" y="206" class="value" id="protocol_data">Plan → Design → Build → Verify</tspan>
+      <tspan x="430" y="206" class="key">Protocol</tspan><tspan x="570" y="206" class="value" id="protocol_data">Plan -&gt; Design -&gt; Build -&gt; Verify</tspan>
       <tspan x="430" y="226" class="section">— ACCOUNT COVERAGE —————————————————————————————</tspan>
       <tspan x="430" y="256" class="key">Repositories</tspan><tspan x="570" y="256" class="value" id="repo_total">—</tspan>
       <tspan x="430" y="284" class="key">Visibility</tspan><tspan x="570" y="284" class="value" id="visibility_data">—</tspan>
