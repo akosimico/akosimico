@@ -1,25 +1,25 @@
 {
-  "account_created_at": "2026-08-03T00:00:00Z",
-  "coverage": "PENDING_AUTHENTICATED_SYNC",
-  "generated_at": "2026-08-03T00:00:00Z",
+  "account_created_at": "2018-03-29T05:11:18Z",
+  "coverage": "COMPLETE",
+  "generated_at": "2026-08-03T01:38:27Z",
   "login": "itsmfknlucy",
   "owners": {
-    "organizations": 0,
-    "resource_owners": 0
+    "organizations": 3,
+    "resource_owners": 4
   },
   "repositories": {
     "collaborator": 0,
-    "organization_member": 0,
-    "owned": 0,
-    "total": 0
+    "organization_member": 12,
+    "owned": 6,
+    "total": 18
   },
   "schema_version": 1,
   "signals": {
-    "commit_contributions": 0,
-    "followers": 0,
-    "repository_size_kib": 0,
-    "restricted_contributions": 0,
-    "stars_owned": 0
+    "commit_contributions": 9,
+    "followers": 5,
+    "repository_size_kib": 815911,
+    "restricted_contributions": 28047,
+    "stars_owned": 14
   },
   "state": {
     "archived": 0,
@@ -28,7 +28,7 @@
   },
   "visibility": {
     "internal": 0,
-    "private": 0,
-    "public": 0
+    "private": 17,
+    "public": 1
   }
 }
