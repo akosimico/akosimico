@@ -1,0 +1,41 @@
+name: Check profile banner pixels
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - profile-statistics-v3
+    paths:
+      - ".github/workflows/check-profile-banner.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --disable-pip-version-check Pillow==12.2.0
+      - name: Report banner digests
+        run: |
+          python - <<'PY'
+          from hashlib import sha256
+          from pathlib import Path
+          from PIL import Image
+
+          path = Path("assets/profile-banner.png")
+          payload = path.read_bytes()
+          with Image.open(path) as image:
+              rgb = image.convert("RGB")
+              print(f"file_sha256={sha256(payload).hexdigest()}")
+              print(f"pixel_sha256={sha256(rgb.tobytes()).hexdigest()}")
+              print(f"size={rgb.width}x{rgb.height}")
+              print(f"mode={image.mode}")
+          PY
