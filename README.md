@@ -97,10 +97,6 @@ Discord bots, APIs, automation tools, cybersecurity research, and advanced softw
 
 ---
 
-<sub>
-Building enterprise software, AI systems, and agentic operating models in public.
-</sub>
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/production/assets/profile-banner.png" alt="LucyAI · Agentic Systems · Enterprise Software Architecture" width="100%" />
 </p>
