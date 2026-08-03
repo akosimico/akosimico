@@ -13,7 +13,7 @@
     </radialGradient>
     <style>
       text { font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }
-      .ascii { fill: #ff8d8d; font-size: 8px; font-weight: 500; }
+      .ascii { fill: #ff8d8d; font-size: 6.5px; font-weight: 500; }
       .section { fill: #9b7777; font-size: 15px; font-weight: 700; }
       .key { fill: #ff5c5c; font-size: 15px; font-weight: 700; }
       .value { fill: #fff0f0; font-size: 15px; font-weight: 500; }
@@ -28,83 +28,100 @@
   <circle cx="52" cy="30" r="5" fill="#ff8d8d" opacity="0.78"/>
   <circle cx="70" cy="30" r="5" fill="#9b7777" opacity="0.72"/>
   <text class="ascii" aria-hidden="true" xml:space="preserve">
-      <tspan x="20" y="50" textLength="500" lengthAdjust="spacingAndGlyphs">....................................:...:::::::::::::::------::::::::.......:::::::.................</tspan>
-      <tspan x="20" y="61" textLength="500" lengthAdjust="spacingAndGlyphs">..............................::....::::::::::::::::::::---::::::::::::::::::::::::::..::...........</tspan>
-      <tspan x="20" y="72" textLength="500" lengthAdjust="spacingAndGlyphs">............................:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::...........</tspan>
-      <tspan x="20" y="83" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::.:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::...:.......</tspan>
-      <tspan x="20" y="94" textLength="500" lengthAdjust="spacingAndGlyphs">............................::::::::::::::::::---=+****+-:::::::::::::::::::::::::::::::.::::::.....</tspan>
-      <tspan x="20" y="105" textLength="500" lengthAdjust="spacingAndGlyphs">............................:::::::::::::::-:--=++******++==-::::::::::-::::::::.........:::::......</tspan>
-      <tspan x="20" y="116" textLength="500" lengthAdjust="spacingAndGlyphs">..............................:::::.::::--:--====+==+----+**+=--:::-------::::...........::::.......</tspan>
-      <tspan x="20" y="127" textLength="500" lengthAdjust="spacingAndGlyphs">............................:::::::.::=-:--::-=-:::::....::--==++-----=------:::::.......:::........</tspan>
-      <tspan x="20" y="138" textLength="500" lengthAdjust="spacingAndGlyphs">...........................::::::..:-=:::--=-::::::::::::::--=-==+=:-----===--::::::.....:::........</tspan>
-      <tspan x="20" y="149" textLength="500" lengthAdjust="spacingAndGlyphs">..........................:::::::::--:::--=-::::::::::.::::::::-==+=::----=---:::::::....::.........</tspan>
-      <tspan x="20" y="160" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::::::::::::..:-::::-::::....::...:.::.:-++-::-----::::::::................</tspan>
-      <tspan x="20" y="171" textLength="500" lengthAdjust="spacingAndGlyphs">........................:::::::::::::...:::.......::::-::::.::...--==:::---::.:.....................</tspan>
-      <tspan x="20" y="182" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::::::::::::::...:::-+**##%%@@@@%#*+=-.:::-=:::::::::......................</tspan>
-      <tspan x="20" y="193" textLength="500" lengthAdjust="spacingAndGlyphs">.....................::::::::::::::....:::=*#%@@@@@@@@@@@@@@@%#=::::-:::::::::......................</tspan>
-      <tspan x="20" y="204" textLength="500" lengthAdjust="spacingAndGlyphs">....................:::::::::::........:=*%%@@@@@@@@@@@@@@@@@@@%+:.::-:::::::.......................</tspan>
-      <tspan x="20" y="215" textLength="500" lengthAdjust="spacingAndGlyphs">....................:::::::::::::.....:+#%%%@@@@@@@@@@@@@@@@@@@%%+:.:-:::::.........................</tspan>
-      <tspan x="20" y="226" textLength="500" lengthAdjust="spacingAndGlyphs">......................:::::::::::....:=##%%%@@@@@@@@@@@@@@@@@@@%%%+::-:::::.........................</tspan>
-      <tspan x="20" y="237" textLength="500" lengthAdjust="spacingAndGlyphs">.....................:..:::::....-=.:=####%%@@@@@@@@@@@@@@@@@@%%%%#---:::::.........................</tspan>
-      <tspan x="20" y="248" textLength="500" lengthAdjust="spacingAndGlyphs">.............................::::+*=:*##*=-==*%@@@@@@@@@@@@%*++==#%=+---::::........................</tspan>
-      <tspan x="20" y="259" textLength="500" lengthAdjust="spacingAndGlyphs">..............................:::*%#=#%###%%%#+++#%@@@@%#+**%@@@%%%*%---:::::::::...................</tspan>
-      <tspan x="20" y="270" textLength="500" lengthAdjust="spacingAndGlyphs">.........................::::.:::*#+*#%%%#*+=--+###%%%%%#*=::=+*%@%%@--:::::::::::..................</tspan>
-      <tspan x="20" y="281" textLength="500" lengthAdjust="spacingAndGlyphs">........................:::::::::+%#*#%%%%%%##%%#%%@@@@@@%##%@@@@@@%%=----:::::::::.................</tspan>
-      <tspan x="20" y="292" textLength="500" lengthAdjust="spacingAndGlyphs">.........................:::::::::%%##%%@@@@@@@@@@@@@@@@@@@@@@@@@@@@@=----------::::................</tspan>
-      <tspan x="20" y="303" textLength="500" lengthAdjust="spacingAndGlyphs">.........................:::::::::-**#%%@@@@@@@@@@@@@@@@@@@@@@@@@@@*-------------::::...............</tspan>
-      <tspan x="20" y="314" textLength="500" lengthAdjust="spacingAndGlyphs">..........................:::::::::::+%%%@@@@@@%%@@@@@@@@@%@@@@@@@%=-----------:::::................</tspan>
-      <tspan x="20" y="325" textLength="500" lengthAdjust="spacingAndGlyphs">...........................::::::::::=#%%%%@@%%#%%%%@@@@@@@%%@@@%%#----------::::::.................</tspan>
-      <tspan x="20" y="336" textLength="500" lengthAdjust="spacingAndGlyphs">...........................::::::::::-*#%%%####%%%#**#%%%@@%*#%%%%*---------::::::..................</tspan>
-      <tspan x="20" y="347" textLength="500" lengthAdjust="spacingAndGlyphs">...........................:::::::---::*#%%%%##%%%%%@@@@@@@%%%%%%#--:::::::::::::...................</tspan>
-      <tspan x="20" y="358" textLength="500" lengthAdjust="spacingAndGlyphs">.........................:::::::::--:  .*#%@@%##*=*#%##+=*@@@@@%#=-::::::::::::::...................</tspan>
-      <tspan x="20" y="369" textLength="500" lengthAdjust="spacingAndGlyphs">......................:::::::::::-:.. ..:**#%%%%###%%###%@@@@@%*=--:::::::::::::::..................</tspan>
-      <tspan x="20" y="380" textLength="500" lengthAdjust="spacingAndGlyphs">....................:::::::::::::....  ..:**#%%%%%%###%%@@@@%*-===--::::::::::::::..................</tspan>
-      <tspan x="20" y="391" textLength="500" lengthAdjust="spacingAndGlyphs">...................:::::::::::.......  ....:+*#%@@@@@@@@@@%#=...-==--::::..::--:::..................</tspan>
-      <tspan x="20" y="402" textLength="500" lengthAdjust="spacingAndGlyphs">..................:::::-::...........   ......+*#%%%%%%%%#*:.....::::::::..::--::::.................</tspan>
-      <tspan x="20" y="413" textLength="500" lengthAdjust="spacingAndGlyphs">.................::::::::::...........   .......-=+++++**:........:::::::::::-::::::................</tspan>
-      <tspan x="20" y="424" textLength="500" lengthAdjust="spacingAndGlyphs">.................:::::::::::...........   .........=++=:..... .....::....::::--:::::::..............</tspan>
-      <tspan x="20" y="435" textLength="500" lengthAdjust="spacingAndGlyphs">..............::::::::::::::............   .................. .............:::::::::::::............</tspan>
-      <tspan x="20" y="446" textLength="500" lengthAdjust="spacingAndGlyphs">............::::::::::::::::.............   ....... .. ::...  ..............:....:::::::............</tspan>
-      <tspan x="20" y="457" textLength="500" lengthAdjust="spacingAndGlyphs">...........::::::::::::::::...............   ...-#%%%%%*. ..  ......................................</tspan>
-      <tspan x="20" y="468" textLength="500" lengthAdjust="spacingAndGlyphs">............:.::::::::::::................. ... .=##%@#:.... .......................................</tspan>
-      <tspan x="20" y="479" textLength="500" lengthAdjust="spacingAndGlyphs">.............:....:....:..........................=#%%+..... .......................................</tspan>
-      <tspan x="20" y="490" textLength="500" lengthAdjust="spacingAndGlyphs">................................................. :+##-..... .......................................</tspan>
-      <tspan x="20" y="501" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................:=*%%+..... .......................................</tspan>
-      <tspan x="20" y="512" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................==*##*=.... ......................... .............</tspan>
-      <tspan x="20" y="523" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................++*#%%#=... ...................... ..  ............</tspan>
-      <tspan x="20" y="534" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=*##%%%#.......................... .   ............</tspan>
-      <tspan x="20" y="545" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=*##%%%%.  ......................  .  .............</tspan>
-      <tspan x="20" y="556" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=*##%%%%:  ......................    . ............</tspan>
-      <tspan x="20" y="567" textLength="500" lengthAdjust="spacingAndGlyphs">.................................................=+*#%%%%-  .....................        ...........</tspan>
-      <tspan x="20" y="578" textLength="500" lengthAdjust="spacingAndGlyphs">................... .............................-*###%%%- ......................       ............</tspan>
-      <tspan x="20" y="589" textLength="500" lengthAdjust="spacingAndGlyphs">.................... ............................=+######= ....................          ...........</tspan>
-      <tspan x="20" y="600" textLength="500" lengthAdjust="spacingAndGlyphs">.................     ...........................=+*#####+ ....................    .     ...........</tspan>
-      <tspan x="20" y="611" textLength="500" lengthAdjust="spacingAndGlyphs">................... . ................... .......:++**##%+....................   .   .    ..........</tspan>
-      <tspan x="20" y="622" textLength="500" lengthAdjust="spacingAndGlyphs">.........  ........ .  ................... .......=+*##**=...............        ....     ..........</tspan>
-      <tspan x="20" y="633" textLength="500" lengthAdjust="spacingAndGlyphs">...................    .................... ......:+*##*+:...............                 ..........</tspan>
-      <tspan x="20" y="644" textLength="500" lengthAdjust="spacingAndGlyphs">....................   ..................... ......=+**+:...............        .        . .........</tspan>
+      <tspan x="20" y="45.0" textLength="440" lengthAdjust="spacingAndGlyphs">                      .                                                                             </tspan>
+      <tspan x="20" y="53.3" textLength="440" lengthAdjust="spacingAndGlyphs">              .                                                           .                         </tspan>
+      <tspan x="20" y="61.6" textLength="440" lengthAdjust="spacingAndGlyphs">                                                        ..                  .               .       </tspan>
+      <tspan x="20" y="69.9" textLength="440" lengthAdjust="spacingAndGlyphs">                                                                .                                   </tspan>
+      <tspan x="20" y="78.2" textLength="440" lengthAdjust="spacingAndGlyphs">                                                       ....   ...     .                             </tspan>
+      <tspan x="20" y="86.5" textLength="440" lengthAdjust="spacingAndGlyphs">                                             .   ..................                ..               </tspan>
+      <tspan x="20" y="94.80000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">                               .            ....::::-----------.:.....     ..          .     .      </tspan>
+      <tspan x="20" y="103.10000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">                                      .........::..---==========+-..............                    </tspan>
+      <tspan x="20" y="111.4" textLength="440" lengthAdjust="spacingAndGlyphs">                    .                ........-:.:-::.-==============......  .....      .            </tspan>
+      <tspan x="20" y="119.7" textLength="440" lengthAdjust="spacingAndGlyphs">                             .  .  .......................-=-----=---=-:.... ......                 </tspan>
+      <tspan x="20" y="128.0" textLength="440" lengthAdjust="spacingAndGlyphs">                                ..................................:..:==..:... .....        .       </tspan>
+      <tspan x="20" y="136.3" textLength="440" lengthAdjust="spacingAndGlyphs">                               .......................................-=-=:..........              .</tspan>
+      <tspan x="20" y="144.60000000000002" textLength="440" lengthAdjust="spacingAndGlyphs">                            . .....................    .::--:::::.....:==#=....  .... .  .         .</tspan>
+      <tspan x="20" y="152.9" textLength="440" lengthAdjust="spacingAndGlyphs">                             ...................   ..::--=----=*+*+-:..:+*-:....       .            </tspan>
+      <tspan x="20" y="161.20000000000002" textLength="440" lengthAdjust="spacingAndGlyphs">      .                     .................. ..:::---++*#%%%%%%%%%%#=::+*:.....               .   </tspan>
+      <tspan x="20" y="169.5" textLength="440" lengthAdjust="spacingAndGlyphs">    .   .  .               ..:.................::::---*#%%%%%%%%%%%%%%%#:-+-:....... ....           </tspan>
+      <tspan x="20" y="177.8" textLength="440" lengthAdjust="spacingAndGlyphs">             .             .:.............  .::::---:--=*###%%%%%%%%%%%%%-+=:..........             </tspan>
+      <tspan x="20" y="186.10000000000002" textLength="440" lengthAdjust="spacingAndGlyphs">                          .:...........  . ...::::::::---=####%%%%%%%%%%%%+::::.......              </tspan>
+      <tspan x="20" y="194.4" textLength="440" lengthAdjust="spacingAndGlyphs">                          ............    .::::....:::..:--+#%#%%#%%%%%%%%=............      .      </tspan>
+      <tspan x="20" y="202.70000000000002" textLength="440" lengthAdjust="spacingAndGlyphs">           .              ...........    ..:::::::::.......--*%%%##%#%%%%+=:......:..               </tspan>
+      <tspan x="20" y="211.0" textLength="440" lengthAdjust="spacingAndGlyphs">                     .    .:......       .:::::::::.    .....:-*%%+###%+-##-.......:....            </tspan>
+      <tspan x="20" y="219.3" textLength="440" lengthAdjust="spacingAndGlyphs">                        . .::.....      .:::::::::..  .      ...:-=*+=-*%%%#:........:...     .     </tspan>
+      <tspan x="20" y="227.60000000000002" textLength="440" lengthAdjust="spacingAndGlyphs">   .                      ..:... .     .::::::::::...         ....:-=***=*#%+:..:.......            </tspan>
+      <tspan x="20" y="235.9" textLength="440" lengthAdjust="spacingAndGlyphs">                  .       ......     ...:::::::::::.        .  ..-==%@@@#@@@+=:.:......           . </tspan>
+      <tspan x="20" y="244.20000000000002" textLength="440" lengthAdjust="spacingAndGlyphs">          .        .    ........  ..:::::::::::::::..         ..-===#@@@@@@#+++==-:..           .   </tspan>
+      <tspan x="20" y="252.50000000000003" textLength="440" lengthAdjust="spacingAndGlyphs">                          ....   .:-:::::::-::::---::.       ..-===++#@@@@*-=+++=+=.. .   .         </tspan>
+      <tspan x="20" y="260.8" textLength="440" lengthAdjust="spacingAndGlyphs">              ..        ........ .:-:::::::-:::-=====--::..::======+#+===#*==---===:...             </tspan>
+      <tspan x="20" y="269.1" textLength="440" lengthAdjust="spacingAndGlyphs">                        ...........-:::::::::::-====================+###%%=--:....:--:..            </tspan>
+      <tspan x="20" y="277.40000000000003" textLength="440" lengthAdjust="spacingAndGlyphs">                         ...........:::::::::::-===================+#%%%@#-:........::..            </tspan>
+      <tspan x="20" y="285.70000000000005" textLength="440" lengthAdjust="spacingAndGlyphs">     .   .      .   .. .   ..............::::::-===================+%%%%@=--:...... .               </tspan>
+      <tspan x="20" y="294.0" textLength="440" lengthAdjust="spacingAndGlyphs">             .      ....    ...::....  ...::::::-==================+%%%@#---:....                   </tspan>
+      <tspan x="20" y="302.3" textLength="440" lengthAdjust="spacingAndGlyphs">                            ...............-::::-===========-------=%%@#----:.....          .       </tspan>
+      <tspan x="20" y="310.6" textLength="440" lengthAdjust="spacingAndGlyphs">                                .............-:::-=================+%@#=----:....        .         .</tspan>
+      <tspan x="20" y="318.90000000000003" textLength="440" lengthAdjust="spacingAndGlyphs">                .                . ............:::-================#%+=----:::.............         </tspan>
+      <tspan x="20" y="327.20000000000005" textLength="440" lengthAdjust="spacingAndGlyphs">            .                    ...........:::....:==============#+------:........  .....          </tspan>
+      <tspan x="20" y="335.5" textLength="440" lengthAdjust="spacingAndGlyphs">                 ..      ....   .. ...:-----:::::.  ...-========--:::::...........     ..           </tspan>
+      <tspan x="20" y="343.8" textLength="440" lengthAdjust="spacingAndGlyphs">           .  .    .         .   .....:::..::::::::.. ...--:-::------::::........      ..       .   </tspan>
+      <tspan x="20" y="352.1" textLength="440" lengthAdjust="spacingAndGlyphs">               . .. ..   .. .. ...............:::::::-+#:::::::::::--:...:.........:.               </tspan>
+      <tspan x="20" y="360.40000000000003" textLength="440" lengthAdjust="spacingAndGlyphs">                   ..... ...   .................::-==+#-:::::-::::-::--.............. ..            </tspan>
+      <tspan x="20" y="368.70000000000005" textLength="440" lengthAdjust="spacingAndGlyphs">           .          .   ........   .......:....::=*#%#+:::::+=-:---::........  .....              </tspan>
+      <tspan x="20" y="377.0" textLength="440" lengthAdjust="spacingAndGlyphs"> .                  ....  ...................:=-:-####%%%#=:.:::-:::.:..............   .          . </tspan>
+      <tspan x="20" y="385.3" textLength="440" lengthAdjust="spacingAndGlyphs">               .   ..... ....... .............:+#######%%%#+:.::-+::............... .    .          </tspan>
+      <tspan x="20" y="393.6" textLength="440" lengthAdjust="spacingAndGlyphs">                        .................:::...:=#######%%%#*++==++===-:.::.....  .   ...           </tspan>
+      <tspan x="20" y="401.90000000000003" textLength="440" lengthAdjust="spacingAndGlyphs">. .                    ................*+-::#*+::*#######%%%*#+++++-==----:..:.....    .  .         </tspan>
+      <tspan x="20" y="410.20000000000005" textLength="440" lengthAdjust="spacingAndGlyphs">                     ..................+*=::****=-###########**+==+----------...-:.                 </tspan>
+      <tspan x="20" y="418.50000000000006" textLength="440" lengthAdjust="spacingAndGlyphs">                   ........::..........+*+::=####*+###%#####*#=+++=---:::----:...                   </tspan>
+      <tspan x="20" y="426.8" textLength="440" lengthAdjust="spacingAndGlyphs">           .       ....:-:.:..........-+*+:.+##*#####%%%%%%#*%=-=++==--::....:-...      .           </tspan>
+      <tspan x="20" y="435.1" textLength="440" lengthAdjust="spacingAndGlyphs"> .                  ...:--::.........:+#=:.-###**####%%%%###*%+===--=-:...........          ..      </tspan>
+      <tspan x="20" y="443.40000000000003" textLength="440" lengthAdjust="spacingAndGlyphs">                       ..:::.....:..+*+*-...******##########+%#-:::-::......  .          .          </tspan>
+      <tspan x="20" y="451.70000000000005" textLength="440" lengthAdjust="spacingAndGlyphs">     . .              ...........::-*#*#=.:.:-*==+*#########**#=:::::..... .. ...       .   .       </tspan>
+      <tspan x="20" y="460.00000000000006" textLength="440" lengthAdjust="spacingAndGlyphs">                    ..   .......::::=*##-..-=:=***+*#####*##****-:..:..... ......                   </tspan>
+      <tspan x="20" y="468.3" textLength="440" lengthAdjust="spacingAndGlyphs">                          ......:::::=**:...-+--+*++*#######*+#*=:.....:....  ..                   .</tspan>
+      <tspan x="20" y="476.6" textLength="440" lengthAdjust="spacingAndGlyphs">                      .  .......:-::::-*. ...-+-=**+**######*+##+::::........ ..                    </tspan>
+      <tspan x="20" y="484.90000000000003" textLength="440" lengthAdjust="spacingAndGlyphs"> ..          .  .        .:.....:::::::+.  ...-+-=#++*#######=*#*=-::... .......                    </tspan>
+      <tspan x="20" y="493.20000000000005" textLength="440" lengthAdjust="spacingAndGlyphs">       .                ..:......::::::-.  ....-=:**++*######-==#-::::... .::..                     </tspan>
+      <tspan x="20" y="501.50000000000006" textLength="440" lengthAdjust="spacingAndGlyphs">     .                  .:........:::::-.      .::=*++++*####:==#+:::::.. ..::..                    </tspan>
+      <tspan x="20" y="509.80000000000007" textLength="440" lengthAdjust="spacingAndGlyphs">                        ...........::.::.   .. ..==+*=+++*###-:=*#-:::::........   ...              </tspan>
+      <tspan x="20" y="518.1" textLength="440" lengthAdjust="spacingAndGlyphs">            .         . .......--:::::-. .  .  ..:***+=*****#=:=#%+::::--... ..... .   .            </tspan>
+      <tspan x="20" y="526.4000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">                      ....... .......:: .      ...-***==+**#*+-:+**:::::-::....:::.. ...            </tspan>
+      <tspan x="20" y="534.7" textLength="440" lengthAdjust="spacingAndGlyphs">                .    .......... ..:::...      .. ...=++=++****:::......:--:.. .:=-.           .   . </tspan>
+      <tspan x="20" y="543.0" textLength="440" lengthAdjust="spacingAndGlyphs">                      ...........: .            ....:=+-:++***-:-:.......::..........               </tspan>
+      <tspan x="20" y="551.3000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">                      ............             ....-=+++:.:-**=:-=.........:.....  .          .     </tspan>
+      <tspan x="20" y="559.6" textLength="440" lengthAdjust="spacingAndGlyphs">                   ...............         .   .....:=++=-=:.+=::=:.............   ..     .         </tspan>
+      <tspan x="20" y="567.9000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">  .                  .........:..               ......:+++=:.--.::+.......  ..  ... ..           .  </tspan>
+      <tspan x="20" y="576.2" textLength="440" lengthAdjust="spacingAndGlyphs">                      ........:...               .......++++.:-.:::-.....    ...        .           </tspan>
+      <tspan x="20" y="584.5" textLength="440" lengthAdjust="spacingAndGlyphs">         .             ...........                    ..:=+++:=....=:....     .                    .</tspan>
+      <tspan x="20" y="592.8000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">   .                   ........              .          ..-=+-:....-=.....                          </tspan>
+      <tspan x="20" y="601.1" textLength="440" lengthAdjust="spacingAndGlyphs">            .   .      .   ....                          ...:...  ..-....            .              </tspan>
+      <tspan x="20" y="609.4000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">           .                  .                              ....  ...                              </tspan>
+      <tspan x="20" y="617.7" textLength="440" lengthAdjust="spacingAndGlyphs">   .          .             ..                                    ....                  .           </tspan>
+      <tspan x="20" y="626.0" textLength="440" lengthAdjust="spacingAndGlyphs">           .                                       .             .                                  </tspan>
+      <tspan x="20" y="634.3000000000001" textLength="440" lengthAdjust="spacingAndGlyphs">                                .                                                                   </tspan>
   </text>
-  <line x1="550" y1="30" x2="550" y2="660" stroke="#4a1d1d" stroke-width="1"/>
+  <line x1="480" y1="30" x2="480" y2="660" stroke="#4a1d1d" stroke-width="1"/>
   <text>
-    <tspan x="580" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
-      <tspan x="580" y="75" class="key">OS</tspan><tspan x="920" y="75" class="value" id="os_data">Windows 11</tspan>
-      <tspan x="580" y="101" class="key">Uptime</tspan><tspan x="920" y="101" class="value" id="uptime_data">27 years, 8 months, 11 days</tspan>
-      <tspan x="580" y="127" class="key">Host</tspan><tspan x="920" y="127" class="value" id="host_data">Rodstark Global Solutions, Inc.</tspan>
-      <tspan x="580" y="153" class="key">Kernel</tspan><tspan x="920" y="153" class="value" id="kernel_data">Enterprise Architecture / .NET / Cloud / AI</tspan>
-      <tspan x="580" y="179" class="key">IDE</tspan><tspan x="920" y="179" class="value" id="ide_data">VS Code / Codex / Visual Studio</tspan>
-      <tspan x="580" y="223" class="key">Languages.Programming</tspan><tspan x="920" y="223" class="value" id="programming_data">C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS</tspan>
-      <tspan x="580" y="249" class="key">Languages.Computer</tspan><tspan x="920" y="249" class="value" id="computer_data">HTML, CSS, SASS, SQL, JSON, XML, YAML</tspan>
-      <tspan x="580" y="275" class="key">Languages.Real</tspan><tspan x="920" y="275" class="value" id="real_language_data">English, Filipino, German, Japanese</tspan>
-      <tspan x="580" y="319" class="key">Hobbies.Software</tspan><tspan x="920" y="319" class="value" id="software_hobby_data">Modding, SaaS, Gaming, AI Systems, Automation</tspan>
-      <tspan x="580" y="345" class="key">Hobbies.Hardware</tspan><tspan x="920" y="345" class="value" id="hardware_hobby_data">PC Building, Performance Tuning, Undervolting</tspan>
-    <tspan x="580" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
-      <tspan x="580" y="425" class="key">Repositories</tspan><tspan x="920" y="425" class="value" id="repo_total">18 (6 owned, 12 organization owned)</tspan>
-      <tspan x="580" y="450" class="key">Visibility</tspan><tspan x="920" y="450" class="value" id="visibility_data">18 (1 public, 17 private)</tspan>
-      <tspan x="580" y="475" class="key">Organizations</tspan><tspan x="920" y="475" class="value" id="organization_data">3 organizations</tspan>
-      <tspan x="580" y="500" class="key">Commits</tspan><tspan x="920" y="500" class="value" id="commit_data">17,904 total commits (23 public, 17,881 private)</tspan>
-      <tspan x="580" y="525" class="key">Contributions</tspan><tspan x="920" y="525" class="value" id="contribution_data">28,071 total contributions (24 public, 28,047 restricted)</tspan>
-      <tspan x="580" y="550" class="key">Lines of Code</tspan><tspan x="920" y="550" class="value" id="lines_data">3,462,421 total lines (<tspan class="positive">3,837,972++</tspan>, <tspan class="negative">375,551--</tspan>)</tspan>
-      <tspan x="580" y="575" class="key">Signals</tspan><tspan x="920" y="575" class="value" id="signal_data">14 stars / 5 followers</tspan>
-      <tspan x="580" y="600" class="key">Last Sync</tspan><tspan x="920" y="600" class="value" id="generated_data">August 03, 2026 11:51 AM</tspan>
+    <tspan x="510" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
+      <tspan x="510" y="75" class="key">OS</tspan><tspan x="850" y="75" class="value" id="os_data">Windows 11</tspan>
+      <tspan x="510" y="101" class="key">Uptime</tspan><tspan x="850" y="101" class="value" id="uptime_data">27 years, 8 months, 11 days</tspan>
+      <tspan x="510" y="127" class="key">Host</tspan><tspan x="850" y="127" class="value" id="host_data">Rodstark Global Solutions, Inc.</tspan>
+      <tspan x="510" y="153" class="key">Kernel</tspan><tspan x="850" y="153" class="value" id="kernel_data">Enterprise Architecture / .NET / Cloud / AI</tspan>
+      <tspan x="510" y="179" class="key">IDE</tspan><tspan x="850" y="179" class="value" id="ide_data">VS Code / Codex / Visual Studio</tspan>
+      <tspan x="510" y="223" class="key">Languages.Programming</tspan><tspan x="850" y="223" class="value" id="programming_data">C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS</tspan>
+      <tspan x="510" y="249" class="key">Languages.Computer</tspan><tspan x="850" y="249" class="value" id="computer_data">HTML, CSS, SASS, SQL, JSON, XML, YAML</tspan>
+      <tspan x="510" y="275" class="key">Languages.Real</tspan><tspan x="850" y="275" class="value" id="real_language_data">English, Filipino, German, Japanese</tspan>
+      <tspan x="510" y="319" class="key">Hobbies.Software</tspan><tspan x="850" y="319" class="value" id="software_hobby_data">Modding, SaaS, Gaming, AI Systems, Automation</tspan>
+      <tspan x="510" y="345" class="key">Hobbies.Hardware</tspan><tspan x="850" y="345" class="value" id="hardware_hobby_data">PC Building, Performance Tuning, Undervolting</tspan>
+    <tspan x="510" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
+      <tspan x="510" y="425" class="key">Repositories</tspan><tspan x="850" y="425" class="value" id="repo_total">18 (6 owned, 12 organization owned)</tspan>
+      <tspan x="510" y="450" class="key">Visibility</tspan><tspan x="850" y="450" class="value" id="visibility_data">18 (1 public, 17 private)</tspan>
+      <tspan x="510" y="475" class="key">Organizations</tspan><tspan x="850" y="475" class="value" id="organization_data">3 organizations</tspan>
+      <tspan x="510" y="500" class="key">Commits</tspan><tspan x="850" y="500" class="value" id="commit_data">17,904 total commits (23 public, 17,881 private)</tspan>
+      <tspan x="510" y="525" class="key">Contributions</tspan><tspan x="850" y="525" class="value" id="contribution_data">28,071 total contributions (24 public, 28,047 restricted)</tspan>
+      <tspan x="510" y="550" class="key">Lines of Code</tspan><tspan x="850" y="550" class="value" id="lines_data">3,462,421 total lines (<tspan class="positive">3,837,972++</tspan>, <tspan class="negative">375,551--</tspan>)</tspan>
+      <tspan x="510" y="575" class="key">Signals</tspan><tspan x="850" y="575" class="value" id="signal_data">14 stars / 5 followers</tspan>
+      <tspan x="510" y="600" class="key">Last Sync</tspan><tspan x="850" y="600" class="value" id="generated_data">August 03, 2026 11:51 AM</tspan>
   </text>
 </svg>

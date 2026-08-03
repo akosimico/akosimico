@@ -14,12 +14,14 @@ from .portrait import ASCII_PORTRAIT
 CARD_WIDTH: Final[int] = 1500
 CARD_HEIGHT: Final[int] = 690
 ASCII_X: Final[int] = 20
-DIVIDER_X: Final[int] = 550
-ASCII_FONT_SIZE: Final[int] = 8
-ASCII_RENDER_WIDTH: Final[int] = 500
+DIVIDER_X: Final[int] = 480
+CONTENT_X: Final[int] = DIVIDER_X + 30
+VALUE_X: Final[int] = 850
+ASCII_FONT_SIZE: Final[float] = 6.5
+ASCII_RENDER_WIDTH: Final[int] = 440
 ASCII_GUTTER: Final[int] = 20
-ASCII_LINE_HEIGHT: Final[int] = 11
-ASCII_START_Y: Final[int] = 50
+ASCII_LINE_HEIGHT: Final[float] = 8.3
+ASCII_START_Y: Final[int] = 45
 BIRTH_DATE: Final[dt.date] = dt.date(1998, 11, 23)
 PH_TIMEZONE: Final[dt.tzinfo] = dt.timezone(dt.timedelta(hours=8))
 
@@ -156,9 +158,9 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
   </text>
   <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="660" stroke="{colors['border']}" stroke-width="1"/>
   <text>
-    <tspan x="580" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
+    <tspan x="{CONTENT_X}" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
 {profile_spans}
-    <tspan x="580" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
+    <tspan x="{CONTENT_X}" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
 {stats_spans}
   </text>
 </svg>
@@ -200,8 +202,8 @@ def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
 
 def _row(label: str, value: str, element_id: str, y: int) -> str:
     return (
-        f'      <tspan x="580" y="{y}" class="key">{_escape(label)}</tspan>'
-        f'<tspan x="920" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
+        f'      <tspan x="{CONTENT_X}" y="{y}" class="key">{_escape(label)}</tspan>'
+        f'<tspan x="{VALUE_X}" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
     )
 
 
@@ -217,8 +219,8 @@ def _lines_row(stats: ProfileStats, y: int) -> str:
         )
     joined = ", ".join(details)
     return (
-        f'      <tspan x="580" y="{y}" class="key">Lines of Code</tspan>'
-        f'<tspan x="920" y="{y}" class="value" id="lines_data">'
+        f'      <tspan x="{CONTENT_X}" y="{y}" class="key">Lines of Code</tspan>'
+        f'<tspan x="{VALUE_X}" y="{y}" class="value" id="lines_data">'
         f'{stats.total_lines:,} total lines ({joined})</tspan>'
     )
 
