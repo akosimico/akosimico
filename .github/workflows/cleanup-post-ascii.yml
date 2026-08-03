@@ -1,0 +1,63 @@
+name: Cleanup merged ASCII portrait branches
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - production
+    paths:
+      - ".github/workflows/cleanup-post-ascii.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cleanup-post-ascii
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out production
+        uses: actions/checkout@v6
+        with:
+          ref: production
+          fetch-depth: 0
+
+      - name: Delete all non-production branches
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t branches < <(
+            git ls-remote --heads origin |
+              awk '{sub("refs/heads/", "", $2); print $2}' |
+              sort
+          )
+          for branch in "${branches[@]}"; do
+            if [[ "$branch" != "production" ]]; then
+              git push origin --delete "$branch"
+            fi
+          done
+
+          mapfile -t remaining < <(
+            git ls-remote --heads origin |
+              awk '{sub("refs/heads/", "", $2); print $2}' |
+              sort
+          )
+          if [[ "${remaining[*]}" != "production" ]]; then
+            printf 'Unexpected remaining branches: %s\n' "${remaining[*]}" >&2
+            exit 1
+          fi
+
+      - name: Remove this one-time workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/cleanup-post-ascii.yml
+          git commit -m "chore: remove post-ASCII cleanup workflow"
+          git push origin HEAD:production
