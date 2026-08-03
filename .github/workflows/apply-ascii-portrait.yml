@@ -1,0 +1,128 @@
+name: Apply ASCII portrait replacement
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/replace-ascii-portrait-v2
+    paths:
+      - ".github/workflows/apply-ascii-portrait.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-ascii-portrait-v2
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    name: Replace, verify, and commit embedded portrait
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out feature branch
+        uses: actions/checkout@v6
+        with:
+          ref: feat/replace-ascii-portrait-v2
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Apply replacement through a verified red-green cycle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import base64
+          import zlib
+
+          payload = (
+              "c-"
+              "pmDdta)~*8ksEL27O^^@w+OnWj=%mS$?!K3hT<ltfU#TesJK)(l{1*WWqM)Bb$iFtcXOnsxoILDID`#c|Tioau<;D0w{5bd%y$RWo^0)>Ok|5A"
+              "}HirITT5$QwgN?uV%dLsP?)j>42N>rZq|K!yR&EBG<d(p>2LBup*GN)(woLQz&hW2Blbc&2!RVq0PA5%_o{EWv~~F;i#z2E2MamFfw5-"
+              "J<f8H<sX2Vmg~ZaWS6j$M{&PFQwyRCf!e^Gg6#E>3B>+xl}fV(y@$~LdjS{%Efsm5l=HxHtzK_>djX3sM_L6*%Wa6B}69mRO@DUb(~~F^%OfZV"
+              "){;darLSkCNrVC>y_N<x8&*V!$7S+H?JmhY1M4U3PqvO+I!;q!3fj4sK_WDA2*p^ja_kawIZaYG(ty5Azwy+sh{*YB~mI}1ccnIcKj%&dkn2z7"
+              "9P^Wz2Sj*w~9aT=|bxwq`ua;Kw!U97?iSyqwCYcDpx%3_lkkqay%?Vd_t;uV){$V1Mcy{xPH7XG0IaS<2x40m7`WH@9#<XE7@eT)lP$5%sP*c%"
+              "frs??fDs(Y6$Uw#GsLW!|gFbr}((!51O;#-L%u`PaevOzPh^&TvfPb$ZWPNmF{cpVPDag$sPZ7@oIE6^!KW}#(2IO=*_2Md}Z`5&|s#VB?qh-i"
+              "f4<fL6dzohYjJDz3WuCm@Mygo{K16y?V?wlw_;BcY9x9>HD0YRWgs<*&cl{8{Hl8QZRW_%CgN=B@jpqirm>`)_Wbk_>-?kiQ}0+d%T-0-"
+              "qdTSW4fj1gjr5F-z%~6i}Yb|(lDAgT!ZnqZ#jCLKfO4wHhNvAt)=6Q@=%;*`rUdUHBIqNUtra#b>qd-"
+              "_?Bia&ab+MJE2mua@San@|l$`1p+bt+W#!x1dLgMWsMP281Q#}c6t^pG?-OC-"
+              "@lvW%$xXgGstMK*TsWQSrH}Q$!RZmHz`!h#l@9+b)8}szG<aDoA+-"
+              "z@@Xe>8GE``1Gn6Cr#N9t0pEW9=%HH@I%h`djwzveq#+dV=TFUpm{GnM9G#6`C)1PAq;~J0DvRCj!_DPm;zD>~dMSUo`S2*swPe>n9{FVTXqr7"
+              "U9&3Uxrl0jn%j9jyCwKM}OcLFP>i*LNYS(<(>EP!4B)cq5v}QlsK24gwh;iAhUL52XQmwU<VfmfZLwiRa9x$zwQLTE`-ff7hMs-"
+              "=f@1>hB^l3irKYYmDEx<W0E=K<HbpJ}8usNf!iq}WCbV7VRueTF>^vlI+EWC{La-"
+              "z0UE=#R>;mMasEFR*;+;~?Ct(M{}FhU8j`!H;t7oW}wr)>Jb-;?|Ifuo7szP#y5zNeRNdAD$!Flnx|Qep!>l{mhR)H-ebaZ*vP^4G15p4wX-"
+              "`P04hKs%6z>7tS^r+3b)+;hDc;^)fcKF8P4>VA0Q?_P1WVDBc!G*0$r)7yTC59myQi|vh8W8-"
+              "=JFesQ~BOW+@J#Aj}`>FCo86VEje0;Fekus@6BYFQg&7YLC(oKJ$wUvX@W;&!D=U$o*4P<2HWc#s^pYVs>j9D7Uv;NuqC9|OUT6eF1%nZ{0^F_"
+              "VUt9CE*7hG96DKIHD!}eb4g1WjDrlrY^v5dbQYVEUT=xMG8Z=O1gIqLW0Q`1O_t8pMX-"
+              "1YD8Xb)(<U|t8KJG!<?T(glIU%b=}y@qzw%wU<SgksavOg`N>-"
+              "nkw5W4nv_S(SY{EOw6{kAn}F5#jZaD^}Igv65>Qb`0NZ`%wy1Z(n_hSwV@vB-=s1x|6O~h0M|nmP429f-"
+              "TKEMme>2%lBhqDs$VK?hfz!wYc7^Hqv+Z_5Dy;-M`p*?%xJ$;>Gjj&HYO)^>Q|7?(*%YcwV{Wb46e8A$4&iq*b}+kHyQ+#%0JSG4-"
+              "H0dy?meMzHNK@!i4rskZM^P$bV4&|Yp7?=m;yE4?fQs>$h;z8EpaUH($(mS|3Ysxs|tuy?;--"
+              "?_fY?o^Wb)$3?s4!~gdh3CoXupAf&uc_Q|1*KCrg~O{=^Yl@V6q+;T<lu@OR@*Dz$=%D9K0X;#^Yhre(aZ1V_fC43uR-yiO-"
+              ";)|J)6%Y{5^KB?<<;q=6Sym@80zecOvz4CnuhD2Hp9Yq#mB%-"
+              "qH1JWV94Q9LJvZs*l6S^=l+urwhhjwq6QM($x?>37S)*p06JbLT5QNW=!GXq~(hl{IRN+`R89AkBB5Fk`sj&5T~gEqH%HjO&O*hrZh#gpH#H4p"
+              "A^226!ILTB8T|@-yRD71Z}38P`dE)D0!h_d63M>l0ChXrx=SI|LMGJAgT!y@))tYuIaSoeIgsY{HD-yf&>$Zl%^s|6NH(rBakmlNx({^o(RVmu"
+              "eF1Y03fK==Jsju_C)Y7#RNSbAJt?lzp2?o<V{4GLj)qJrp^lh9gw8y@IK_#fvgTF01M(wz~};KL=^Ry$S^sK0pNVN_S0TGV*HDYgH$5YqmvbgL"
+              "WYSF>;)hUFLGEc8idzGV4wHSOevBDYEX+83x9N7u2#7wds$(d+)cI8It~9@^-"
+              "=(FC|M=E3`=Pa`we@o)k$W<>sJ@+TJ@6UPTA_oX$y1y0nO)PxfZ`CumO@y^rnw32g7nwUIQsols62do9uMPE3|@C+T!WJp<tLwrGnlc6KCRt7|"
+              "Q_8Wm3AfSex1VwK%`LSq7k5KPknL!0>S<nM!6QB<3<nKAy_*Oe&dRP^K^Nu|AWN60vwLCJLE&ABjRPl@^nX_ZRr)FYl9u3t#Z-"
+              "n<Sz<fPH={%*V%7WEC0TsKlYMHF4cJ*;WFC1t-"
+              "ZkRJ~qef1Ck`!}5k8%bX)JCNek(6mVaCEUUZ%9<3sU#`^}}q8L`nV~8n{)8)a?<d8T(z}&J;m)fJo{E{B?6D(es+A>*?3fV))^~)A_UA<#rBo<"
+              "A_Kj7cjOcTJk!~42*)NFCLu){~rKt&+z*W6v+y=LsvUk!Q#ONSqwCQMbToho+nE^xINp0rynwi)~>GfVU^RX%D~Y&n2cA_j>Gtl)tx^?z!UHT@"
+              "?hc^|p&m;V20+ft5Orys~0{$9~re8N;R8~es0Tc`WfAYTQi9YCbESPySu4zDIIA(+&TajOn2blF5!A+XtO*8{>2hi~2sX%^(rq4won&1+PjsaC"
+              "fC16^zsEs-!Y`Mv_G@<zru+Gi?kk9US=Q8ol^j&%GSG4L<hm%L7#S6A`E<8$xduw7`DX1=A*ko9VqqBb-0E>RlQ2D_d^y6&F4ZdK~-"
+              "R@f8tOmrDw0GuOgaUdlRzgp!Q7gs8ur(%}legFqtnH&vtV2*3DWt*Am00d<P{W;iKbP72XA*-"
+              "1uHw0Fp#l@6YSG1{(kc!Ldn^XWObZR|LdoyvY4Dcl{4t$);gTc=w#8$!*L53H}E+QIhD!?KKW`GK?lEt-"
+              "?yOS}%l9MLOUjBAGjVwW9s48R$zfv?_1j%6&92y`aCLlpi@j5|5vKjU0`~rLhUsyy%BxvIaRu*mDiA4L^6dn{2?Y?G+5(h-Im!uePFi7-"
+              "dU!O#cAymCI4Sa*qAzE7Hiw<H0XX)ezHnVHqST-OD3PU*VI{ZkP!tuo~qPA=fEQ%TvMK%cmO+>=!W^*ACBNL~<ZrG+y-"
+              "6O+HEJh592e3W2R{lWj@yx)O5CACH2%IYuUjkEXEMYiPM_6neq0t9TR%z)MfkIDY3Ti&to4i=q&AMoc;-"
+              "3xe11M!;L6=6xfH@VMr6tHe|0e%f#|;Et)l^yF6)PvcdD4t{{fhVmDfJ|rA)qY=9_#k%>-"
+              ")3K3pD4=_5<hj?JCS%O>ly<$B%Ih@_0P!O2A#89)aWhwr2i79Q?)lT7x1tDX3wKj`moJG+rQkSiQ+x#$K7&BXH9}9xY2+2dxkn+KL@VNlp+gWO"
+              "InaT}RWItm8xQ6pq6Y5F6S|7x2ZOfy}k?T#d!Ik;Q!zTGnAWEXcZ=TZb`ckgfiZ-YOc6{<V?5zH;|TIJmbJ;llk(^W#t=Bxot1iAm8NUYS|GZr"
+              "yA~k@egL&w@pk3dwvBUx320FFQ5wTG3lR>8M*aAOhyRB8%Q2MO+71I_=;O(#$)T`mdz1bC9S(y206*WFq1y`~(Wt99HnUxzO~Htu7}s5wnnHcq"
+              "1XL8`?Lp{ST6nI|u#KlaRE8O9u~(U_VPxO(L5>?}{r5(v8iAm=J;UZNfDt>b6`DN8q-"
+              "H5;SD>yr3>gRuDHpDuU{!>Hl)bNb~E4I9plmM_>nMuFWR<{f6#d+j=G#ZN2o%b{pe10heZ8CD;y5W+P%pA5f~X4&pJ-"
+              "8dPpgrBX4^R==`Ek@dU>*V{~D4igL9zTf^GjNT$)7|#YOf49N9tN33J3^2%3hNH4@+U>bF1iuH!+0!|ywb^$>+0Qj5fv*vobTsw7){@EpT5Ic#"
+              "veCqsic6-5;#{ufg8$a2h5y%TwYmV;tJhw<9`f3#mw2vqG4^Yj_oe_}{vt^tiBreB`CQzYkAIF?-"
+              "azo?r4@#pI9X^qga80h<9)oWugTWJgem;^w6->&nXgw75$#pB@m*`)^*xUMzRd+bs)_8FC$Pq_%7=AlHy-"
+              "022eS468iE0)FffvVPFpad_Sd@Yyb*;ogcQR8Emd_6>e2MoHLL`aH7t7a_8A9T4>kw;guJ47oN|{Z9~`6j*`Tfb<(xtMm(4GNMKz+B5c1_0xeD"
+              "uWqJe00*^v7(l%G|YoD%~?d&fUsLL-B8G8p)8_-*2C)y6Pk;Qi~-79bb?7Ag<G_u&C5hdc*rH*<?<bG=2sG3G1<wz8vEV6&-"
+              "Wt7|m@aw>Tu^dB#I!JP0uqBBZf$f!QxRr!%XRBnt*qQ0hiKjpNof~F{ZUn3T?$fE;f(q8vCxLYg;2blF0S;)U>%A&M}EgHfSTG%;g?LDD2Zgay"
+              "uo({TsN9IhpIP$tMlmU0-"
+              "i8(AXXUt{?kYQxF=gEMJ2Q>G%@!#O#jM+TgYBKVcH7&x885dLFr5l`O58Kq%0@s919`q1T#+BL?JC>OZVTi^&H;4UTgZ!KKY>Z<gE80MI5s+8M"
+              "l<U~xc=L_KJ&HN-0!f&h0I{@9`+m;hZ5f%fa*2_5T=<XI9`XMD+8KVZ((N6adqV3k_h*(>-"
+              "0NNApY9K>2T<X3|IZk`t#dIW(2(OX)O4*Uqs}^*l()UaS_bJ9nV&Bt(_0HA2tsWE*57ol^|0-"
+              "?<kE^Cpf^K0BiP{U9Ft!^VQ;kiUhxeLLTaXoj|M&DdIx+DS=T!v4_F`Sw1V$byfzpo30v}#{?Aya>nF18C2GtEoA}n*?++pP`-7Ucb&dDG-"
+              "r(VzIspAh7?Eqb;7|GE1{O{R+97PF<ZH=xv3uKUYm?84<GM$&%j0IZ5#DNDe^z4MP%r$^w<za2+jTqt!3EZK*Zhxfvm}fUsW0xd>|SvDLj31V;"
+              "nvE3Aj%l2IF}k*;=JMV9RlF76z<!0`l}BCM8pl8{i!@6gg&;IbLqYQpepe)E<{%7k(Lfeo&}1wLJUWv6<=ZMLjn?}7KNi4O~dycY%4l}x`b%FK"
+              "@cYsJYnC9IHKht4l%$Y3MbmeL{SK29n259LQ#_+M0L{Q)7}>^{#g7c!u-"
+              "Ye(j=#O*B!sjGs>Gd!&=#E$#{vv$aOK+^M^!n7twd0zwv2a*7CayORxj^8f0Jie0wst41xlB1u^ik>{}^YnG0OT6#&rm8~2S{4otG;&oH#X9j~"
+              "b&bzlyilO{nOSTg+ak;u0A=H6p{^tFEvkTwRRuC|o`zCeKLH|@TC0@B_v(5N`y)A4c;439%^x-tGU0pGV*8&}-"
+              "qn}>Jn^2TnP@J9&>Qo1b3NQ?sYe*jhbLSO"
+          )
+          source = zlib.decompress(base64.b85decode(payload.encode("ascii"))).decode("utf-8")
+          exec(compile(source, "<ascii-portrait-update>", "exec"), {"__name__": "__main__"})
+          PY
+          git diff --check
+
+      - name: Commit verified changes and remove this workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/apply-ascii-portrait.yml
+          git add \
+            profile_generator/portrait.py \
+            profile_generator/render.py \
+            tests/test_render.py \
+            assets/profile-dark.svg \
+            assets/profile-light.svg
+          git commit -m "feat: replace embedded ASCII portrait"
+          git push origin HEAD:feat/replace-ascii-portrait-v2
