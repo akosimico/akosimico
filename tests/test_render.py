@@ -8,6 +8,7 @@ from profile_generator.render import (
     ASCII_FONT_SIZE,
     ASCII_GUTTER,
     ASCII_LINE_HEIGHT,
+    ASCII_RENDER_WIDTH,
     ASCII_START_Y,
     ASCII_X,
     CARD_HEIGHT,
@@ -83,24 +84,25 @@ class RenderTests(unittest.TestCase):
             self.assertNotIn("image", tags)
 
     def test_embedded_ascii_portrait_matches_the_approved_artwork(self):
-        self.assertEqual(len(ASCII_PORTRAIT), 55)
+        self.assertEqual(len(ASCII_PORTRAIT), 72)
         self.assertEqual({len(line) for line in ASCII_PORTRAIT}, {100})
         self.assertEqual(
             hashlib.sha256(portrait_bytes()).hexdigest(),
-            "81f21b4f2ec1a214548fed974a258a15431e7bca0b19f30290dc72bedc956d41",
+            "03a5d683e2d29b0a05bf62d76b567f21e620fe9585e607d5e403f92a13261f82",
         )
 
     def test_ascii_portrait_fits_the_terminal_panel(self):
-        estimated_right_edge = ASCII_X + max(map(len, ASCII_PORTRAIT)) * ASCII_FONT_SIZE * 0.62
-        estimated_bottom = ASCII_START_Y + (len(ASCII_PORTRAIT) - 1) * ASCII_LINE_HEIGHT
-        self.assertLessEqual(estimated_right_edge, DIVIDER_X - ASCII_GUTTER)
-        self.assertLessEqual(estimated_bottom, CARD_HEIGHT - 30)
+        portrait_right_edge = ASCII_X + ASCII_RENDER_WIDTH
+        portrait_bottom = ASCII_START_Y + (len(ASCII_PORTRAIT) - 1) * ASCII_LINE_HEIGHT
+        self.assertEqual(DIVIDER_X - portrait_right_edge, ASCII_GUTTER)
+        self.assertEqual(DIVIDER_X, 480)
+        self.assertLessEqual(portrait_bottom, CARD_HEIGHT - 30)
 
     def test_svg_preserves_all_ascii_rows(self):
         root = ET.fromstring(render_svg(self.make_stats(), "dark"))
         ascii_text = next(element for element in root.iter() if element.attrib.get("class") == "ascii")
         lines = list(ascii_text)
-        self.assertEqual(len(lines), 55)
+        self.assertEqual(len(lines), 72)
         self.assertEqual(lines[0].text, ASCII_PORTRAIT[0])
         self.assertEqual(lines[-1].text, ASCII_PORTRAIT[-1])
 
