@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Lucifer Rodstark GitHub profile identity and aggregate account statistics</title>
+  <desc id="desc">ASCII portrait, enterprise systems identity, and aggregate statistics for every repository accessible to the authenticated account.</desc>
+  <defs>
+    <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0e1118"/>
+      <stop offset="1" stop-color="#090b10"/>
+    </linearGradient>
+    <radialGradient id="accent-glow" cx="0.12" cy="0.2" r="0.75">
+      <stop offset="0" stop-color="#6d28d9" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#6d28d9" stop-opacity="0"/>
+    </radialGradient>
+    <style>
+      text { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; white-space: pre; }
+      .ascii { fill: #b7a7ff; font-size: 15px; font-weight: 600; }
+      .header { fill: #f0f3f6; font-size: 19px; font-weight: 700; }
+      .section { fill: #768390; font-size: 15px; font-weight: 600; }
+      .key { fill: #ff5d73; font-size: 16px; font-weight: 700; }
+      .value { fill: #c7b8ff; font-size: 16px; font-weight: 500; }
+      .muted { fill: #768390; font-size: 13px; }
+    </style>
+  </defs>
+  <rect width="1200" height="560" rx="22" fill="#090b10"/>
+  <rect x="10" y="10" width="1180" height="540" rx="18" fill="url(#panel-gradient)" stroke="#2b3140" stroke-width="2"/>
+  <rect x="10" y="10" width="1180" height="540" rx="18" fill="url(#accent-glow)"/>
+  <circle cx="34" cy="30" r="5" fill="#ff5d73"/>
+  <circle cx="52" cy="30" r="5" fill="#c7b8ff" opacity="0.78"/>
+  <circle cx="70" cy="30" r="5" fill="#768390" opacity="0.72"/>
+  <text class="ascii" aria-hidden="true">
+      <tspan x="30" y="48">                  *++</tspan>
+      <tspan x="30" y="66">               **+-----=*</tspan>
+      <tspan x="30" y="84">             +***+**##*+==</tspan>
+      <tspan x="30" y="102">            *#*+*#*####**+-</tspan>
+      <tspan x="30" y="120">           #*#####*+==+*##++</tspan>
+      <tspan x="30" y="138">           ###*=.........+#*</tspan>
+      <tspan x="30" y="156">           %%#:...........+*</tspan>
+      <tspan x="30" y="174">           *#-.............*</tspan>
+      <tspan x="30" y="192">           --..:::.....:...-</tspan>
+      <tspan x="30" y="210">           -:...-:.....-....</tspan>
+      <tspan x="30" y="228">            :..............-</tspan>
+      <tspan x="30" y="246">             :.............</tspan>
+      <tspan x="30" y="264">             +............-</tspan>
+      <tspan x="30" y="282">            #%+...:......:</tspan>
+      <tspan x="30" y="300">          #%%@%*:.......*+</tspan>
+      <tspan x="30" y="318">      *###%%%@%%%*-...-#%%###</tspan>
+      <tspan x="30" y="336">   #######%%%%@@%%%#+#%%%%#%###**</tspan>
+      <tspan x="30" y="354"> ##########%%%%%%%*--=%%%%%%########</tspan>
+      <tspan x="30" y="372">  #######%%##%%%%%*..*%%%%%%%%###%%%</tspan>
+      <tspan x="30" y="390">   #######%%#%%%%%%-.%%%%%%%%%%%%%%%</tspan>
+      <tspan x="30" y="408">   %%%%####%%%%%%%*:.=%%%%%%%%%%%%%%</tspan>
+      <tspan x="30" y="426">    %%%%%%%%%%%%%%*:..#%%%%%%%%%%%%@%</tspan>
+      <tspan x="30" y="444">    %%%%%%%%%%%%%%*...*%%%%%%%%%%%@@%</tspan>
+      <tspan x="30" y="462">     %%%%%%%%%%%%%*:..+%%%%%%%%%%@@@%</tspan>
+      <tspan x="30" y="480">     @%%%%%%%%%%%%*:..=%%%%%%%@@@@@@%</tspan>
+  </text>
+  <line x1="405" y1="30" x2="405" y2="528" stroke="#2b3140" stroke-width="1"/>
+  <text>
+    <tspan x="430" y="38" class="header">lucifer@rodstark :: LUCY-ID/ARCH-01</tspan>
+    <tspan x="430" y="50" class="section">——————————————————————————————————————————————————</tspan>
+      <tspan x="430" y="66" class="key">ID</tspan><tspan x="570" y="66" class="value" id="id_data">LUCY-ARCH-01</tspan>
+      <tspan x="430" y="94" class="key">Alias</tspan><tspan x="570" y="94" class="value" id="identity_data">Lucifer Rodstark, Ph.D.</tspan>
+      <tspan x="430" y="122" class="key">Class</tspan><tspan x="570" y="122" class="value" id="class_data">Enterprise Software Architect</tspan>
+      <tspan x="430" y="150" class="key">Kernel</tspan><tspan x="570" y="150" class="value" id="kernel_data">Full Stack .NET / Cloud / AI</tspan>
+      <tspan x="430" y="178" class="key">Runtime</tspan><tspan x="570" y="178" class="value" id="runtime_data">Enterprise · Agentic · Research</tspan>
+      <tspan x="430" y="206" class="key">Protocol</tspan><tspan x="570" y="206" class="value" id="protocol_data">Plan → Design → Build → Verify</tspan>
+      <tspan x="430" y="226" class="section">— ACCOUNT COVERAGE —————————————————————————————</tspan>
+      <tspan x="430" y="256" class="key">Repositories</tspan><tspan x="570" y="256" class="value" id="repo_total">—</tspan>
+      <tspan x="430" y="284" class="key">Visibility</tspan><tspan x="570" y="284" class="value" id="visibility_data">—</tspan>
+      <tspan x="430" y="312" class="key">State</tspan><tspan x="570" y="312" class="value" id="state_data">—</tspan>
+      <tspan x="430" y="340" class="key">Organizations</tspan><tspan x="570" y="340" class="value" id="organization_data">—</tspan>
+      <tspan x="430" y="368" class="key">Repo size</tspan><tspan x="570" y="368" class="value" id="size_data">—</tspan>
+      <tspan x="430" y="396" class="key">Contributions</tspan><tspan x="570" y="396" class="value" id="commit_data">—</tspan>
+      <tspan x="430" y="424" class="key">Signals</tspan><tspan x="570" y="424" class="value" id="signal_data">—</tspan>
+      <tspan x="430" y="452" class="key">Coverage</tspan><tspan x="570" y="452" class="value" id="coverage_data">PENDING_AUTHENTICATED_SYNC</tspan>
+      <tspan x="430" y="480" class="key">Last sync</tspan><tspan x="570" y="480" class="value" id="generated_data">2026-08-03 00:00 UTC</tspan>
+  </text>
+  <text x="30" y="532" class="muted">ASCII source transformed locally · original portrait not stored</text>
+</svg>

@@ -1,0 +1,117 @@
+import unittest
+import xml.etree.ElementTree as ET
+
+from profile_generator.models import InventoryStats, ProfileStats
+from profile_generator.render import render_all, render_svg
+
+
+class RenderTests(unittest.TestCase):
+    def make_stats(self, coverage="COMPLETE"):
+        return ProfileStats(
+            schema_version=1,
+            login="itsmfknlucy",
+            generated_at="2026-08-03T04:17:00Z",
+            account_created_at="2018-03-01T00:00:00Z",
+            commit_contributions=1234,
+            restricted_contributions=0,
+            followers=42,
+            coverage=coverage,
+            inventory=InventoryStats(
+                total=18,
+                owned=6,
+                organization_member=12,
+                collaborator=0,
+                public=1,
+                private=17,
+                internal=0,
+                archived=0,
+                forks=0,
+                disabled=0,
+                organizations=3,
+                resource_owners=4,
+                stars_owned=7,
+                size_kib=1024 * 1024,
+            ),
+        )
+
+    def test_both_themes_are_valid_svg_with_stable_ids(self):
+        rendered = render_all(self.make_stats())
+
+        self.assertEqual(set(rendered), {"dark", "light"})
+        for svg in rendered.values():
+            root = ET.fromstring(svg)
+            self.assertTrue(root.tag.endswith("svg"))
+            ids = {element.attrib.get("id") for element in root.iter()}
+            for expected_id in (
+                "identity_data",
+                "repo_total",
+                "commit_data",
+                "coverage_data",
+                "generated_data",
+            ):
+                self.assertIn(expected_id, ids)
+            tags = {element.tag.rsplit("}", 1)[-1] for element in root.iter()}
+            self.assertNotIn("script", tags)
+            self.assertNotIn("foreignObject", tags)
+            self.assertNotIn("image", tags)
+
+    def test_dynamic_text_is_xml_escaped(self):
+        svg = render_svg(self.make_stats("COMPLETE & VERIFIED <SAFE>"), "dark")
+        root = ET.fromstring(svg)
+        coverage = next(element for element in root.iter() if element.attrib.get("id") == "coverage_data")
+
+        self.assertEqual(coverage.text, "COMPLETE & VERIFIED <SAFE>")
+        self.assertIn("COMPLETE &amp; VERIFIED &lt;SAFE&gt;", svg)
+
+    def test_pending_bootstrap_does_not_present_zeroes_as_verified_metrics(self):
+        stats = ProfileStats(
+            schema_version=1,
+            login="itsmfknlucy",
+            generated_at="2026-08-03T04:17:00Z",
+            account_created_at="2018-03-01T00:00:00Z",
+            commit_contributions=0,
+            restricted_contributions=0,
+            followers=0,
+            coverage="PENDING_AUTHENTICATED_SYNC",
+            inventory=InventoryStats(
+                total=0,
+                owned=0,
+                organization_member=0,
+                collaborator=0,
+                public=0,
+                private=0,
+                internal=0,
+                archived=0,
+                forks=0,
+                disabled=0,
+                organizations=0,
+                resource_owners=0,
+                stars_owned=0,
+                size_kib=0,
+            ),
+        )
+
+        root = ET.fromstring(render_svg(stats, "dark"))
+        by_id = {element.attrib.get("id"): element for element in root.iter()}
+
+        self.assertEqual(by_id["repo_total"].text, "—")
+        self.assertEqual(by_id["commit_data"].text, "—")
+        self.assertEqual(by_id["coverage_data"].text, "PENDING_AUTHENTICATED_SYNC")
+
+    def test_source_assets_and_private_identity_fields_are_not_embedded(self):
+        svg = render_svg(self.make_stats(), "dark")
+
+        for forbidden in (
+            "source-portrait.png",
+            "legal-identity-placeholder",
+            "private-email@example.invalid",
+            ".png",
+        ):
+            self.assertNotIn(forbidden, svg)
+        self.assertIn("Lucifer Rodstark, Ph.D.", svg)
+        self.assertIn("LUCY-ARCH-01", svg)
+
+
+
+if __name__ == "__main__":
+    unittest.main()

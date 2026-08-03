@@ -1,0 +1,110 @@
+name: Profile telemetry
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 4 * * *"
+  push:
+    branches:
+      - production
+    paths:
+      - "profile_generator/**"
+      - "tests/**"
+      - ".github/workflows/profile-stats.yml"
+      - "docs/profile-generator.md"
+      - "README.md"
+      - "SECURITY.md"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profile-telemetry-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Collect, validate, and publish aggregate telemetry
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PROFILE_LOGIN: itsmfknlucy
+      PROFILE_REQUIRED_OWNERS: itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC
+      TELEMETRY_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' }}
+
+    steps:
+      - name: Check out production
+        uses: actions/checkout@v6
+        with:
+          ref: production
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Run unit and contract tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Compile Python sources
+        run: python -m compileall -q profile_generator tests
+
+      - name: Preserve bootstrap assets without telemetry credentials
+        if: env.TELEMETRY_CONFIGURED != 'true'
+        run: echo "No primary telemetry credential is installed; preserving current generated assets."
+
+      - name: Generate authenticated aggregate telemetry
+        if: env.TELEMETRY_CONFIGURED == 'true'
+        env:
+          PROFILE_STATS_TOKENS: |
+            ${{ secrets.PROFILE_STATS_TOKEN }}
+            ${{ secrets.PROFILE_STATS_TOKENS }}
+            ${{ secrets.PROFILE_STATS_TOKEN_RODSTARK }}
+            ${{ secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA }}
+            ${{ secrets.PROFILE_STATS_TOKEN_FROSTBYTE }}
+            ${{ secrets.PROFILE_STATS_TOKEN_EXTERNAL_1 }}
+            ${{ secrets.PROFILE_STATS_TOKEN_EXTERNAL_2 }}
+        run: python -m profile_generator
+
+      - name: Validate generated assets and repository hygiene
+        if: env.TELEMETRY_CONFIGURED == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          for path in (Path("assets/profile-dark.svg"), Path("assets/profile-light.svg")):
+              root = ET.parse(path).getroot()
+              if root.tag.rsplit("}", 1)[-1] != "svg":
+                  raise SystemExit(f"{path} does not have an SVG root")
+
+          payload = json.loads(Path("generated/profile-stats.json").read_text(encoding="utf-8"))
+          if payload.get("coverage") != "COMPLETE":
+              raise SystemExit("generated profile coverage is not COMPLETE")
+          if payload.get("repositories", {}).get("total", 0) < 1:
+              raise SystemExit("generated repository inventory is empty")
+          PY
+          git diff --check
+          if git grep -nE '(github[_]pat_[A-Za-z0-9_]{20,}|gh[pousr]_[A-Za-z0-9]{20,})'; then
+            echo "A GitHub access-token pattern was found in tracked content." >&2
+            exit 1
+          fi
+
+      - name: Commit changed generated outputs
+        if: env.TELEMETRY_CONFIGURED == 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/profile-dark.svg assets/profile-light.svg generated/profile-stats.json
+          if git diff --cached --quiet; then
+            echo "Profile telemetry is already current."
+            exit 0
+          fi
+          git commit -m "chore: refresh profile telemetry"
+          git push origin HEAD:production

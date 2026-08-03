@@ -1,272 +1,97 @@
-<p align="center">
-  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/profile-banner.png" alt="LucyAI · Agentic Systems · Enterprise Software Architecture" width="100%" />
-</p>
+<a href="https://github.com/itsmfknlucy">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/production/assets/profile-dark.svg">
+    <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/production/assets/profile-light.svg" alt="Lucifer Rodstark identity card and aggregate GitHub account telemetry" width="100%">
+  </picture>
+</a>
 
 <h3 align="center">Lucifer Rodstark, Ph.D.</h3>
 
 <p align="center">
-  Lucy · Enterprise Software Architect · Lead Full Stack .NET Engineer · Cloud & AI Solutions Engineer
+  Lucy · Enterprise Software Architect · Lead Full Stack .NET Engineer · Cloud & AI Systems Engineer
 </p>
 
 <p align="center">
-  Building enterprise-grade software, AI-powered systems, and agentic operating structures for software engineering, research, and business execution.
+  Architecture before acceleration. Verification before confidence. Systems before scattered tools.
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/itsmfknlucy/itsmfknlucy/refs/heads/production/assets/lucy.png" alt="Lucy" width="10%" />
-</p>
-
-<p align="center">
-  <a href="https://github.com/itsmfknlucy">GitHub</a>&nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/Rodstark-Global-Solutions-Inc">Rodstark Global Solutions</a>&nbsp;&nbsp;·&nbsp;&nbsp;
-  <a href="https://github.com/Rodstark-Global-Solutions-Inc/Agentics">Agentics</a>
+  <a href="https://github.com/Rodstark-Global-Solutions-Inc/Agentics">Agentics</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://github.com/NexGen-LAVA-Inc">NexGen LAVA</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://github.com/FrostByte-Constructs-LLC">FrostByte Constructs</a>
 </p>
 
 ---
 
-I build systems designed to survive real production pressure: enterprise applications, integrations, payroll and workforce platforms, AI-assisted engineering workflows, and agentic operating systems that coordinate specialized roles instead of relying on one overloaded assistant.
+## Systems
 
-My work sits at the intersection of enterprise software architecture, full-stack .NET engineering, cloud infrastructure, legacy modernization, AI systems, and agentic execution.
+I design and build software intended to survive real production pressure—enterprise platforms, distributed integrations, workforce and payroll systems, AI-assisted engineering workflows, and agentic operating structures with explicit roles, memory, gates, and verification loops.
 
-The current focus is simple:
+The work converges across five domains:
 
-> Build software and AI systems that execute with discipline, memory, verification, and scale.
+- **Enterprise architecture** — secure, maintainable, scalable systems aligned with business constraints.
+- **Full Stack .NET engineering** — C#, ASP.NET Core, VB.NET, SQL Server, Angular, APIs, and production integration.
+- **Cloud and modernization** — Azure, containers, CI/CD, service decomposition, and legacy-to-modern migration paths.
+- **AI and agentic systems** — LLM integration, retrieval, orchestration, context engineering, and controlled autonomous execution.
+- **Research and operating systems** — structured workflows for academic research, company operations, software delivery, and governance.
 
-## Current Direction
+## Engineering Surface
 
-I’m building an interconnected ecosystem around enterprise software, intelligent automation, and agentic operating systems.
-
-- **Enterprise Software Architecture** — scalable, secure, maintainable business systems.
-- **Full Stack .NET Engineering** — production-grade applications using C#, .NET, SQL Server, Angular, APIs, and cloud services.
-- **Legacy Modernization** — VB6, VB.NET, C# .NET, MSSQL, integrations, service layers, and migration paths.
-- **Agentic Engineering** — role-based AI workflows for planning, coding, QA, security, performance, database work, and documentation.
-- **Academic Research Systems** — structured thesis, dissertation, citation, methodology, and research integrity workflows.
-- **Company Operating Systems** — agentic teams for HR, marketing, finance, risk, multimedia, software, cybersecurity, and operations.
-- **AI-Native Personal Platforms** — LucyAI, Agentics, and next-generation portfolio systems.
-
-## The Stack
-
-| Layer | Focus | What it does |
-|------|-------|--------------|
-| **Control** | Agentic OS | Orchestrates specialized agents, task routing, verification gates, approval boundaries, and execution discipline. |
-| **Architecture** | Enterprise Systems | Designs maintainable, scalable, secure software systems across real business domains. |
-| **Engineering** | Full Stack .NET | Builds production applications using C#, .NET, ASP.NET Core, VB.NET, SQL Server, Angular, APIs, and cloud services. |
-| **Integration** | Legacy + Modern Systems | Connects older enterprise platforms with modern services, APIs, databases, pipelines, and cloud infrastructure. |
-| **Automation** | DevOps + CI/CD | Uses GitHub, Azure DevOps, pipelines, deployment workflows, source control discipline, and environment governance. |
-| **Intelligence** | AI + Agentic Workflows | Creates multi-agent workflows with planning, context, memory, verification, and controlled execution. |
-| **Research** | Academic OS | Structures thesis and dissertation workflows with source validation, methodology review, citation control, and academic integrity. |
-| **Business** | Company OS | Models company operations as an agentic operating system across departments and execution lanes. |
-
-## Agentic Systems
-
-My agentic work is based on one core principle:
-
-> Complex work should not be handled by one generic assistant.  
-> It should be routed through specialized roles with clear responsibilities, gates, and verification loops.
-
-Common role structure:
-
-```txt
-Orchestrator
-Planner
-Software Architect
-Senior Developer
-QA Engineer
-Security Engineer
-Performance Engineer
-Database Architect
-Research Lead
-Business Strategist
-Risk Analyst
-DevOps Engineer
-Documentation Engineer
-```
-
-The goal is not just “AI agents.”
-
-The goal is controlled execution:
-
-```txt
-read context → plan → design → implement → verify → document → improve
-```
-
-## Featured Systems
-
-### Agentics
-
-A collection of agentic setups for software engineering, academic research, enterprise operations, and company-scale workflows.
-
-- Software Engineering Agentic Team
-- Enterprise Company Agentic OS
-- Academic Research Agentic OS
-- Integration Team Workflow
-- Brand OS / Website OS
-- Agentic workflows for coding, QA, architecture, research, and business execution
-
-### LAVA Workforce .NET
-
-An offline/LAN workforce, payroll, attendance, HR, reporting, and licensing system for SMEs.
-
-Core areas:
-
-- employee management
-- attendance
-- shifts
-- holidays
-- leaves
-- loans
-- payroll
-- payslips
-- audit logs
-- role-based permissions
-- offline licensing
-- SQL Server-backed operations
-
-### Academic Research OS
-
-A role-based AI workflow for thesis, dissertation, academic research, source validation, methodology review, literature review, and final document production.
-
-Built around:
-
-- research planning
-- topic refinement
-- source legitimacy
-- citation integrity
-- methodology control
-- gap analysis
-- chapter-by-chapter execution
-- final review and defense readiness
-
-### Company Agentic OS
-
-A full-company operating model covering:
-
-- executive strategy
-- software engineering
-- HR
-- finance
-- marketing
-- sales
-- cybersecurity
-- legal/risk
-- operations
-- multimedia
-- customer support
-- documentation
-- process improvement
-
-## Engineering Stack
-
-```txt
+```text
 C# · .NET · ASP.NET Core · VB.NET · WinForms · SQL Server
-Angular · TypeScript · JavaScript · HTML · CSS · REST APIs · SOAP
-Azure · Azure DevOps · GitHub · CI/CD · IIS · Docker · Service Fabric
-Microservices · Enterprise Integrations · Legacy Modernization
-Cybersecurity · Performance Optimization · Database Architecture
-AI Agents · Prompt Engineering · Context Engineering · Workflow Orchestration
+Angular · TypeScript · JavaScript · HTML · CSS · REST · SOAP
+Azure · Azure DevOps · GitHub Actions · Docker · Kubernetes · IIS
+Microservices · Distributed Systems · Enterprise Integration
+Security Architecture · Performance Engineering · Database Design
+LLM Integration · RAG · AI Agents · Context & Workflow Orchestration
 ```
 
-## What I Build
+## Controlled Execution
 
-I usually work on systems where correctness matters:
-
-- enterprise-grade internal platforms
-- payroll and attendance systems
-- insurance and policy system integrations
-- finance and banking-related applications
-- healthcare staffing platforms
-- cloud-native and hybrid systems
-- legacy-to-modern modernization workflows
-- AI-assisted engineering systems
-- agentic operating systems
-- research and academic automation systems
-- portfolio and personal brand platforms
-
-## Operating Philosophy
-
-```txt
-Architecture before acceleration.
-Verification before confidence.
-Context before execution.
-Systems before scattered tools.
-Discipline before scale.
+```text
+context
+  → requirements
+  → architecture
+  → implementation
+  → testing
+  → security and performance review
+  → deployment readiness
+  → documentation
+  → continuous improvement
 ```
 
-AI is useful only when it improves execution quality.
+Complex work is routed through specialized roles rather than pushed through one overloaded assistant:
 
-A good agentic setup should reduce chaos, not create more of it.
-
-## Execution Model
-
-The systems I build usually follow a controlled loop:
-
-```txt
-1. Understand the context
-2. Define the objective
-3. Break down the work
-4. Assign specialized roles
-5. Design the architecture
-6. Implement carefully
-7. Verify aggressively
-8. Document the result
-9. Improve the system
+```text
+Orchestrator · Planner · Architect · Senior Engineer · QA
+Security · Performance · Database · DevOps · Research · Documentation
 ```
 
-For software work, that becomes:
+## Current Build Axis
 
-```txt
-requirements → architecture → implementation → testing → security review → performance review → deployment readiness
+- **Agentics** — modular agentic systems for engineering, enterprise operations, research, integration, and long-running autonomous workflows.
+- **LAVA Workforce** — workforce, HRIS, attendance, payroll, statutory compliance, reporting, licensing, and multi-tenant operations.
+- **LucyAI / LucyOS** — AI-native personal systems, engineering utilities, knowledge interfaces, portfolio infrastructure, and interactive experiences.
+- **Research OS** — source validation, methodology control, citation integrity, gap analysis, manuscript production, and defense readiness.
+- **Company OS** — coordinated execution across engineering, HR, finance, marketing, sales, cybersecurity, legal/risk, and operations.
+
+## Operating Principles
+
+```text
+Plan before execution.
+Boundaries before complexity.
+Evidence before certainty.
+Security before exposure.
+Verification before completion.
 ```
 
-For research work, that becomes:
+## Account Telemetry
 
-```txt
-topic → problem statement → literature review → methodology → analysis → findings → validation → final manuscript
-```
+The identity card is regenerated by GitHub Actions from the authenticated account inventory. It deduplicates every repository accessible through personal ownership, direct collaboration, and organization membership—including public, private, and internal repositories—while publishing aggregate counts only.
 
-For business operations, that becomes:
-
-```txt
-strategy → department routing → execution workflow → risk control → output verification → reporting
-```
-
-## Current Build Themes
-
-- Agentic OS design
-- AI-assisted software engineering
-- enterprise architecture
-- cloud-native modernization
-- .NET engineering systems
-- legacy system integration
-- academic research automation
-- company-scale AI workflows
-- portfolio and brand systems
-- intelligent documentation systems
-
-## GitHub Direction
-
-This profile is focused on building and publishing:
-
-- Agentic operating systems
-- Enterprise software architecture patterns
-- Full Stack .NET engineering systems
-- Academic research automation workflows
-- Company-scale AI execution systems
-- LucyAI platform experiments
-
-## Organizations
-
-**[Rodstark Global Solutions, Inc.](https://github.com/Rodstark-Global-Solutions-Inc)**  
-Software, AI systems, enterprise solutions, and agentic operating structures.
-
-**[NexGen LAVA, Inc.](https://github.com/NexGen-LAVA-Inc)**  
-SaaS platforms, management systems, IT solutions, and enterprise-grade business applications.
-
-**[FrostByte Constructs LLC](https://github.com/FrostByte-Constructs-LLC)**  
-Discord bots, APIs, automation tools, cybersecurity research, and advanced software utilities.
+Private repository names, organization telemetry, branch names, commit messages, URLs, descriptions, and per-repository statistics are never written to this public repository. See the [generator documentation](docs/profile-generator.md) for coverage semantics, authentication setup, and failure guarantees.
 
 ---
 
-<sub>
-Building enterprise software, AI systems, and agentic operating models in public.
-</sub>
+<sub>Building enterprise software, AI systems, and agentic operating models with controlled execution.</sub>
