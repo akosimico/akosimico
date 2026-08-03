@@ -17,6 +17,8 @@ ASCII_X: Final[int] = 20
 DIVIDER_X: Final[int] = 480
 CONTENT_X: Final[int] = DIVIDER_X + 30
 VALUE_X: Final[int] = 850
+CONTENT_FONT_SIZE: Final[int] = 18
+VALUE_FONT_WEIGHT: Final[int] = 600
 ASCII_FONT_SIZE: Final[float] = 6.5
 ASCII_RENDER_WIDTH: Final[int] = 440
 ASCII_GUTTER: Final[int] = 20
@@ -140,9 +142,9 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
       .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 500; }}
-      .section {{ fill: {colors['muted']}; font-size: 15px; font-weight: 700; }}
-      .key {{ fill: {colors['key']}; font-size: 15px; font-weight: 700; }}
-      .value {{ fill: {colors['value']}; font-size: 15px; font-weight: 500; }}
+      .section {{ fill: {colors['muted']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 700; }}
+      .key {{ fill: {colors['key']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 700; }}
+      .value {{ fill: {colors['value']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: {VALUE_FONT_WEIGHT}; }}
       .positive {{ fill: {colors['positive']}; font-weight: 700; }}
       .negative {{ fill: {colors['negative']}; font-weight: 700; }}
     </style>
