@@ -9,7 +9,7 @@ on:
       - ".github/workflows/check-profile-banner.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   inspect:
@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: "3.13"
       - run: python -m pip install --disable-pip-version-check Pillow==12.2.0
-      - name: Report banner digests
+      - name: Record banner digests
         run: |
           python - <<'PY'
           from hashlib import sha256
@@ -34,8 +34,21 @@ jobs:
           payload = path.read_bytes()
           with Image.open(path) as image:
               rgb = image.convert("RGB")
-              print(f"file_sha256={sha256(payload).hexdigest()}")
-              print(f"pixel_sha256={sha256(rgb.tobytes()).hexdigest()}")
-              print(f"size={rgb.width}x{rgb.height}")
-              print(f"mode={image.mode}")
+              report = "\n".join(
+                  (
+                      f"file_sha256={sha256(payload).hexdigest()}",
+                      f"pixel_sha256={sha256(rgb.tobytes()).hexdigest()}",
+                      f"size={rgb.width}x{rgb.height}",
+                      f"mode={image.mode}",
+                  )
+              ) + "\n"
+          Path(".banner-report.txt").write_text(report, encoding="utf-8")
+          print(report, end="")
           PY
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .banner-report.txt
+          git commit -m "chore: record profile banner digest"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
