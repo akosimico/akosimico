@@ -107,16 +107,36 @@ class CollectorTests(unittest.TestCase):
         self.assertEqual(stats.commit_contributions, 30)
         self.assertEqual(len(client.contribution_calls), 3)
 
-    def test_missing_required_owner_fails_instead_of_publishing_partial_totals(self):
+    def test_missing_required_owner_fails_without_disclosing_owner_name(self):
         client = self.make_client()
 
-        with self.assertRaisesRegex(CollectionError, "required resource owner"):
+        with self.assertRaisesRegex(CollectionError, "required resource owner") as raised:
             collect_profile_stats(
                 [client],
                 expected_login="itsmfknlucy",
-                required_owners={"itsmfknlucy", "Missing-Org"},
+                required_owners={"itsmfknlucy", "Private-Missing-Org"},
                 now=dt.datetime(2026, 3, 1, tzinfo=dt.timezone.utc),
             )
+
+        self.assertNotIn("private-missing-org", str(raised.exception).casefold())
+        self.assertEqual(client.contribution_calls, [])
+
+    def test_repository_floor_rejects_partial_inventory_before_contribution_queries(self):
+        client = self.make_client()
+
+        with self.assertRaisesRegex(
+            CollectionError,
+            "repository inventory contains 3 repositories; minimum required is 4",
+        ):
+            collect_profile_stats(
+                [client],
+                expected_login="itsmfknlucy",
+                required_owners={"itsmfknlucy", "Org-One"},
+                minimum_repositories=4,
+                now=dt.datetime(2026, 3, 1, tzinfo=dt.timezone.utc),
+            )
+
+        self.assertEqual(client.contribution_calls, [])
 
     def test_authenticated_login_must_match_expected_login(self):
         client = self.make_client()

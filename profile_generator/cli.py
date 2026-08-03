@@ -36,6 +36,7 @@ class Config:
     login: str
     required_owners: frozenset[str]
     root: pathlib.Path
+    minimum_repositories: int = 0
 
     @classmethod
     def from_env(
@@ -66,12 +67,22 @@ class Config:
             )
         else:
             required_owners = frozenset({*DEFAULT_REQUIRED_OWNERS, login})
+        raw_minimum_repositories = values.get("PROFILE_MIN_REPOSITORIES", "0").strip() or "0"
+        try:
+            minimum_repositories = int(raw_minimum_repositories)
+        except ValueError as exc:
+            raise ConfigurationError(
+                "PROFILE_MIN_REPOSITORIES must be a non-negative integer"
+            ) from exc
+        if minimum_repositories < 0:
+            raise ConfigurationError("PROFILE_MIN_REPOSITORIES must be a non-negative integer")
         project_root = root or pathlib.Path(__file__).resolve().parents[1]
         return cls(
             tokens=tokens,
             login=login,
             required_owners=required_owners,
             root=project_root,
+            minimum_repositories=minimum_repositories,
         )
 
 
@@ -87,6 +98,7 @@ def run_generation(
         clients,
         expected_login=config.login,
         required_owners=config.required_owners,
+        minimum_repositories=config.minimum_repositories,
     )
     rendered = render_all(stats)
     write_outputs(config.root, stats, rendered)

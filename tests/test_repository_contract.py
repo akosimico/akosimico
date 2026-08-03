@@ -33,6 +33,11 @@ class RepositoryContractTests(unittest.TestCase):
         self.assertIn("secrets.PROFILE_STATS_TOKEN_RODSTARK", workflow)
         self.assertIn("secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA", workflow)
         self.assertIn("secrets.PROFILE_STATS_TOKEN_FROSTBYTE", workflow)
+        self.assertIn("secrets.PROFILE_REQUIRED_OWNERS", workflow)
+        self.assertIn("vars.PROFILE_REQUIRED_OWNERS", workflow)
+        self.assertIn("PROFILE_MIN_REPOSITORIES:", workflow)
+        self.assertIn("vars.PROFILE_MIN_REPOSITORIES", workflow)
+        self.assertIn("'18'", workflow)
         self.assertNotIn("github_pat_", workflow)
         self.assertNotIn("pull_request_target", workflow)
 
@@ -65,6 +70,14 @@ class RepositoryContractTests(unittest.TestCase):
         generation_position = workflow.index("python -m profile_generator")
         self.assertLess(guard_position, tests_position)
         self.assertLess(tests_position, generation_position)
+
+    def test_generator_documentation_describes_repository_floor_and_owner_overrides(self) -> None:
+        documentation = (ROOT / "docs" / "profile-generator.md").read_text(encoding="utf-8")
+
+        self.assertIn("PROFILE_MIN_REPOSITORIES", documentation)
+        self.assertIn("18", documentation)
+        self.assertIn("PROFILE_REQUIRED_OWNERS", documentation)
+        self.assertIn("repository variable", documentation)
 
     def test_workflow_runs_tests_before_generation_and_limits_committed_outputs(self) -> None:
         workflow = WORKFLOW.read_text(encoding="utf-8")

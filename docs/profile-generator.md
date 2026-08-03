@@ -57,9 +57,11 @@ NexGen-LAVA-Inc
 FrostByte-Constructs-LLC
 ```
 
-They are configured through `PROFILE_REQUIRED_OWNERS` in `.github/workflows/profile-stats.yml`. Add every additional organization or user owner whose repositories must be guaranteed. If any required owner is absent, the workflow fails and preserves the last verified SVG files.
+They are configured through `PROFILE_REQUIRED_OWNERS`. The workflow uses the encrypted `PROFILE_REQUIRED_OWNERS` secret first, then the `PROFILE_REQUIRED_OWNERS` repository variable, then its checked-in default. Add every additional organization or user owner whose repositories must be guaranteed. Missing-owner errors report only the number of absent owners, never their names, so private owner identities cannot leak through public Actions logs.
 
-This validation prevents an expired, unapproved, SSO-blocked, or completely missing owner token from silently publishing a lower repository total. It complements—but does not replace—the **All repositories** token setting.
+The authenticated installation audit performed on 2026-08-03 found **18 unique accessible repositories** across the four required resource owners. The workflow therefore sets `PROFILE_MIN_REPOSITORIES` to `18` by default. This second gate detects a token that can see every required owner but only a selected subset of repositories within one of them. Override the floor with the `PROFILE_MIN_REPOSITORIES` repository variable whenever the verified account inventory legitimately changes. A generated inventory below the floor fails before contribution queries and preserves the last verified SVG files.
+
+Required-owner validation and the repository floor prevent expired, unapproved, SSO-blocked, completely missing, or partially selected credentials from silently publishing lower totals. They complement—but do not replace—the **All repositories** token setting.
 
 ## Secret Setup
 
@@ -68,8 +70,10 @@ This validation prevents an expired, unapproved, SSO-blocked, or completely miss
 3. Open the profile repository's **Settings → Secrets and variables → Actions** page.
 4. Set every fine-grained token's repository access to **All repositories** for its selected resource owner.
 5. Add the appropriate repository secrets. Put the primary personal-account token first; use `PROFILE_STATS_TOKENS` for an unlimited newline-separated set of additional tokens when the named slots are insufficient.
-6. Open **Actions → Profile telemetry → Run workflow**.
-7. Confirm the workflow completed and changed `assets/profile-dark.svg`, `assets/profile-light.svg`, and `generated/profile-stats.json`.
+6. In **Settings → Secrets and variables → Actions → Variables**, set `PROFILE_MIN_REPOSITORIES` to the latest independently verified unique repository count. The checked-in default is `18`.
+7. Add `PROFILE_REQUIRED_OWNERS` as either an encrypted secret or repository variable when the required owner list differs from the checked-in default.
+8. Open **Actions → Profile telemetry → Run workflow**.
+9. Confirm the workflow completed and changed `assets/profile-dark.svg`, `assets/profile-light.svg`, and `generated/profile-stats.json`.
 
 Never place a token in a tracked file or workflow input. The generator accepts credentials only through environment variables populated from encrypted repository secrets.
 
@@ -89,6 +93,7 @@ Authenticated generation requires an environment secret:
 ```bash
 export PROFILE_LOGIN="itsmfknlucy"
 export PROFILE_REQUIRED_OWNERS="itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC"
+export PROFILE_MIN_REPOSITORIES="18"
 export PROFILE_STATS_TOKENS="<primary-token>\n<organization-token>"
 python -m profile_generator
 ```
@@ -105,6 +110,7 @@ The generator collects and validates all API data before opening output files. I
 - pagination returns malformed data;
 - duplicate repository IDs contain conflicting owner metadata;
 - a required resource owner is missing;
+- the unique repository count is below `PROFILE_MIN_REPOSITORIES`;
 - affiliation or visibility totals do not reconcile;
 - generated SVG content is not valid XML.
 
@@ -119,7 +125,7 @@ Each destination file is written to a temporary file in the same directory and r
 - **Visibility** — GitHub's `public`, `private`, or `internal` repository visibility.
 - **Repo size** — the sum of GitHub's repository `size` field. It is not source-code LOC.
 - **Contributions** — GitHub profile commit contributions visible to the primary identity token. This metric is not used to establish repository coverage.
-- **Coverage: COMPLETE** — all configured token calls succeeded, aggregate invariants passed, and every required resource owner was represented.
+- **Coverage: COMPLETE** — all configured token calls succeeded, aggregate invariants passed, every required resource owner was represented, and the repository count met the configured floor.
 
 ## Why LOC Is Not Published
 

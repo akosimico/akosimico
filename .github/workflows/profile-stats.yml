@@ -29,7 +29,8 @@ jobs:
     timeout-minutes: 15
     env:
       PROFILE_LOGIN: itsmfknlucy
-      PROFILE_REQUIRED_OWNERS: itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC
+      PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC' }}
+      PROFILE_MIN_REPOSITORIES: ${{ vars.PROFILE_MIN_REPOSITORIES || '18' }}
       TELEMETRY_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' }}
 
     steps:

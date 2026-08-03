@@ -54,6 +54,56 @@ class CliTests(unittest.TestCase):
 
         self.assertEqual(config.tokens, ("token-a", "token-b"))
         self.assertEqual(config.required_owners, frozenset({"itsmfknlucy", "Org-One"}))
+        self.assertEqual(config.minimum_repositories, 0)
+
+    def test_config_parses_repository_floor(self):
+        config = Config.from_env(
+            {
+                "PROFILE_LOGIN": "itsmfknlucy",
+                "PROFILE_STATS_TOKEN": "token-a",
+                "PROFILE_MIN_REPOSITORIES": "18",
+            },
+            root=pathlib.Path("/tmp/profile-root"),
+        )
+
+        self.assertEqual(config.minimum_repositories, 18)
+
+    def test_config_rejects_invalid_repository_floor(self):
+        for value in ("not-an-integer", "-1"):
+            with self.subTest(value=value):
+                with self.assertRaisesRegex(ConfigurationError, "PROFILE_MIN_REPOSITORIES"):
+                    Config.from_env(
+                        {
+                            "PROFILE_LOGIN": "itsmfknlucy",
+                            "PROFILE_STATS_TOKEN": "token-a",
+                            "PROFILE_MIN_REPOSITORIES": value,
+                        },
+                        root=pathlib.Path("/tmp/profile-root"),
+                    )
+
+    def test_run_generation_passes_repository_floor_to_collector(self):
+        config = Config(
+            tokens=("not-a-real-token",),
+            login="itsmfknlucy",
+            required_owners=frozenset({"itsmfknlucy"}),
+            root=pathlib.Path("/tmp/profile-root"),
+            minimum_repositories=18,
+        )
+        stats = self.make_stats()
+
+        with (
+            mock.patch("profile_generator.cli.collect_profile_stats", return_value=stats) as collect,
+            mock.patch("profile_generator.cli.render_all", return_value={"dark": "<svg/>", "light": "<svg/>"}),
+            mock.patch("profile_generator.cli.write_outputs"),
+        ):
+            run_generation(config, client_factory=lambda token: object())
+
+        collect.assert_called_once_with(
+            [mock.ANY],
+            expected_login="itsmfknlucy",
+            required_owners=frozenset({"itsmfknlucy"}),
+            minimum_repositories=18,
+        )
 
     def test_config_representation_redacts_tokens(self):
         config = Config(

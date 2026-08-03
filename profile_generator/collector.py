@@ -32,6 +32,7 @@ def collect_profile_stats(
     *,
     expected_login: str,
     required_owners: Iterable[str],
+    minimum_repositories: int = 0,
     now: dt.datetime | None = None,
 ) -> ProfileStats:
     """Collect complete aggregate statistics or fail before rendering."""
@@ -81,9 +82,20 @@ def collect_profile_stats(
 
     inventory, observed_owners = _build_inventory(merged.values())
     required = {owner.strip().casefold() for owner in required_owners if owner and owner.strip()}
-    missing = sorted(required - observed_owners)
-    if missing:
-        raise CollectionError(f"required resource owner was not represented: {', '.join(missing)}")
+    missing_count = len(required - observed_owners)
+    if missing_count:
+        owner_label = "owner" if missing_count == 1 else "owners"
+        verb = "was" if missing_count == 1 else "were"
+        raise CollectionError(
+            f"{missing_count} required resource {owner_label} {verb} not represented"
+        )
+
+    repository_floor = _non_negative_int(minimum_repositories, "minimum repository count")
+    if inventory.total < repository_floor:
+        raise CollectionError(
+            f"repository inventory contains {inventory.total} repositories; "
+            f"minimum required is {repository_floor}"
+        )
 
     commit_contributions = 0
     restricted_contributions = 0
