@@ -1,0 +1,65 @@
+name: Check profile banner pixels
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - profile-statistics-v3
+    paths:
+      - ".github/workflows/check-profile-banner.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - run: python -m pip install --disable-pip-version-check Pillow==12.2.0
+      - name: Record banner digests
+        env:
+          BANNER_RUN_ID: ${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import os
+          from hashlib import sha256
+          from pathlib import Path
+          from PIL import Image
+
+          path = Path("assets/profile-banner.png")
+          payload = path.read_bytes()
+          with Image.open(path) as image:
+              rgb = image.convert("RGB")
+              report = "\n".join(
+                  (
+                      f"run_id={os.environ['BANNER_RUN_ID']}",
+                      f"file_sha256={sha256(payload).hexdigest()}",
+                      f"pixel_sha256={sha256(rgb.tobytes()).hexdigest()}",
+                      f"size={rgb.width}x{rgb.height}",
+                      f"mode={image.mode}",
+                  )
+              ) + "\n"
+          Path(".banner-report.txt").write_text(report, encoding="utf-8")
+          print(report, end="")
+          PY
+      - name: Upload current banner
+        uses: actions/upload-artifact@v4
+        with:
+          name: current-profile-banner
+          path: assets/profile-banner.png
+          if-no-files-found: error
+          retention-days: 1
+      - name: Commit report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .banner-report.txt
+          git commit -m "chore: record profile banner artifact"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
