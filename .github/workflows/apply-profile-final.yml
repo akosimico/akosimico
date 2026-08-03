@@ -1,0 +1,151 @@
+name: Apply final profile update
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - production
+    paths:
+      - ".github/workflows/apply-profile-final.yml"
+      - ".profile-finalize/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: apply-profile-final-production
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    name: Verify and publish final profile implementation
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PROFILE_LOGIN: itsmfknlucy
+      PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC' }}
+      PROFILE_MIN_REPOSITORIES: ${{ vars.PROFILE_MIN_REPOSITORIES || '18' }}
+      PROFILE_STATS_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' || secrets.PROFILE_STATS_TOKEN_RODSTARK != '' || secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA != '' || secrets.PROFILE_STATS_TOKEN_FROSTBYTE != '' || secrets.PROFILE_STATS_TOKEN_EXTERNAL_1 != '' || secrets.PROFILE_STATS_TOKEN_EXTERNAL_2 != '' }}
+
+    steps:
+      - name: Check out production
+        uses: actions/checkout@v6
+        with:
+          ref: production
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Apply checksum-verified payload
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cp .profile-finalize/profile-stats.yml /tmp/profile-stats-final.yml
+          if [[ -f .github/workflows/profile-stats.yml ]]; then
+            cp .github/workflows/profile-stats.yml /tmp/profile-stats-original.yml
+          fi
+
+          cat .profile-finalize/part*.b64 | base64 --decode > /tmp/profile-apply.tar.xz
+          echo "83f5d830fc487a11de3adbda3fd0254a8ebd9c3997093211468dfb5ff979aa1f  /tmp/profile-apply.tar.xz" | sha256sum --check
+          tar -xJf /tmp/profile-apply.tar.xz -C .
+          cp /tmp/profile-stats-final.yml .github/workflows/profile-stats.yml
+
+          rm -rf \
+            .profile-finalize \
+            .profile-update \
+            assets/ascii-portrait.txt \
+            docs/superpowers
+
+          mkdir -p /tmp/profile-apply-workflows
+          for workflow in \
+            .github/workflows/apply-profile-v2.yml \
+            .github/workflows/apply-profile-final.yml; do
+            if [[ -f "$workflow" ]]; then
+              mv "$workflow" /tmp/profile-apply-workflows/
+            fi
+          done
+
+      - name: Run unit and contract tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Compile Python sources
+        run: python -m compileall -q profile_generator tests
+
+      - name: Generate authenticated profile statistics
+        if: env.PROFILE_STATS_CONFIGURED == 'true'
+        env:
+          PROFILE_STATS_TOKENS: |
+            ${{ secrets.PROFILE_STATS_TOKEN }}
+            ${{ secrets.PROFILE_STATS_TOKENS }}
+            ${{ secrets.PROFILE_STATS_TOKEN_RODSTARK }}
+            ${{ secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA }}
+            ${{ secrets.PROFILE_STATS_TOKEN_FROSTBYTE }}
+            ${{ secrets.PROFILE_STATS_TOKEN_EXTERNAL_1 }}
+            ${{ secrets.PROFILE_STATS_TOKEN_EXTERNAL_2 }}
+        run: python -m profile_generator
+
+      - name: Validate generated assets and repository hygiene
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          import struct
+          import xml.etree.ElementTree as ET
+          from pathlib import Path
+
+          for path in (Path("assets/profile-dark.svg"), Path("assets/profile-light.svg")):
+              root = ET.parse(path).getroot()
+              if root.tag.rsplit("}", 1)[-1] != "svg":
+                  raise SystemExit(f"{path} does not have an SVG root")
+
+          payload = json.loads(Path("generated/profile-stats.json").read_text(encoding="utf-8"))
+          if payload.get("schema_version") != 2:
+              raise SystemExit("generated profile schema is not version 2")
+          allowed_coverage = {"COMPLETE", "INVENTORY_COMPLETE_ACTIVITY_PENDING"}
+          if payload.get("coverage") not in allowed_coverage:
+              raise SystemExit("generated profile coverage is invalid")
+          if payload.get("repositories", {}).get("total", 0) < 1:
+              raise SystemExit("generated repository inventory is empty")
+
+          banner = Path("assets/profile-banner.png").read_bytes()
+          if banner[:8] != b"\x89PNG\r\n\x1a\n":
+              raise SystemExit("profile banner is not a PNG")
+          width, height = struct.unpack(">II", banner[16:24])
+          if (width, height) != (917, 512):
+              raise SystemExit(f"unexpected profile banner dimensions: {width}x{height}")
+          PY
+
+          git diff --check
+          if git grep -nE '(github[_]pat_[A-Za-z0-9_]{20,}|gh[pousr]_[A-Za-z0-9]{20,})'; then
+            echo "A GitHub access-token pattern was found in tracked content." >&2
+            exit 1
+          fi
+
+      - name: Commit verified implementation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [[ -f /tmp/profile-stats-original.yml ]]; then
+            cp /tmp/profile-stats-original.yml .github/workflows/profile-stats.yml
+          else
+            rm -f .github/workflows/profile-stats.yml
+          fi
+          if compgen -G "/tmp/profile-apply-workflows/*" > /dev/null; then
+            cp /tmp/profile-apply-workflows/* .github/workflows/
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "Final profile implementation is already applied."
+            exit 0
+          fi
+          git commit -m "feat: finalize profile identity and GitHub statistics"
+          git push origin HEAD:production
