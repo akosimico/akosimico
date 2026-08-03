@@ -1,4 +1,4 @@
-"""Run with `python -m profile_generator`."""
+"""Run with ``python -m profile_generator``."""
 
 from .cli import main
 

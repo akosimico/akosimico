@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="1500" height="690" viewBox="0 0 1500 690" role="img" aria-labelledby="title desc">
   <title id="title">Lucifer Rodstark, Ph.D. GitHub profile identity and account statistics</title>
-  <desc id="desc">Terminal-style identity card with an ASCII portrait and aggregate GitHub account statistics.</desc>
+  <desc id="desc">Terminal-style identity card with an embedded ASCII portrait and aggregate GitHub statistics.</desc>
   <defs>
     <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#160b0b"/>
@@ -14,10 +14,11 @@
     <style>
       text { font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }
       .ascii { fill: #ff8d8d; font-size: 8px; font-weight: 500; }
-      .header { fill: #fff5f5; font-size: 19px; font-weight: 700; }
       .section { fill: #9b7777; font-size: 15px; font-weight: 700; }
       .key { fill: #ff5c5c; font-size: 15px; font-weight: 700; }
       .value { fill: #fff0f0; font-size: 15px; font-weight: 500; }
+      .positive { fill: #3fb950; font-weight: 700; }
+      .negative { fill: #f85149; font-weight: 700; }
     </style>
   </defs>
   <rect width="1500" height="690" rx="22" fill="#090909"/>
@@ -85,27 +86,25 @@
   </text>
   <line x1="550" y1="30" x2="550" y2="660" stroke="#4a1d1d" stroke-width="1"/>
   <text>
-    <tspan x="580" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
-    <tspan x="580" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
-      <tspan x="580" y="90" class="key">OS</tspan><tspan x="920" y="90" class="value" id="os_data">Windows 11</tspan>
-      <tspan x="580" y="116" class="key">Uptime</tspan><tspan x="920" y="116" class="value" id="uptime_data">27 years, 8 months, 11 days</tspan>
-      <tspan x="580" y="142" class="key">Host</tspan><tspan x="920" y="142" class="value" id="host_data">Rodstark Global Solutions, Inc.</tspan>
-      <tspan x="580" y="168" class="key">Kernel</tspan><tspan x="920" y="168" class="value" id="kernel_data">Enterprise Architecture / .NET / Cloud / AI</tspan>
-      <tspan x="580" y="194" class="key">IDE</tspan><tspan x="920" y="194" class="value" id="ide_data">VS Code / Codex / Visual Studio</tspan>
-      <tspan x="580" y="238" class="key">Languages.Programming</tspan><tspan x="920" y="238" class="value" id="programming_data">C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS</tspan>
-      <tspan x="580" y="264" class="key">Languages.Computer</tspan><tspan x="920" y="264" class="value" id="computer_data">HTML, CSS, SASS, SQL, JSON, XML, YAML</tspan>
-      <tspan x="580" y="290" class="key">Languages.Real</tspan><tspan x="920" y="290" class="value" id="real_language_data">English, Filipino, German, Japanese</tspan>
-      <tspan x="580" y="334" class="key">Hobbies.Software</tspan><tspan x="920" y="334" class="value" id="software_hobby_data">Modding, SaaS, Gaming, AI Systems, Automation</tspan>
-      <tspan x="580" y="360" class="key">Hobbies.Hardware</tspan><tspan x="920" y="360" class="value" id="hardware_hobby_data">PC Building, Performance Tuning, Undervolting</tspan>
-    <tspan x="580" y="410" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
-      <tspan x="580" y="440" class="key">Repositories</tspan><tspan x="920" y="440" class="value" id="repo_total">18 total / 6 owned / 12 org / 0 collaborator</tspan>
-      <tspan x="580" y="465" class="key">Visibility</tspan><tspan x="920" y="465" class="value" id="visibility_data">1 public / 17 private / 0 internal</tspan>
-      <tspan x="580" y="490" class="key">State</tspan><tspan x="920" y="490" class="value" id="state_data">0 archived / 0 forks / 0 disabled</tspan>
-      <tspan x="580" y="515" class="key">Organizations</tspan><tspan x="920" y="515" class="value" id="organization_data">3 organizations / 4 resource owners</tspan>
-      <tspan x="580" y="540" class="key">Repo Size</tspan><tspan x="920" y="540" class="value" id="size_data">796.8 MiB</tspan>
-      <tspan x="580" y="565" class="key">Commits</tspan><tspan x="920" y="565" class="value" id="commit_data">11 commit contributions / 28,047 restricted</tspan>
-      <tspan x="580" y="590" class="key">Signals</tspan><tspan x="920" y="590" class="value" id="signal_data">14 stars / 5 followers</tspan>
-      <tspan x="580" y="615" class="key">Coverage</tspan><tspan x="920" y="615" class="value" id="coverage_data">COMPLETE</tspan>
-      <tspan x="580" y="640" class="key">Last Sync</tspan><tspan x="920" y="640" class="value" id="generated_data">2026-08-03 02:19 UTC</tspan>
+    <tspan x="580" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
+      <tspan x="580" y="75" class="key">OS</tspan><tspan x="920" y="75" class="value" id="os_data">Windows 11</tspan>
+      <tspan x="580" y="101" class="key">Uptime</tspan><tspan x="920" y="101" class="value" id="uptime_data">27 years, 8 months, 11 days</tspan>
+      <tspan x="580" y="127" class="key">Host</tspan><tspan x="920" y="127" class="value" id="host_data">Rodstark Global Solutions, Inc.</tspan>
+      <tspan x="580" y="153" class="key">Kernel</tspan><tspan x="920" y="153" class="value" id="kernel_data">Enterprise Architecture / .NET / Cloud / AI</tspan>
+      <tspan x="580" y="179" class="key">IDE</tspan><tspan x="920" y="179" class="value" id="ide_data">VS Code / Codex / Visual Studio</tspan>
+      <tspan x="580" y="223" class="key">Languages.Programming</tspan><tspan x="920" y="223" class="value" id="programming_data">C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS</tspan>
+      <tspan x="580" y="249" class="key">Languages.Computer</tspan><tspan x="920" y="249" class="value" id="computer_data">HTML, CSS, SASS, SQL, JSON, XML, YAML</tspan>
+      <tspan x="580" y="275" class="key">Languages.Real</tspan><tspan x="920" y="275" class="value" id="real_language_data">English, Filipino, German, Japanese</tspan>
+      <tspan x="580" y="319" class="key">Hobbies.Software</tspan><tspan x="920" y="319" class="value" id="software_hobby_data">Modding, SaaS, Gaming, AI Systems, Automation</tspan>
+      <tspan x="580" y="345" class="key">Hobbies.Hardware</tspan><tspan x="920" y="345" class="value" id="hardware_hobby_data">PC Building, Performance Tuning, Undervolting</tspan>
+    <tspan x="580" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
+      <tspan x="580" y="425" class="key">Repositories</tspan><tspan x="920" y="425" class="value" id="repo_total">18 (6 owned, 12 organization owned)</tspan>
+      <tspan x="580" y="450" class="key">Visibility</tspan><tspan x="920" y="450" class="value" id="visibility_data">18 (1 public, 17 private)</tspan>
+      <tspan x="580" y="475" class="key">Organizations</tspan><tspan x="920" y="475" class="value" id="organization_data">3 organizations</tspan>
+      <tspan x="580" y="500" class="key">Commits</tspan><tspan x="920" y="500" class="value" id="commit_data">17,904 total commits (23 public, 17,881 private)</tspan>
+      <tspan x="580" y="525" class="key">Contributions</tspan><tspan x="920" y="525" class="value" id="contribution_data">28,071 total contributions (24 public, 28,047 restricted)</tspan>
+      <tspan x="580" y="550" class="key">Lines of Code</tspan><tspan x="920" y="550" class="value" id="lines_data">3,462,421 total lines (<tspan class="positive">3,837,972++</tspan>, <tspan class="negative">375,551--</tspan>)</tspan>
+      <tspan x="580" y="575" class="key">Signals</tspan><tspan x="920" y="575" class="value" id="signal_data">14 stars / 5 followers</tspan>
+      <tspan x="580" y="600" class="key">Last Sync</tspan><tspan x="920" y="600" class="value" id="generated_data">August 03, 2026 11:51 AM</tspan>
   </text>
 </svg>

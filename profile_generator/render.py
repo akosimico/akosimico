@@ -5,10 +5,10 @@ from __future__ import annotations
 import calendar
 import datetime as dt
 import html
-from pathlib import Path
 from typing import Final
 
 from .models import ProfileStats
+from .portrait import ASCII_PORTRAIT
 
 
 CARD_WIDTH: Final[int] = 1500
@@ -21,17 +21,7 @@ ASCII_GUTTER: Final[int] = 20
 ASCII_LINE_HEIGHT: Final[int] = 11
 ASCII_START_Y: Final[int] = 50
 BIRTH_DATE: Final[dt.date] = dt.date(1998, 11, 23)
-ASCII_SOURCE_PATH: Final[Path] = Path(__file__).resolve().parents[1] / "assets" / "ascii-portrait.txt"
-
-
-def _load_ascii_portrait(path: Path = ASCII_SOURCE_PATH) -> tuple[str, ...]:
-    lines = tuple(path.read_text(encoding="utf-8").splitlines())
-    if len(lines) != 55 or any(len(line) != 100 for line in lines):
-        raise ValueError("ASCII portrait must contain exactly 55 lines of 100 characters")
-    return lines
-
-
-ASCII_PORTRAIT: Final[tuple[str, ...]] = _load_ascii_portrait()
+PH_TIMEZONE: Final[dt.tzinfo] = dt.timezone(dt.timedelta(hours=8))
 
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
@@ -44,6 +34,8 @@ THEMES: Final[dict[str, dict[str, str]]] = {
         "muted": "#9b7777",
         "ascii": "#ff8d8d",
         "glow": "#b42318",
+        "positive": "#3fb950",
+        "negative": "#f85149",
     },
     "light": {
         "background": "#fffafa",
@@ -55,6 +47,8 @@ THEMES: Final[dict[str, dict[str, str]]] = {
         "muted": "#7f5a55",
         "ascii": "#b42318",
         "glow": "#fecdca",
+        "positive": "#1a7f37",
+        "negative": "#cf222e",
     },
 }
 
@@ -66,18 +60,17 @@ def render_all(stats: ProfileStats) -> dict[str, str]:
 
 
 def render_svg(stats: ProfileStats, theme: str) -> str:
-    """Return one deterministic SVG document with stable metric IDs."""
+    """Return one deterministic SVG document with stable aggregate metric IDs."""
 
     stats.validate()
     if theme not in THEMES:
         raise ValueError(f"unsupported theme: {theme}")
     colors = THEMES[theme]
-    inventory = stats.inventory
-    inventory_pending = stats.coverage.upper().startswith("PENDING")
-    signals_complete = stats.coverage.upper().startswith("COMPLETE")
 
     ascii_spans = "\n".join(
-        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}" textLength="{ASCII_RENDER_WIDTH}" lengthAdjust="spacingAndGlyphs">{_escape(line)}</tspan>'
+        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}" '
+        f'textLength="{ASCII_RENDER_WIDTH}" lengthAdjust="spacingAndGlyphs">'
+        f'{_escape(line)}</tspan>'
         for index, line in enumerate(ASCII_PORTRAIT)
     )
 
@@ -113,54 +106,26 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
             "hardware_hobby_data",
         ),
     )
-
-    repository_value = "—" if inventory_pending else _repository_line(stats)
-    visibility_value = "—" if inventory_pending else _visibility_line(stats)
-    state_value = "—" if inventory_pending else _state_line(stats)
-    organization_value = (
-        "—"
-        if inventory_pending
-        else f"{inventory.organizations:,} organizations / {inventory.resource_owners:,} resource owners"
-    )
-    size_value = "—" if inventory_pending else _format_size_kib(inventory.size_kib)
-    commit_value = (
-        f"{stats.commit_contributions:,} commit contributions / "
-        f"{stats.restricted_contributions:,} restricted"
-        if signals_complete
-        else "—"
-    )
-    signal_value = (
-        f"{inventory.stars_owned:,} stars / {stats.followers:,} followers"
-        if signals_complete
-        else "—"
-    )
-
-    stats_rows = (
-        ("Repositories", repository_value, "repo_total"),
-        ("Visibility", visibility_value, "visibility_data"),
-        ("State", state_value, "state_data"),
-        ("Organizations", organization_value, "organization_data"),
-        ("Repo Size", size_value, "size_data"),
-        ("Commits", commit_value, "commit_data"),
-        ("Signals", signal_value, "signal_data"),
-        ("Coverage", stats.coverage, "coverage_data"),
-        ("Last Sync", _display_timestamp(stats.generated_at), "generated_data"),
-    )
-
-    profile_y = (90, 116, 142, 168, 194, 238, 264, 290, 334, 360)
+    profile_y = (75, 101, 127, 153, 179, 223, 249, 275, 319, 345)
     profile_spans = "\n".join(
         _row(label, value, element_id, y)
         for (label, value, element_id), y in zip(profile_rows, profile_y, strict=True)
     )
-    stats_spans = "\n".join(
-        _row(label, value, element_id, 440 + index * 25)
-        for index, (label, value, element_id) in enumerate(stats_rows)
-    )
+
+    stats_rows = _stats_rows(stats)
+    rendered_stats: list[str] = []
+    for index, row in enumerate(stats_rows):
+        y = 425 + index * 25
+        if row[2] == "lines_data":
+            rendered_stats.append(_lines_row(stats, y))
+        else:
+            rendered_stats.append(_row(*row, y))
+    stats_spans = "\n".join(rendered_stats)
 
     return f'''<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{CARD_HEIGHT}" viewBox="0 0 {CARD_WIDTH} {CARD_HEIGHT}" role="img" aria-labelledby="title desc">
   <title id="title">Lucifer Rodstark, Ph.D. GitHub profile identity and account statistics</title>
-  <desc id="desc">Terminal-style identity card with an ASCII portrait and aggregate GitHub account statistics.</desc>
+  <desc id="desc">Terminal-style identity card with an embedded ASCII portrait and aggregate GitHub statistics.</desc>
   <defs>
     <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="{colors['panel']}"/>
@@ -173,10 +138,11 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
       .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 500; }}
-      .header {{ fill: {colors['title']}; font-size: 19px; font-weight: 700; }}
       .section {{ fill: {colors['muted']}; font-size: 15px; font-weight: 700; }}
       .key {{ fill: {colors['key']}; font-size: 15px; font-weight: 700; }}
       .value {{ fill: {colors['value']}; font-size: 15px; font-weight: 500; }}
+      .positive {{ fill: {colors['positive']}; font-weight: 700; }}
+      .negative {{ fill: {colors['negative']}; font-weight: 700; }}
     </style>
   </defs>
   <rect width="{CARD_WIDTH}" height="{CARD_HEIGHT}" rx="22" fill="{colors['background']}"/>
@@ -190,14 +156,46 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
   </text>
   <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="660" stroke="{colors['border']}" stroke-width="1"/>
   <text>
-    <tspan x="580" y="38" class="header">lucifer@rodstark :: LUCY-ARCH-01</tspan>
-    <tspan x="580" y="54" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
+    <tspan x="580" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
 {profile_spans}
-    <tspan x="580" y="410" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
+    <tspan x="580" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
 {stats_spans}
   </text>
 </svg>
 '''
+
+
+def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
+    rows: list[tuple[str, str, str]] = []
+    coverage = stats.coverage.upper()
+    inventory_verified = coverage.startswith("COMPLETE") or coverage.startswith("INVENTORY_COMPLETE")
+    activity_verified = coverage.startswith("COMPLETE")
+    inventory = stats.inventory
+
+    if inventory_verified and inventory.total:
+        rows.append(("Repositories", _repository_line(stats), "repo_total"))
+        rows.append(("Visibility", _visibility_line(stats), "visibility_data"))
+        if inventory.state_total:
+            rows.append(("State", _state_line(stats), "state_data"))
+        if inventory.organizations:
+            rows.append(
+                (
+                    "Organizations",
+                    f"{inventory.organizations:,} {_plural(inventory.organizations, 'organization')}",
+                    "organization_data",
+                )
+            )
+        if activity_verified and stats.total_commits:
+            rows.append(("Commits", _commit_line(stats), "commit_data"))
+        if activity_verified and stats.total_contributions:
+            rows.append(("Contributions", _contribution_line(stats), "contribution_data"))
+        if activity_verified and (stats.lines_added or stats.lines_deleted):
+            rows.append(("Lines of Code", "", "lines_data"))
+        if inventory.stars_owned or stats.followers:
+            rows.append(("Signals", _signal_line(stats), "signal_data"))
+
+    rows.append(("Last Sync", _display_timestamp(stats.generated_at), "generated_data"))
+    return rows
 
 
 def _row(label: str, value: str, element_id: str, y: int) -> str:
@@ -207,42 +205,91 @@ def _row(label: str, value: str, element_id: str, y: int) -> str:
     )
 
 
+def _lines_row(stats: ProfileStats, y: int) -> str:
+    details: list[str] = []
+    if stats.lines_added:
+        details.append(
+            f'<tspan class="positive">{stats.lines_added:,}++</tspan>'
+        )
+    if stats.lines_deleted:
+        details.append(
+            f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>'
+        )
+    joined = ", ".join(details)
+    return (
+        f'      <tspan x="580" y="{y}" class="key">Lines of Code</tspan>'
+        f'<tspan x="920" y="{y}" class="value" id="lines_data">'
+        f'{stats.total_lines:,} total lines ({joined})</tspan>'
+    )
+
+
 def _repository_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
-    return (
-        f"{inventory.total:,} total / {inventory.owned:,} owned / "
-        f"{inventory.organization_member:,} org / {inventory.collaborator:,} collaborator"
+    details = _nonzero_details(
+        (inventory.owned, "owned"),
+        (inventory.organization_member, "organization owned"),
+        (inventory.collaborator, "collaborator"),
     )
+    return _grouped_total(inventory.total, details)
 
 
 def _visibility_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
-    return (
-        f"{inventory.public:,} public / {inventory.private:,} private / "
-        f"{inventory.internal:,} internal"
+    details = _nonzero_details(
+        (inventory.public, "public"),
+        (inventory.private, "private"),
+        (inventory.internal, "internal"),
     )
+    return _grouped_total(inventory.total, details)
 
 
 def _state_line(stats: ProfileStats) -> str:
     inventory = stats.inventory
-    return (
-        f"{inventory.archived:,} archived / {inventory.forks:,} forks / "
-        f"{inventory.disabled:,} disabled"
+    details = _nonzero_details(
+        (inventory.archived, "archived"),
+        (inventory.forks, "forked"),
+        (inventory.disabled, "disabled"),
     )
+    return _grouped_total(inventory.state_total, details)
 
 
-def _format_size_kib(size_kib: int) -> str:
-    value = float(size_kib)
-    units = ("KiB", "MiB", "GiB", "TiB", "PiB")
-    unit = units[0]
-    for candidate in units:
-        unit = candidate
-        if value < 1024 or candidate == units[-1]:
-            break
-        value /= 1024
-    if unit == "KiB":
-        return f"{int(value):,} {unit}"
-    return f"{value:,.1f} {unit}"
+def _commit_line(stats: ProfileStats) -> str:
+    details = _nonzero_details(
+        (stats.public_commits, "public"),
+        (stats.private_commits, "private"),
+    )
+    return f"{stats.total_commits:,} total commits ({', '.join(details)})"
+
+
+def _contribution_line(stats: ProfileStats) -> str:
+    details = _nonzero_details(
+        (stats.public_contributions, "public"),
+        (stats.restricted_contributions, "restricted"),
+    )
+    return f"{stats.total_contributions:,} total contributions ({', '.join(details)})"
+
+
+def _signal_line(stats: ProfileStats) -> str:
+    parts: list[str] = []
+    if stats.inventory.stars_owned:
+        parts.append(
+            f"{stats.inventory.stars_owned:,} {_plural(stats.inventory.stars_owned, 'star')}"
+        )
+    if stats.followers:
+        parts.append(f"{stats.followers:,} {_plural(stats.followers, 'follower')}")
+    return " / ".join(parts)
+
+
+def _nonzero_details(*items: tuple[int, str]) -> list[str]:
+    return [f"{value:,} {label}" for value, label in items if value]
+
+
+def _grouped_total(total: int, details: list[str]) -> str:
+    return f"{total:,} ({', '.join(details)})" if details else f"{total:,}"
+
+
+def _plural(value: int, singular: str) -> str:
+    return singular if value == 1 else f"{singular}s"
 
 
 def _display_uptime(value: str) -> str:
@@ -262,11 +309,17 @@ def _display_uptime(value: str) -> str:
 
 
 def _display_timestamp(value: str) -> str:
-    return _parse_timestamp(value).strftime("%Y-%m-%d %H:%M UTC")
+    return _parse_timestamp(value).astimezone(PH_TIMEZONE).strftime("%B %d, %Y %I:%M %p")
 
 
 def _parse_timestamp(value: str) -> dt.datetime:
-    return dt.datetime.fromisoformat(value.replace("Z", "+00:00")).astimezone(dt.timezone.utc)
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError("invalid ISO-8601 timestamp") from exc
+    if parsed.tzinfo is None:
+        raise ValueError("timestamp must include a timezone")
+    return parsed
 
 
 def _escape(value: object) -> str:

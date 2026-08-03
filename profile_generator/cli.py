@@ -57,9 +57,11 @@ class Config:
             raise ConfigurationError(
                 "PROFILE_STATS_TOKEN or PROFILE_STATS_TOKENS encrypted repository secret is required"
             )
+
         login = values.get("PROFILE_LOGIN", "").strip()
         if not login:
             raise ConfigurationError("PROFILE_LOGIN is required")
+
         configured_owners = values.get("PROFILE_REQUIRED_OWNERS", "").strip()
         if configured_owners:
             required_owners = frozenset(
@@ -67,6 +69,7 @@ class Config:
             )
         else:
             required_owners = frozenset({*DEFAULT_REQUIRED_OWNERS, login})
+
         raw_minimum_repositories = values.get("PROFILE_MIN_REPOSITORIES", "0").strip() or "0"
         try:
             minimum_repositories = int(raw_minimum_repositories)
@@ -76,6 +79,7 @@ class Config:
             ) from exc
         if minimum_repositories < 0:
             raise ConfigurationError("PROFILE_MIN_REPOSITORIES must be a non-negative integer")
+
         project_root = root or pathlib.Path(__file__).resolve().parents[1]
         return cls(
             tokens=tokens,
@@ -115,6 +119,7 @@ def write_outputs(
     stats.validate()
     if set(rendered) != {"dark", "light"}:
         raise ValueError("rendered output must contain dark and light themes")
+
     for theme, svg in rendered.items():
         try:
             root_element = ET.fromstring(svg)
@@ -134,14 +139,14 @@ def write_outputs(
     try:
         for destination, content in destinations.items():
             destination.parent.mkdir(parents=True, exist_ok=True)
-            fd, temporary_name = tempfile.mkstemp(
+            file_descriptor, temporary_name = tempfile.mkstemp(
                 dir=destination.parent,
                 prefix=f".{destination.name}.",
                 suffix=".tmp",
                 text=True,
             )
             temporary = pathlib.Path(temporary_name)
-            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as handle:
+            with os.fdopen(file_descriptor, "w", encoding="utf-8", newline="\n") as handle:
                 handle.write(content)
                 handle.flush()
                 os.fsync(handle.fileno())
@@ -161,9 +166,9 @@ def main() -> int:
     print(
         "profile generation complete: "
         f"repositories={inventory.total} "
-        f"owned={inventory.owned} "
-        f"organization_member={inventory.organization_member} "
-        f"collaborator={inventory.collaborator} "
+        f"commits={stats.total_commits} "
+        f"contributions={stats.total_contributions} "
+        f"lines={stats.total_lines} "
         f"coverage={stats.coverage}"
     )
     return 0
