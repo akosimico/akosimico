@@ -10,7 +10,6 @@ from typing import Final
 from .models import ProfileStats
 from .portrait import ASCII_PORTRAIT
 
-
 CARD_WIDTH: Final[int] = 1500
 CARD_HEIGHT: Final[int] = 690
 ASCII_X: Final[int] = 20
@@ -24,35 +23,35 @@ ASCII_RENDER_WIDTH: Final[int] = 440
 ASCII_GUTTER: Final[int] = 20
 ASCII_LINE_HEIGHT: Final[float] = 8.3
 ASCII_START_Y: Final[int] = 45
-BIRTH_DATE: Final[dt.date] = dt.date(1998, 11, 23)
+BIRTH_DATE: Final[dt.date] = dt.date(2004, 6, 6)
 PH_TIMEZONE: Final[dt.tzinfo] = dt.timezone(dt.timedelta(hours=8))
 
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
-        "background": "#090909",
-        "panel": "#160b0b",
-        "border": "#4a1d1d",
-        "title": "#fff5f5",
-        "key": "#ff5c5c",
-        "value": "#fff0f0",
-        "muted": "#9b7777",
-        "ascii": "#ff8d8d",
-        "glow": "#b42318",
-        "positive": "#3fb950",
-        "negative": "#f85149",
+        "background": "#050805",
+        "panel": "#0a120a",
+        "border": "#14532d",
+        "title": "#f0fdf4",
+        "key": "#22c55e",
+        "value": "#dcfce7",
+        "muted": "#4ade80",
+        "ascii": "#16a34a",
+        "glow": "#22c55e",
+        "positive": "#4ade80",
+        "negative": "#f87171",
     },
     "light": {
-        "background": "#fffafa",
-        "panel": "#ffffff",
-        "border": "#e7b5b0",
-        "title": "#2b0b0b",
-        "key": "#b42318",
-        "value": "#7a271a",
-        "muted": "#7f5a55",
-        "ascii": "#b42318",
-        "glow": "#fecdca",
-        "positive": "#1a7f37",
-        "negative": "#cf222e",
+        "background": "#f0f4f1",  # Soft, washed-out mint white (lowers background tint)
+        "panel": "#ffffff",  # Pure white panel to give the ASCII breathing room
+        "border": "#cbd5e1",  # Muted gray border to avoid neon distractions
+        "title": "#064e3b",
+        "key": "#047857",
+        "value": "#0f172a",
+        "muted": "#475569",
+        "ascii": "#115e59",  # Deep teal-green that sharply defines fine text dots
+        "glow": "#ccfbf1",
+        "positive": "#0f766e",
+        "negative": "#b91c1c",
     },
 }
 
@@ -74,43 +73,47 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     ascii_spans = "\n".join(
         f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}" '
         f'textLength="{ASCII_RENDER_WIDTH}" lengthAdjust="spacingAndGlyphs">'
-        f'{_escape(line)}</tspan>'
+        f"{_escape(line)}</tspan>"
         for index, line in enumerate(ASCII_PORTRAIT)
     )
 
     profile_rows = (
         ("OS", "Windows 11", "os_data"),
         ("Uptime", _display_uptime(stats.generated_at), "uptime_data"),
-        ("Host", "Rodstark Global Solutions, Inc.", "host_data"),
-        ("Kernel", "Enterprise Architecture / .NET / Cloud / AI", "kernel_data"),
-        ("IDE", "VS Code / Codex / Visual Studio", "ide_data"),
+        ("Host", "akosimico", "host_data"),
+        ("Kernel", "Web / Python / Automation / Cloud", "kernel_data"),
         (
             "Languages.Programming",
-            "C#, VB.NET, C++, Python, Java, PHP, JavaScript, TS",
+            "Python, JavaScript, C#, Java, PHP, HTML, CSS",
             "programming_data",
         ),
         (
-            "Languages.Computer",
-            "HTML, CSS, SASS, SQL, JSON, XML, YAML",
-            "computer_data",
+            "Frameworks & Libraries",
+            "Laravel, Node.js, Express, Django, .NET",
+            "frameworks_data",
         ),
         (
-            "Languages.Real",
-            "English, Filipino, German, Japanese",
+            "Databases & Formats",
+            "PostgreSQL, MySQL, SQL, JSON, XML, YAML",
+            "databases_data",
+        ),
+        (
+            "Developer & AI Tools",
+            "VS Code, Visual Studio, Git, Cursor, Claude, Codex",
+            "tools_data",
+        ),
+        (
+            "Languages.Human",
+            "English, Filipino",
             "real_language_data",
         ),
         (
             "Hobbies.Software",
-            "Modding, SaaS, Gaming, AI Systems, Automation",
+            "Automation, Web Dev, AI Systems, Gaming",
             "software_hobby_data",
         ),
-        (
-            "Hobbies.Hardware",
-            "PC Building, Performance Tuning, Undervolting",
-            "hardware_hobby_data",
-        ),
     )
-    profile_y = (75, 101, 127, 153, 179, 223, 249, 275, 319, 345)
+    profile_y = (75, 101, 127, 153, 179, 205, 231, 257, 283, 309)
     profile_spans = "\n".join(
         _row(label, value, element_id, y)
         for (label, value, element_id), y in zip(profile_rows, profile_y, strict=True)
@@ -126,9 +129,9 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
             rendered_stats.append(_row(*row, y))
     stats_spans = "\n".join(rendered_stats)
 
-    return f'''<?xml version="1.0" encoding="UTF-8"?>
+    return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{CARD_HEIGHT}" viewBox="0 0 {CARD_WIDTH} {CARD_HEIGHT}" role="img" aria-labelledby="title desc">
-  <title id="title">Lucifer Rodstark, Ph.D. GitHub profile identity and account statistics</title>
+<title id="title">Mico Helis GitHub profile identity and account statistics</title>
   <desc id="desc">Terminal-style identity card with an embedded ASCII portrait and aggregate GitHub statistics.</desc>
   <defs>
     <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
@@ -160,19 +163,21 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
   </text>
   <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="660" stroke="{colors['border']}" stroke-width="1"/>
   <text>
-    <tspan x="{CONTENT_X}" y="38" class="section">— PROFILE / LUCIFER RODSTARK, PH.D. —————————————————————————</tspan>
+<tspan x="{CONTENT_X}" y="38" class="section">— PROFILE  —————————————————————————————————————————</tspan>
 {profile_spans}
     <tspan x="{CONTENT_X}" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
 {stats_spans}
   </text>
 </svg>
-'''
+"""
 
 
 def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
     rows: list[tuple[str, str, str]] = []
     coverage = stats.coverage.upper()
-    inventory_verified = coverage.startswith("COMPLETE") or coverage.startswith("INVENTORY_COMPLETE")
+    inventory_verified = coverage.startswith("COMPLETE") or coverage.startswith(
+        "INVENTORY_COMPLETE"
+    )
     activity_verified = coverage.startswith("COMPLETE")
     inventory = stats.inventory
 
@@ -192,7 +197,9 @@ def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
         if activity_verified and stats.total_commits:
             rows.append(("Commits", _commit_line(stats), "commit_data"))
         if activity_verified and stats.total_contributions:
-            rows.append(("Contributions", _contribution_line(stats), "contribution_data"))
+            rows.append(
+                ("Contributions", _contribution_line(stats), "contribution_data")
+            )
         if activity_verified and (stats.lines_added or stats.lines_deleted):
             rows.append(("Lines of Code", "", "lines_data"))
         if inventory.stars_owned or stats.followers:
@@ -212,18 +219,14 @@ def _row(label: str, value: str, element_id: str, y: int) -> str:
 def _lines_row(stats: ProfileStats, y: int) -> str:
     details: list[str] = []
     if stats.lines_added:
-        details.append(
-            f'<tspan class="positive">{stats.lines_added:,}++</tspan>'
-        )
+        details.append(f'<tspan class="positive">{stats.lines_added:,}++</tspan>')
     if stats.lines_deleted:
-        details.append(
-            f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>'
-        )
+        details.append(f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>')
     joined = ", ".join(details)
     return (
         f'      <tspan x="{CONTENT_X}" y="{y}" class="key">Lines of Code</tspan>'
         f'<tspan x="{VALUE_X}" y="{y}" class="value" id="lines_data">'
-        f'{stats.total_lines:,} total lines ({joined})</tspan>'
+        f"{stats.total_lines:,} total lines ({joined})</tspan>"
     )
 
 
@@ -313,7 +316,9 @@ def _display_uptime(value: str) -> str:
 
 
 def _display_timestamp(value: str) -> str:
-    return _parse_timestamp(value).astimezone(PH_TIMEZONE).strftime("%B %d, %Y %I:%M %p")
+    return (
+        _parse_timestamp(value).astimezone(PH_TIMEZONE).strftime("%B %d, %Y %I:%M %p")
+    )
 
 
 def _parse_timestamp(value: str) -> dt.datetime:

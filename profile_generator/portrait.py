@@ -7,34 +7,31 @@ import hashlib
 import zlib
 from typing import Final
 
-
-_PORTRAIT_SHA256: Final[str] = "03a5d683e2d29b0a05bf62d76b567f21e620fe9585e607d5e403f92a13261f82"
-
+_PORTRAIT_SHA256: Final[str] = (
+    "1b1a4d1be28da8809d9cb1719ac4897ea99449e1d7eedc98c9d419653885f948"
+)
 _PORTRAIT_B85: Final[str] = (
-    "c-pO5TW%yF4E*O5Eus0r!UwQ~l>47*ZSyiTbTiqYjgnO|RQpvfyRU0?@cPT+{_b)-1^MDie22mR1^LEy_iIDc6f6eeAA*#7r}OGb_l-"
-    "B?M&c9uLFzd6^1(oN?j6h+h<tZy2ja6?TM*n~L_&&;V?gB8>kSH?y9@Kb^@&Lxmh?-"
-    "#c5RGt$Bx<_zMsSzYB1l{37#FcCDAT0=$^f`yitE8IVPEwuVzzx>VYYKJ_5Pc2&f1ekrW_+1cV@zxa<RuhZqVVbpjClryZY&QD_x*tRUDDX~Lj"
-    ";lrx4!$S@QkQh$^I%smvygrR{@2ys^MegulJ4gEt*28@ygRE~thPcYEZVD_0ii+V|@e2IQz9Pl4TX+Y`DE(`9$El7z_J+(MukZAaf)4WB8ER5D"
-    "&&3g@_Jpu^~h}$4~A3Fu$8F%4@WOLHm(Tr9cu9cK+BEvM6>)pPsRW_P1$UY_(m=HMKIP^X1Uo62PChdu7bXO&5q5aR#&yVLX2@BmY(1MKQX>!*"
-    "BRDZPxk=7yrf&&0aS$|dW&su?EEsk1?gaZbEqJ)?P1yb=bZp9tW2|R)1o~S@<VCldf#GH^)Zp?IC@wQnQS51w#qDbuvbWViHV-"
-    "N0{Sn&Y_q!@pEB&#;=AjXBcVJsBZ1Bev-Pc@`v{R<0sCMgAJk~pqG*pL`$qlw%XjWNz3Mc}1^5$CRjzfvo4X$mk#inAq8JszLc#0rJ^Bx4Y*#i"
-    "V;314e`*O$H3eUL#8qgWKG8x@poRb8UH4t#-"
-    "sNRIM<=wfLT!7Ea!5jU!ih<1TGkLIJU%PdyPIxC`^6R}(H=6$>j9ZwpjCMMk$Cq;QipE9s?y2OkY(3d~KOU3+(}Mymc}krC3LylNBTv?{#33wj"
-    "2@9m%f*yxdu&ke3dXjhRK@{J?HE6<$^ib`&ApiUNWXf#{}XC%?F3t(_Byl0ga53FS-LVUrzpDlQ=ST7r5+yA$6^6go<fh6@l=C6!KI_|O@*avl"
-    "N;_aLey`hG$XQ_L)^W91PG+uqYb*a&r1&_0+kyms|mjg?tms2&F~HRMbb5Cplm>uevm<!Vf75>s4`zq=GBoBWbgoUl<HR6*oF9}RjPes8i4UzP"
-    "=pa>X7tBgiubJv}7w(aLX+bF1g6$KwOP^IXN=M_ClG?15n7E^}OcnyYcqBpWsx2}>oUJR*{vr)W{V1tkbb2qts4dym&4h%$;!ojevw1~gkZ(Ly"
-    "3SE-W#2BX*~*!n7gx5D*0qH7=6PF!Yk$0%wvJIE{>@XFzF)jN-"
-    "c~>_@InBFl9T?!s#~Uzf&IY~#3u?l2}4U)$n!6OIc7xt)C*NEwEBvVsC5+Yab0d57YTq%h`bL2r^IP6Z`O;*Cn;M!|bY)LdM|NW`}L5}JgR%aU"
-    "{2=lNa9@#^j5MAc6ni^$02C|sN*#f1O)du{iv>s)U$BaXgm{L;#le-"
-    "=_?e+9k2X1Wd~(xB&I4qq(Mk1sZ=NlXB(_r{I1U8)^`;O!SW8!D4=y~kwtglm>`?|pHhC&gc~59FDe65W?>QyRHzr-"
-    "?RulG<QEhIUy#GZ}QrmGgI=v0vP^=%=+G^N~)d`E5qC)r8=73$^E+b#@t$1|;?2XZ^>!-O6V9dJVgXvJfn>KYZ(O8-kxc*__EJ^Izh-S~-"
-    "6O(?s+8OB&p6I*(p)tqsO=OAg*J9em1tcjGT#0saFnrCa|"
+    "c%1E6TaMc>4E*0y7!dp;fjj^K0=fUG${{6NO6<h)KECRrX?Cq@G<*)VEWiJJ{Q<^*kpCbP592TMFM{wgvHcy8ps-<GMVn>PECmD>"
+    "`?IjfPlGrU*%)-x0$n7KZ-Ts<#`oO6b322-=$GFOVKFliQD7JrsVcoL`W^`TwrVf{DE271?S@5_-YuWl8Exa7)9O#MC+7^%%B)*`"
+    "lL<&<+j&hH5D)*b$G@grK##ZMTn5>qh20TmB`vU(7?+}J)|72$yfL#GCj*kO-3@awQ#)n*4Kd|JT~>000a3SX21E|>j>V3y2WzQY"
+    "`Wa+9k;rbejSd&{NZAl~qTErr&ZKS3?)GZ+Ma=oB#2bkh)Yi>|v>XPD_L%iZEy@bDbHg9)G`qpBf{b-yahs{)15AWVHfp>t=H6ge"
+    "LEPnCac4xal}b&PAQoOy*6jHYf(S1AY7r)LAf6(~4b&0jyLkdgNJ=<Jk|(07CrXYVBv2-*FxMi5ghMf@3Fqw06A7uG@zSe|Cw}$)"
+    "WM^d0G~cK6>4p<{C5zk#-L72Tsa+ssC(T`H7tWaqYGn@a=$^|w2>Su6*)n1(0>MxX;IWpHqCQryZxK1w8ND~z4sdtzjS5_C4uG%I"
+    "ihtc@?vRD&n-<q1i~s@)1Zs3dj{}Qfg{#8rp7%l1%E1MYu28{Xh*9O1GFk{mQlSW|=wF}`3+zzWm~1KNm61x`YKRhY5qo-riQrBF"
+    "0)x3?x@@ir<AMiG)}YKOh#=e26Sa6(1f8`uWwVpaWqgOlUbaX!4HTg)FjsWOWTBRIZzz*_5*v5ba*(RlI3o(5<k7TD?RAea3Ncg*"
+    "4C=gVnWvIHo$(w^oNA?2_jkCyz)#OD;TA{$8H874kL0LlMRgDvQ$79!XZ%rK81N5(d_08w1<2npxhd|@051-3EcZbc?-Q3m_&&(u"
+    ">HHanhoSG*=%9K&i#Fl6ux=XpUNX`qM$a%H$?_xJslpwMp1`=E2`1k6`94Stbb3^%V$5F9G!up|`c|GeOh5lrjMkZ@Bp>k#2gnie"
+    "cOlgJ6@@1471%bt@S@3w$u$ii<9z&%1-AiS(FW7dq6B3NWkq6A&H0O8LAd|n>}dn8*^Gt;$w*g|7)6#A8(+hiIRUb_znU{HEg|Wk"
+    "$Gl;_io33@?w2I*Q9?`X>!8W3H)^hq;`}62+w$kDi+51s(@K>VR@Fl1Wmk9hK?LRB=gEO<hBt>;W)=5`Qrv-<C~_5<T}GPGl4bp>"
+    "JxH@sbz-M_dguX73bq#vr#5kAGt@3r4PX3<N2yOn9(R2<*%2ARmV%71q!VpZR#A7nuCD(1DC1u@Jr4yO-araI<LbzjuwPR#*-KhZ"
+    "R6W1?f8^Rdwx_=d3=q)3z*K5@c=-%+wi}<mNNy(c0K4|u9t3z!`Ud2X-th{8f+sS2Rar?5g}FG0ysN@zHhY4xkwkHklSU9QDQJ$O"
+    "Gax54*)jxCg(+SgM&pW&7l7C#GdnsQ{gV7vq7IIgO5DDY`O4(@#p}WMFvaKJ<QI~b81bM7TMVPIeZBqPpI^m$6suJ4J8j4+?IwqP"
+    "+CEIiSqwy2T;9Yz?!)<nWXVYWAJW3ZJ&V<2BPJe(iedF1Sl#$7"
 )
 
 
 def portrait_bytes() -> bytes:
     """Decode the embedded portrait payload without requiring a tracked source asset."""
-
     return zlib.decompress(base64.b85decode(_PORTRAIT_B85.encode("ascii")))
 
 
@@ -44,11 +41,18 @@ def _load_portrait() -> tuple[str, ...]:
         text = raw.decode("utf-8")
     except (ValueError, zlib.error, UnicodeDecodeError) as exc:
         raise RuntimeError("embedded ASCII portrait payload is invalid") from exc
+
     if hashlib.sha256(raw).hexdigest() != _PORTRAIT_SHA256:
-        raise RuntimeError("embedded ASCII portrait digest does not match the approved artwork")
+        raise RuntimeError(
+            "embedded ASCII portrait digest does not match the approved artwork"
+        )
+
     lines = tuple(text.splitlines())
     if len(lines) != 72 or any(len(line) != 100 for line in lines):
-        raise RuntimeError("embedded ASCII portrait must contain 72 lines of 100 characters")
+        raise RuntimeError(
+            "embedded ASCII portrait must contain 72 lines of 100 characters"
+        )
+
     return lines
 
 

@@ -15,13 +15,9 @@ from .collector import collect_profile_stats
 from .models import ProfileStats
 from .render import render_all
 
-
 DEFAULT_REQUIRED_OWNERS = frozenset(
     {
-        "itsmfknlucy",
-        "Rodstark-Global-Solutions-Inc",
-        "NexGen-LAVA-Inc",
-        "FrostByte-Constructs-LLC",
+        "akosimico",
     }
 )
 
@@ -51,7 +47,9 @@ class Config:
         if single_token:
             raw_tokens.append(single_token)
         multi_token_value = values.get("PROFILE_STATS_TOKENS", "")
-        raw_tokens.extend(line.strip() for line in multi_token_value.splitlines() if line.strip())
+        raw_tokens.extend(
+            line.strip() for line in multi_token_value.splitlines() if line.strip()
+        )
         tokens = tuple(dict.fromkeys(raw_tokens))
         if not tokens:
             raise ConfigurationError(
@@ -70,7 +68,9 @@ class Config:
         else:
             required_owners = frozenset({*DEFAULT_REQUIRED_OWNERS, login})
 
-        raw_minimum_repositories = values.get("PROFILE_MIN_REPOSITORIES", "0").strip() or "0"
+        raw_minimum_repositories = (
+            values.get("PROFILE_MIN_REPOSITORIES", "0").strip() or "0"
+        )
         try:
             minimum_repositories = int(raw_minimum_repositories)
         except ValueError as exc:
@@ -78,7 +78,9 @@ class Config:
                 "PROFILE_MIN_REPOSITORIES must be a non-negative integer"
             ) from exc
         if minimum_repositories < 0:
-            raise ConfigurationError("PROFILE_MIN_REPOSITORIES must be a non-negative integer")
+            raise ConfigurationError(
+                "PROFILE_MIN_REPOSITORIES must be a non-negative integer"
+            )
 
         project_root = root or pathlib.Path(__file__).resolve().parents[1]
         return cls(
@@ -146,7 +148,9 @@ def write_outputs(
                 text=True,
             )
             temporary = pathlib.Path(temporary_name)
-            with os.fdopen(file_descriptor, "w", encoding="utf-8", newline="\n") as handle:
+            with os.fdopen(
+                file_descriptor, "w", encoding="utf-8", newline="\n"
+            ) as handle:
                 handle.write(content)
                 handle.flush()
                 os.fsync(handle.fileno())

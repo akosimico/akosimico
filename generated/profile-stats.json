@@ -1,38 +1,38 @@
 {
-  "account_created_at": "2018-03-29T05:11:18Z",
+  "account_created_at": "2024-01-01T00:00:00Z",
   "activity": {
     "commits": {
-      "private": 17881,
-      "public": 50,
-      "total": 17931
+      "private": 0,
+      "public": 0,
+      "total": 0
     },
     "contributions": {
-      "public": 78,
-      "restricted": 28047,
-      "total": 28125
+      "public": 0,
+      "restricted": 0,
+      "total": 0
     },
     "lines": {
-      "additions": 3838510,
-      "deletions": 375843,
-      "total": 3462667
+      "additions": 0,
+      "deletions": 0,
+      "total": 0
     }
   },
-  "coverage": "COMPLETE",
-  "generated_at": "2026-08-03T16:54:50Z",
-  "login": "itsmfknlucy",
+  "coverage": "PENDING_AUTHENTICATED_SYNC",
+  "generated_at": "2026-01-01T00:00:00Z",
+  "login": "akosimico",
   "owners": {
-    "organizations": 3
+    "organizations": 0
   },
   "repositories": {
     "collaborator": 0,
-    "organization_member": 12,
-    "owned": 6,
-    "total": 18
+    "organization_member": 0,
+    "owned": 0,
+    "total": 0
   },
   "schema_version": 2,
   "signals": {
-    "followers": 5,
-    "stars_owned": 14
+    "followers": 0,
+    "stars_owned": 0
   },
   "state": {
     "archived": 0,
@@ -41,7 +41,7 @@
   },
   "visibility": {
     "internal": 0,
-    "private": 17,
-    "public": 1
+    "private": 0,
+    "public": 0
   }
 }

@@ -1,0 +1,45 @@
+name: Refresh Profile Stats
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # runs daily at midnight UTC
+  workflow_dispatch: # allows manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.PROFILE_STATS_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip
+
+      - name: Generate profile assets
+        env:
+          PROFILE_STATS_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN }}
+          PROFILE_LOGIN: "akosimico"
+          PROFILE_REQUIRED_OWNERS: "akosimico"
+        run: python -m profile_generator
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/ generated/
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "chore: refresh profile stats"
+            git push
+          fi
