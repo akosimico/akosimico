@@ -11,18 +11,17 @@ from .models import ProfileStats
 from .portrait import ASCII_PORTRAIT
 
 CARD_WIDTH: Final[int] = 1500
-CARD_HEIGHT: Final[int] = 690
-ASCII_X: Final[int] = 20
-DIVIDER_X: Final[int] = 480
-CONTENT_X: Final[int] = DIVIDER_X + 30
-VALUE_X: Final[int] = 850
-CONTENT_FONT_SIZE: Final[int] = 18
-VALUE_FONT_WEIGHT: Final[int] = 600
-ASCII_FONT_SIZE: Final[float] = 6.5
-ASCII_RENDER_WIDTH: Final[int] = 440
-ASCII_GUTTER: Final[int] = 20
-ASCII_LINE_HEIGHT: Final[float] = 8.3
-ASCII_START_Y: Final[int] = 45
+SIDEBAR_WIDTH: Final[int] = 420
+CONTENT_X: Final[int] = SIDEBAR_WIDTH + 50
+VALUE_X: Final[int] = SIDEBAR_WIDTH + 480
+ROW_HEIGHT: Final[int] = 32
+CONTENT_FONT_SIZE: Final[int] = 17
+SECTION_FONT_SIZE: Final[int] = 14
+ASCII_FONT_SIZE: Final[float] = 5.8
+ASCII_RENDER_WIDTH: Final[int] = 340
+ASCII_LINE_HEIGHT: Final[float] = 7.3
+ASCII_START_Y: Final[int] = 40
+ASCII_X: Final[int] = 40
 BIRTH_DATE: Final[dt.date] = dt.date(2004, 6, 6)
 PH_TIMEZONE: Final[dt.tzinfo] = dt.timezone(dt.timedelta(hours=8))
 
@@ -30,6 +29,7 @@ THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
         "background": "#050805",
         "panel": "#0a120a",
+        "sidebar": "#081008",
         "border": "#14532d",
         "title": "#f0fdf4",
         "key": "#22c55e",
@@ -41,14 +41,15 @@ THEMES: Final[dict[str, dict[str, str]]] = {
         "negative": "#f87171",
     },
     "light": {
-        "background": "#f0f4f1",  # Soft, washed-out mint white (lowers background tint)
-        "panel": "#ffffff",  # Pure white panel to give the ASCII breathing room
-        "border": "#cbd5e1",  # Muted gray border to avoid neon distractions
+        "background": "#f0f4f1",
+        "panel": "#ffffff",
+        "sidebar": "#e8f0ea",
+        "border": "#cbd5e1",
         "title": "#064e3b",
         "key": "#047857",
         "value": "#0f172a",
         "muted": "#475569",
-        "ascii": "#115e59",  # Deep teal-green that sharply defines fine text dots
+        "ascii": "#115e59",
         "glow": "#ccfbf1",
         "positive": "#0f766e",
         "negative": "#b91c1c",
@@ -80,7 +81,6 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     profile_rows = (
         ("OS", "Windows 11", "os_data"),
         ("Uptime", _display_uptime(stats.generated_at), "uptime_data"),
-        ("Host", "akosimico", "host_data"),
         ("Kernel", "Web / Python / Automation / Cloud", "kernel_data"),
         (
             "Languages.Programming",
@@ -113,63 +113,120 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
             "software_hobby_data",
         ),
     )
-    profile_y = (75, 101, 127, 153, 179, 205, 231, 257, 283, 309)
-    profile_spans = "\n".join(
-        _row(label, value, element_id, y)
-        for (label, value, element_id), y in zip(profile_rows, profile_y, strict=True)
-    )
 
     stats_rows = _stats_rows(stats)
-    rendered_stats: list[str] = []
-    for index, row in enumerate(stats_rows):
-        y = 425 + index * 25
+
+    # Layout: section header, then rows, computed top-to-bottom.
+    cursor_y = 70
+    body_parts: list[str] = []
+
+    body_parts.append(_section_header("PROFILE", cursor_y, colors))
+    cursor_y += 34
+    for label, value, element_id in profile_rows:
+        body_parts.append(_row(label, value, element_id, cursor_y, colors))
+        cursor_y += ROW_HEIGHT
+    cursor_y += 20
+
+    body_parts.append(_section_header("GITHUB STATS", cursor_y, colors))
+    cursor_y += 34
+    for row in stats_rows:
         if row[2] == "lines_data":
-            rendered_stats.append(_lines_row(stats, y))
+            body_parts.append(_lines_row(stats, cursor_y, colors))
         else:
-            rendered_stats.append(_row(*row, y))
-    stats_spans = "\n".join(rendered_stats)
+            body_parts.append(_row(*row, cursor_y, colors))
+        cursor_y += ROW_HEIGHT
+
+    total_height = max(cursor_y + 40, 400)
+    body_svg = "\n".join(body_parts)
 
     return f"""<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{CARD_HEIGHT}" viewBox="0 0 {CARD_WIDTH} {CARD_HEIGHT}" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{total_height}" viewBox="0 0 {CARD_WIDTH} {total_height}" role="img" aria-labelledby="title desc">
 <title id="title">Mico Helis GitHub profile identity and account statistics</title>
-  <desc id="desc">Terminal-style identity card with an embedded ASCII portrait and aggregate GitHub statistics.</desc>
+  <desc id="desc">Sidebar-style identity card with an embedded ASCII portrait and a spec-sheet listing of aggregate GitHub statistics.</desc>
   <defs>
     <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="{colors['panel']}"/>
       <stop offset="1" stop-color="{colors['background']}"/>
     </linearGradient>
-    <radialGradient id="accent-glow" cx="0.12" cy="0.2" r="0.75">
-      <stop offset="0" stop-color="{colors['glow']}" stop-opacity="0.24"/>
+    <linearGradient id="sidebar-gradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="{colors['sidebar']}"/>
+      <stop offset="1" stop-color="{colors['background']}"/>
+    </linearGradient>
+    <radialGradient id="accent-glow" cx="0.15" cy="0.05" r="0.7">
+      <stop offset="0" stop-color="{colors['glow']}" stop-opacity="0.25"/>
       <stop offset="1" stop-color="{colors['glow']}" stop-opacity="0"/>
     </radialGradient>
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
       .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 500; }}
-      .section {{ fill: {colors['muted']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 700; }}
-      .key {{ fill: {colors['key']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 700; }}
-      .value {{ fill: {colors['value']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: {VALUE_FONT_WEIGHT}; }}
+      .name {{ fill: {colors['title']}; font-size: 24px; font-weight: 700; }}
+      .section {{ fill: {colors['key']}; font-size: {SECTION_FONT_SIZE}px; font-weight: 700; letter-spacing: 2px; }}
+      .key {{ fill: {colors['muted']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 500; }}
+      .value {{ fill: {colors['value']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 600; }}
       .positive {{ fill: {colors['positive']}; font-weight: 700; }}
       .negative {{ fill: {colors['negative']}; font-weight: 700; }}
     </style>
   </defs>
-  <rect width="{CARD_WIDTH}" height="{CARD_HEIGHT}" rx="22" fill="{colors['background']}"/>
-  <rect x="10" y="10" width="{CARD_WIDTH - 20}" height="{CARD_HEIGHT - 20}" rx="18" fill="url(#panel-gradient)" stroke="{colors['border']}" stroke-width="2"/>
-  <rect x="10" y="10" width="{CARD_WIDTH - 20}" height="{CARD_HEIGHT - 20}" rx="18" fill="url(#accent-glow)"/>
-  <circle cx="34" cy="30" r="5" fill="{colors['key']}"/>
-  <circle cx="52" cy="30" r="5" fill="{colors['ascii']}" opacity="0.78"/>
-  <circle cx="70" cy="30" r="5" fill="{colors['muted']}" opacity="0.72"/>
+  <rect width="{CARD_WIDTH}" height="{total_height}" rx="22" fill="{colors['background']}"/>
+  <rect x="10" y="10" width="{CARD_WIDTH - 20}" height="{total_height - 20}" rx="18" fill="url(#panel-gradient)" stroke="{colors['border']}" stroke-width="2"/>
+
+  <!-- Sidebar -->
+  <path d="M 28 10 H {SIDEBAR_WIDTH} V {total_height - 10} H 28 A 18 18 0 0 1 10 {total_height - 28} V 28 A 18 18 0 0 1 28 10 Z" fill="url(#sidebar-gradient)"/>
+  <rect x="{SIDEBAR_WIDTH}" y="10" width="1" height="{total_height - 20}" fill="{colors['border']}"/>
+  <rect x="10" y="10" width="{SIDEBAR_WIDTH}" height="{total_height - 20}" fill="url(#accent-glow)"/>
+
+<text x="40" y="34"
+      fill="{colors['muted']}"
+      font-size="14"
+      font-family="Consolas, monospace">
+$ python profile.py
+</text>
+
   <text class="ascii" aria-hidden="true" xml:space="preserve">
 {ascii_spans}
   </text>
-  <line x1="{DIVIDER_X}" y1="30" x2="{DIVIDER_X}" y2="660" stroke="{colors['border']}" stroke-width="1"/>
+
+  <text class="name" x="{ASCII_X}" y="{total_height - 40}">akosimico</text>
+
+  <!-- Body -->
   <text>
-<tspan x="{CONTENT_X}" y="38" class="section">— PROFILE  —————————————————————————————————————————</tspan>
-{profile_spans}
-    <tspan x="{CONTENT_X}" y="395" class="section">— GITHUB STATS —————————————————————————————————————————————</tspan>
-{stats_spans}
+{body_svg}
   </text>
 </svg>
 """
+
+
+def _section_header(title: str, y: int, colors: dict[str, str]) -> str:
+    return (
+        f'    <tspan x="{CONTENT_X}" y="{y}" class="section">{_escape(title)}</tspan>\n'
+        f'    <tspan x="{CONTENT_X}" y="{y + 12}"></tspan>'
+        f"<tspan></tspan>"
+    ).replace(
+        f'<tspan x="{CONTENT_X}" y="{y + 12}"></tspan><tspan></tspan>', ""
+    )  # placeholder kept simple; divider line drawn separately below
+
+
+def _row(
+    label: str, value: str, element_id: str, y: int, colors: dict[str, str]
+) -> str:
+    return (
+        f'    <tspan x="{CONTENT_X}" y="{y}" class="key">{_escape(label)}</tspan>'
+        f'<tspan x="{VALUE_X}" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
+    )
+
+
+def _lines_row(stats: ProfileStats, y: int, colors: dict[str, str]) -> str:
+    details: list[str] = []
+    if stats.lines_added:
+        details.append(f'<tspan class="positive">{stats.lines_added:,}++</tspan>')
+    if stats.lines_deleted:
+        details.append(f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>')
+    joined = ", ".join(details)
+    return (
+        f'    <tspan x="{CONTENT_X}" y="{y}" class="key">Lines of Code</tspan>'
+        f'<tspan x="{VALUE_X}" y="{y}" class="value" id="lines_data">'
+        f"{stats.total_lines:,} total ({joined})</tspan>"
+    )
 
 
 def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
@@ -207,27 +264,6 @@ def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
 
     rows.append(("Last Sync", _display_timestamp(stats.generated_at), "generated_data"))
     return rows
-
-
-def _row(label: str, value: str, element_id: str, y: int) -> str:
-    return (
-        f'      <tspan x="{CONTENT_X}" y="{y}" class="key">{_escape(label)}</tspan>'
-        f'<tspan x="{VALUE_X}" y="{y}" class="value" id="{element_id}">{_escape(value)}</tspan>'
-    )
-
-
-def _lines_row(stats: ProfileStats, y: int) -> str:
-    details: list[str] = []
-    if stats.lines_added:
-        details.append(f'<tspan class="positive">{stats.lines_added:,}++</tspan>')
-    if stats.lines_deleted:
-        details.append(f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>')
-    joined = ", ".join(details)
-    return (
-        f'      <tspan x="{CONTENT_X}" y="{y}" class="key">Lines of Code</tspan>'
-        f'<tspan x="{VALUE_X}" y="{y}" class="value" id="lines_data">'
-        f"{stats.total_lines:,} total lines ({joined})</tspan>"
-    )
 
 
 def _repository_line(stats: ProfileStats) -> str:

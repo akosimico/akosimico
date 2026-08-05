@@ -42,4 +42,7 @@ I build things that solve real problems: web applications, automation scripts, A
 | **Data** | SQL, JSON, YAML, Markdown |
 | **Tools** | Git, GitHub, VS Code, Visual Studio
 
-
+---
+<p align="center">
+  <em>ako si mico</em>
+</p>
