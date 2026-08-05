@@ -3,8 +3,13 @@
   "activity": {
     "commits": {
       "private": 214,
+<<<<<<< HEAD
       "public": 70,
       "total": 284
+=======
+      "public": 71,
+      "total": 285
+>>>>>>> 4ba1b6e (Update generated profile assets)
     },
     "contributions": {
       "public": 4,
@@ -18,7 +23,11 @@
     }
   },
   "coverage": "COMPLETE",
+<<<<<<< HEAD
   "generated_at": "2026-08-05T18:42:08Z",
+=======
+  "generated_at": "2026-08-05T19:22:23Z",
+>>>>>>> 4ba1b6e (Update generated profile assets)
   "login": "akosimico",
   "owners": {
     "organizations": 0
