@@ -35,9 +35,13 @@ def urllib_transport(
 ) -> HttpResponse:
     """Execute one HTTP request while normalizing HTTP error responses."""
 
-    request = urllib.request.Request(url=url, data=body, headers=dict(headers), method=method)
+    request = urllib.request.Request(
+        url=url, data=body, headers=dict(headers), method=method
+    )
     try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:  # noqa: S310 - fixed GitHub endpoints
+        with urllib.request.urlopen(
+            request, timeout=timeout
+        ) as response:  # noqa: S310 - fixed GitHub endpoints
             return HttpResponse(
                 status=int(response.status),
                 headers=dict(response.headers.items()),
@@ -119,8 +123,12 @@ class GitHubClient:
                 f"{self._rest_base_url}/user/repos?{query}",
                 operation=f"repository inventory ({affiliation})",
             )
-            if not isinstance(payload, list) or any(not isinstance(item, dict) for item in payload):
-                raise ApiError(f"repository inventory ({affiliation}) returned an invalid payload")
+            if not isinstance(payload, list) or any(
+                not isinstance(item, dict) for item in payload
+            ):
+                raise ApiError(
+                    f"repository inventory ({affiliation}) returned an invalid payload"
+                )
             repositories.extend(payload)
             if len(payload) < 100:
                 break
@@ -157,7 +165,9 @@ class GitHubClient:
         try:
             collection = payload["data"]["viewer"]["contributionsCollection"]
         except (KeyError, TypeError) as exc:
-            raise ApiError("GraphQL contribution lookup returned an invalid payload") from exc
+            raise ApiError(
+                "GraphQL contribution lookup returned an invalid payload"
+            ) from exc
         if not isinstance(collection, dict):
             raise ApiError("GraphQL contribution lookup returned an invalid payload")
 
@@ -200,7 +210,9 @@ class GitHubClient:
         if response.status == 409:
             return 0
         payload = self._decode_json(response, "repository commit count")
-        if not isinstance(payload, list) or any(not isinstance(item, dict) for item in payload):
+        if not isinstance(payload, list) or any(
+            not isinstance(item, dict) for item in payload
+        ):
             raise ApiError("repository commit count returned an invalid payload")
         if not payload:
             return 0
@@ -236,8 +248,12 @@ class GitHubClient:
             return 0, 0
 
         payload = self._decode_json(response, "repository contributor statistics")
-        if not isinstance(payload, list) or any(not isinstance(item, dict) for item in payload):
-            raise ApiError("repository contributor statistics returned an invalid payload")
+        if not isinstance(payload, list) or any(
+            not isinstance(item, dict) for item in payload
+        ):
+            raise ApiError(
+                "repository contributor statistics returned an invalid payload"
+            )
 
         target = login.casefold()
         for contributor in payload:
@@ -248,13 +264,19 @@ class GitHubClient:
             if not isinstance(author_login, str) or author_login.casefold() != target:
                 continue
             weeks = contributor.get("weeks")
-            if not isinstance(weeks, list) or any(not isinstance(week, dict) for week in weeks):
-                raise ApiError("repository contributor statistics returned invalid weekly data")
+            if not isinstance(weeks, list) or any(
+                not isinstance(week, dict) for week in weeks
+            ):
+                raise ApiError(
+                    "repository contributor statistics returned invalid weekly data"
+                )
             additions = sum(
-                self._non_negative_int(week.get("a"), "repository additions") for week in weeks
+                self._non_negative_int(week.get("a"), "repository additions")
+                for week in weeks
             )
             deletions = sum(
-                self._non_negative_int(week.get("d"), "repository deletions") for week in weeks
+                self._non_negative_int(week.get("d"), "repository deletions")
+                for week in weeks
             )
             return additions, deletions
 
@@ -301,7 +323,11 @@ class GitHubClient:
         for attempt in range(1, self._max_attempts + 1):
             response = self._transport(method, url, headers, body, self._timeout)
             last_status = response.status
-            success = response.status in accepted if accepted is not None else 200 <= response.status < 300
+            success = (
+                response.status in accepted
+                if accepted is not None
+                else 200 <= response.status < 300
+            )
             if success:
                 return response
             if self._is_transient(response) and attempt < self._max_attempts:
@@ -323,12 +349,16 @@ class GitHubClient:
             return True
         if response.status != 403:
             return False
-        headers = {str(key).lower(): str(value) for key, value in response.headers.items()}
+        headers = {
+            str(key).lower(): str(value) for key, value in response.headers.items()
+        }
         return "retry-after" in headers or headers.get("x-ratelimit-remaining") == "0"
 
     @staticmethod
     def _retry_delay(response: HttpResponse, attempt: int) -> float:
-        headers = {str(key).lower(): str(value) for key, value in response.headers.items()}
+        headers = {
+            str(key).lower(): str(value) for key, value in response.headers.items()
+        }
         retry_after = headers.get("retry-after")
         if retry_after:
             try:
