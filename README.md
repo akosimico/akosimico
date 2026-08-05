@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  Turning real-world problems into scalable software, smart automations, and AI integrations — prioritizing code quality and fast execution.
+  Turning real-world problems into scalable software, smart automations, and AI integrations prioritizing code quality and fast execution.
 </p>
 
 <p align="center">
