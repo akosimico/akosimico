@@ -40,22 +40,6 @@ I build things that solve real problems: web applications, automation scripts, A
 | **Languages** | Python, JavaScript, TypeScript, C#, HTML, CSS |
 | **Frameworks** | React, FastAPI, Flask, Node.js |
 | **Data** | SQL, JSON, YAML, Markdown |
-| **Tools** | Git, GitHub, VS Code, Docker |
+| **Tools** | Git, GitHub, VS Code, Visual Studio
 
-## Operating Philosophy
 
-```txt
-Simple before clever.
-Working before perfect.
-Solve the problem, then ship it.
-```
-
-## Stats
-
-> The profile card above is **automatically generated** from the GitHub API and refreshes every day. See [`profile_generator`](profile_generator/) for how it works.
-
----
-
-<p align="center">
-  <em>Profile card auto-refreshes daily via GitHub Actions.</em>
-</p>
