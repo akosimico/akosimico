@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1072" viewBox="0 0 1700 1072" role="img" aria-labelledby="title desc">
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1682" viewBox="0 0 1700 1682" role="img" aria-labelledby="title desc">
 <title id="title">Mico Helis GitHub profile identity and account statistics</title>
-  <desc id="desc">Sidebar-style identity card with an embedded ASCII portrait and a spec-sheet listing of aggregate GitHub statistics.</desc>
+  <desc id="desc">Terminal-window dashboard with a tabbed title bar, a prominent ASCII portrait pane, and a right-hand column of stat cards grouped under tab-styled section headers.</desc>
   <defs>
     <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
@@ -12,134 +12,193 @@
       <stop offset="1" stop-color="#f0f4f1"/>
     </linearGradient>
     <radialGradient id="accent-glow" cx="0.15" cy="0.05" r="0.7">
-      <stop offset="0" stop-color="#ccfbf1" stop-opacity="0.25"/>
+      <stop offset="0" stop-color="#ccfbf1" stop-opacity="0.22"/>
       <stop offset="1" stop-color="#ccfbf1" stop-opacity="0"/>
     </radialGradient>
     <style>
       text { font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }
-      .ascii { fill: #115e59; font-size: 9.59px; font-weight: 500; }
-      .name { fill: #064e3b; font-size: 32px; font-weight: 700; }
-      .section { fill: #047857; font-size: 18px; font-weight: 700; letter-spacing: 2px; }
-      .key { fill: #475569; font-size: 22px; font-weight: 500; }
-      .value { fill: #0f172a; font-size: 22px; font-weight: 600; }
+      .ascii { fill: #115e59; font-size: 15.92px; font-weight: 500; }
+      .name { fill: #064e3b; font-size: 30px; font-weight: 700; }
+      .chip { fill: #047857; font-size: 15px; font-weight: 700; letter-spacing: 2px; }
+      .tab-active { fill: #064e3b; font-size: 14px; font-weight: 600; }
+      .tab-inactive { fill: #7c8c82; font-size: 14px; font-weight: 500; }
+      .label { fill: #475569; font-size: 14px; font-weight: 600; letter-spacing: 1.5px; }
+      .value { fill: #0f172a; font-size: 23px; font-weight: 700; }
       .positive { fill: #0f766e; font-weight: 700; }
       .negative { fill: #b91c1c; font-weight: 700; }
     </style>
   </defs>
-  <rect width="1700" height="1072" rx="22" fill="#f0f4f1"/>
-  <rect x="10" y="10" width="1680" height="1052" rx="18" fill="url(#panel-gradient)" stroke="#cbd5e1" stroke-width="2"/>
+  <rect width="1700" height="1682" rx="22" fill="#f0f4f1"/>
+  <rect x="10" y="10" width="1680" height="1662" rx="18" fill="url(#panel-gradient)" stroke="#cbd5e1" stroke-width="2"/>
 
-  <!-- Sidebar -->
-  <path d="M 28 10 H 480 V 1062 H 28 A 18 18 0 0 1 10 1044 V 28 A 18 18 0 0 1 28 10 Z" fill="url(#sidebar-gradient)"/>
-  <rect x="480" y="10" width="1" height="1052" fill="#cbd5e1"/>
-  <rect x="10" y="10" width="480" height="1052" fill="url(#accent-glow)"/>
+  <!-- Title bar: traffic lights + decorative tab strip -->
+  <path d="M 10 28 A 18 18 0 0 1 28 10 H 1672 A 18 18 0 0 1 1690 28 V 56 H 10 Z" fill="#e2ece4"/>
+  <rect x="10" y="55" width="1680" height="1" fill="#cbd5e1"/>
+  <circle cx="46" cy="28" r="7" fill="#ff5f56"/>
+  <circle cx="70" cy="28" r="7" fill="#ffbd2e"/>
+  <circle cx="94" cy="28" r="7" fill="#27c93f"/>
+  <rect x="130" y="18" width="138" height="30" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="199.0" y="38.0" text-anchor="middle" class="tab-active">portrait.ascii</text>
+  <rect x="136" y="46" width="126" height="2.5" fill="#ccfbf1"/>
+  <rect x="278" y="18" width="122" height="30" rx="8" fill="#dbe6de" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="339.0" y="38.0" text-anchor="middle" class="tab-inactive">profile.json</text>
+  <rect x="410" y="18" width="98" height="30" rx="8" fill="#dbe6de" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="459.0" y="38.0" text-anchor="middle" class="tab-inactive">stats.log</text>
 
-<text x="50" y="42"
-      fill="#475569"
-      font-size="18"
-      font-family="Consolas, monospace">
-$ python profile.py
-</text>
+  <!-- Left terminal pane: ASCII portrait -->
+  <rect x="20" y="56" width="620" height="1606" rx="14" fill="url(#sidebar-gradient)" stroke="#cbd5e1" stroke-width="1.5"/>
+  <rect x="20" y="56" width="620" height="1606" rx="14" fill="url(#accent-glow)"/>
+
+  <text x="50" y="90" fill="#475569" font-size="17" font-family="Consolas, monospace">$ python profile.py</text>
 
   <text class="ascii" aria-hidden="true" xml:space="preserve">
-      <tspan x="50" y="90.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="102.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="114.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="126.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="138.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="150.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="162.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
-      <tspan x="50" y="174.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                    .   ...                                         </tspan>
-      <tspan x="50" y="186.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                 . ..                                               </tspan>
-      <tspan x="50" y="199.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                             .   ..     . ....                                      </tspan>
-      <tspan x="50" y="211.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                               .   ... .....:.:. .::                                </tspan>
-      <tspan x="50" y="223.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                 .. :.        .   ..        ...:::.:. .             </tspan>
-      <tspan x="50" y="235.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                         .                 ...::       ....     ..  ...:.           </tspan>
-      <tspan x="50" y="247.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                       : .:---:     .::-===-                :       </tspan>
-      <tspan x="50" y="259.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                       .:-====--:::-=++++=-.   .            ....    </tspan>
-      <tspan x="50" y="271.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                 ..   :-=+**#%%%%%%####***====:     .          .    </tspan>
-      <tspan x="50" y="283.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                  .:-=*%##%#*%%%%@%%%%@@@@%%@%%#*+=--:.    ..       </tspan>
-      <tspan x="50" y="295.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                    . .      ..:---==-=+===-:*#%+=%*=#*=-----=+++****+=:.   . ..    </tspan>
-      <tspan x="50" y="308.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                            ..---:.           .-.-*#-..         . .::-=--.          </tspan>
-      <tspan x="50" y="320.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                           :.::                .:+**=                  :-:          </tspan>
-      <tspan x="50" y="332.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                 .        ::.      ..::.       .+%%%+       .:--:.      .-.         </tspan>
-      <tspan x="50" y="344.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                         ::.     .-=*%#+=:.    :*%%#+.     :=*%#+=-.     .-         </tspan>
-      <tspan x="50" y="356.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                        .:.     .::.........:: -=#%#+-.-.     .::-::.     -:        </tspan>
-      <tspan x="50" y="368.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                       .:.              ..:==..:=%%#+:.+*=:..       .:..  .-.       </tspan>
-      <tspan x="50" y="380.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                       ::   ....       .-=+=. :=#@@%#-.:+%*=--::...:-=---::--.:     </tspan>
-      <tspan x="50" y="392.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                       :..:--==-::::--=+*#+..-=+##%#+=:.:#%#*+===+*****%#*+==:.:    </tspan>
-      <tspan x="50" y="404.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                         ..:-=+++++++*%%%#=:.   ....  :-:#@%%%*+++*###**+=--:-      </tspan>
-      <tspan x="50" y="417.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                             ...::-=+*###+-.          ..:-#%%%%#*=---::::.   .      </tspan>
-      <tspan x="50" y="429.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                  .-=++*+=*-          :.**-+%%##*+-.   ... ..       </tspan>
-      <tspan x="50" y="441.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                           .::::...:-=++*#+:....   .-=-+%@%++##*+=----::--..:.      </tspan>
-      <tspan x="50" y="453.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                         .  ::-==--:=+##+-::--++===**+****#%*+**++++*+=--: .:       </tspan>
-      <tspan x="50" y="465.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                         .  ..:--===+#+:.:-=-::-===+*%%%%*==*######**++=-. ..   .+. </tspan>
-      <tspan x="50" y="477.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                  ::.       ..:::=+**=.....    =+-+##*=:-++*######****+=-...   --=  </tspan>
-      <tspan x="50" y="489.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                   ...      ..::.-+*-.     .:=-#@@%**+==+===+++*%%#***+=---: :. .:  </tspan>
-      <tspan x="50" y="501.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                      ..     :::.:==: .-++-:.. .#**:..:-+%%#*+++*#%%%%%%%#+. ::     </tspan>
-      <tspan x="50" y="513.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                             ..   ...:==-:..     ..-     :+*##+++***#%@%*=:         </tspan>
-      <tspan x="50" y="526.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                              ..    .:.        ...          .--  .  :==-            </tspan>
-      <tspan x="50" y="538.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                               ..   .       .:=++++=-:.   ..::-:.   ::.             </tspan>
-      <tspan x="50" y="550.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                .. .::---=---::====++**+==++++-::.                  </tspan>
-      <tspan x="50" y="562.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                    ..-=-==-::.... .::-=++==-:.          :          </tspan>
-      <tspan x="50" y="574.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                       .              :::.              .:          </tspan>
-      <tspan x="50" y="586.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                       .::          </tspan>
-      <tspan x="50" y="598.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                       ..:          </tspan>
-      <tspan x="50" y="610.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                                       .:.          </tspan>
-      <tspan x="50" y="622.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                             :-.                                      .::.          </tspan>
-      <tspan x="50" y="635.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                              ::--.                                   .:..          </tspan>
-      <tspan x="50" y="647.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                 :==.                                 ... :.        </tspan>
-      <tspan x="50" y="659.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                  .:==:                         ........ .=*=       </tspan>
-      <tspan x="50" y="671.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                    .-+=-.                     ......... :=*@#:     </tspan>
-      <tspan x="50" y="683.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                      .-==-.                    ...::... .=+%@%+.   </tspan>
-      <tspan x="50" y="695.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                        :-=+=:.                  ..:::.   =+#%%@%-  </tspan>
-      <tspan x="50" y="707.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                          :-=+=-..              ......    :+#@%%@%+.</tspan>
-      <tspan x="50" y="719.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">     .                   .                           ..     .-+******-           ..::.   . =#%%@@@%#</tspan>
-      <tspan x="50" y="731.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">     .      .            .                            .:     .:=*#%@#-            :::  ..: :%@%%#***</tspan>
-      <tspan x="50" y="744.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">.    .      .      .     .                              :.    ..-=+-  ...        .--. :=-+: =-.     </tspan>
-      <tspan x="50" y="756.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">.           .      .     .                               ::.      :      ...:--: .-=-:++++=.:       </tspan>
-      <tspan x="50" y="768.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">        .   .      .     ..                               :-:..  ..        ::=++-:=*******-.*.      </tspan>
-      <tspan x="50" y="780.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">       ..  ..  .   .           ..                          :=-:::.    .:::-+-+##**#****#**--#+-..   </tspan>
-      <tspan x="50" y="792.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">       .    .      .             .    ..                    :++-  ..=-+**#%%+*#*####*##***-:+#=*@%= </tspan>
-      <tspan x="50" y="804.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">       .  .     .....    .        ..     .      .            :+-+**:=#%###%*=**#####****++- :===--=-</tspan>
-      <tspan x="50" y="816.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">           .       ..              ..     .                   :###*: =#%@%+:=+*###**++=+++=.=%##+-:.</tspan>
-      <tspan x="50" y="828.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                   ..     .          .     ..                  =**#: =+*#: :-=+*****+=====-.-**#- . </tspan>
-      <tspan x="50" y="840.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                    . .   .           .      .                  ***    .: :-=++++==+======:.:**+    </tspan>
-      <tspan x="50" y="853.00" textLength="400.00" lengthAdjust="spacingAndGlyphs">               .      .                ..      .                .#+:=+*+- .=++===========-:..*#=    </tspan>
-      <tspan x="50" y="865.11" textLength="400.00" lengthAdjust="spacingAndGlyphs">               .                         .       .               -%%%#--*#:---=----=======-..+#=   :</tspan>
-      <tspan x="50" y="877.22" textLength="400.00" lengthAdjust="spacingAndGlyphs">                           .   .           .      ..              *%%= .+%#---=----======-:..+*=  :=</tspan>
-      <tspan x="50" y="889.33" textLength="400.00" lengthAdjust="spacingAndGlyphs">                           .   .            .                     .#%%*###%%*+=-=---==-----. +*= -++</tspan>
-      <tspan x="50" y="901.44" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                              .                    -##%#+*%%%%*=----===---:. -*+-++*</tspan>
-      <tspan x="50" y="913.56" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                    .           .                   +**+**#%%%@%#+-------:...-**=+=-</tspan>
-      <tspan x="50" y="925.67" textLength="400.00" lengthAdjust="spacingAndGlyphs">         .                          .                               .***##%%%@@@@@%*+--::...:.+*+=-.</tspan>
-      <tspan x="50" y="937.78" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                   .                                 -%#*+====+**#%@@%#+-.... :*+=++</tspan>
-      <tspan x="50" y="949.89" textLength="400.00" lengthAdjust="spacingAndGlyphs">                                                                      -.          .:-+*##: ..  =*+++</tspan>
+      <tspan x="50" y="114.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="134.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="154.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="174.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="194.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="214.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="234.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                                    </tspan>
+      <tspan x="50" y="254.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                    .   ...                                         </tspan>
+      <tspan x="50" y="274.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                 . ..                                               </tspan>
+      <tspan x="50" y="295.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                             .   ..     . ....                                      </tspan>
+      <tspan x="50" y="315.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                               .   ... .....:.:. .::                                </tspan>
+      <tspan x="50" y="335.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                 .. :.        .   ..        ...:::.:. .             </tspan>
+      <tspan x="50" y="355.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                         .                 ...::       ....     ..  ...:.           </tspan>
+      <tspan x="50" y="375.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                       : .:---:     .::-===-                :       </tspan>
+      <tspan x="50" y="395.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                       .:-====--:::-=++++=-.   .            ....    </tspan>
+      <tspan x="50" y="415.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                 ..   :-=+**#%%%%%%####***====:     .          .    </tspan>
+      <tspan x="50" y="435.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                  .:-=*%##%#*%%%%@%%%%@@@@%%@%%#*+=--:.    ..       </tspan>
+      <tspan x="50" y="455.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                    . .      ..:---==-=+===-:*#%+=%*=#*=-----=+++****+=:.   . ..    </tspan>
+      <tspan x="50" y="476.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                            ..---:.           .-.-*#-..         . .::-=--.          </tspan>
+      <tspan x="50" y="496.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                           :.::                .:+**=                  :-:          </tspan>
+      <tspan x="50" y="516.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                 .        ::.      ..::.       .+%%%+       .:--:.      .-.         </tspan>
+      <tspan x="50" y="536.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                         ::.     .-=*%#+=:.    :*%%#+.     :=*%#+=-.     .-         </tspan>
+      <tspan x="50" y="556.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                        .:.     .::.........:: -=#%#+-.-.     .::-::.     -:        </tspan>
+      <tspan x="50" y="576.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                       .:.              ..:==..:=%%#+:.+*=:..       .:..  .-.       </tspan>
+      <tspan x="50" y="596.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                       ::   ....       .-=+=. :=#@@%#-.:+%*=--::...:-=---::--.:     </tspan>
+      <tspan x="50" y="616.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                       :..:--==-::::--=+*#+..-=+##%#+=:.:#%#*+===+*****%#*+==:.:    </tspan>
+      <tspan x="50" y="636.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                         ..:-=+++++++*%%%#=:.   ....  :-:#@%%%*+++*###**+=--:-      </tspan>
+      <tspan x="50" y="657.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                             ...::-=+*###+-.          ..:-#%%%%#*=---::::.   .      </tspan>
+      <tspan x="50" y="677.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                  .-=++*+=*-          :.**-+%%##*+-.   ... ..       </tspan>
+      <tspan x="50" y="697.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                           .::::...:-=++*#+:....   .-=-+%@%++##*+=----::--..:.      </tspan>
+      <tspan x="50" y="717.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                         .  ::-==--:=+##+-::--++===**+****#%*+**++++*+=--: .:       </tspan>
+      <tspan x="50" y="737.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                         .  ..:--===+#+:.:-=-::-===+*%%%%*==*######**++=-. ..   .+. </tspan>
+      <tspan x="50" y="757.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                  ::.       ..:::=+**=.....    =+-+##*=:-++*######****+=-...   --=  </tspan>
+      <tspan x="50" y="777.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                   ...      ..::.-+*-.     .:=-#@@%**+==+===+++*%%#***+=---: :. .:  </tspan>
+      <tspan x="50" y="797.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                      ..     :::.:==: .-++-:.. .#**:..:-+%%#*+++*#%%%%%%%#+. ::     </tspan>
+      <tspan x="50" y="817.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                             ..   ...:==-:..     ..-     :+*##+++***#%@%*=:         </tspan>
+      <tspan x="50" y="838.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                              ..    .:.        ...          .--  .  :==-            </tspan>
+      <tspan x="50" y="858.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                               ..   .       .:=++++=-:.   ..::-:.   ::.             </tspan>
+      <tspan x="50" y="878.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                .. .::---=---::====++**+==++++-::.                  </tspan>
+      <tspan x="50" y="898.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                    ..-=-==-::.... .::-=++==-:.          :          </tspan>
+      <tspan x="50" y="918.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                       .              :::.              .:          </tspan>
+      <tspan x="50" y="938.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                       .::          </tspan>
+      <tspan x="50" y="958.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                       ..:          </tspan>
+      <tspan x="50" y="978.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                                       .:.          </tspan>
+      <tspan x="50" y="998.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                             :-.                                      .::.          </tspan>
+      <tspan x="50" y="1019.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                              ::--.                                   .:..          </tspan>
+      <tspan x="50" y="1039.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                 :==.                                 ... :.        </tspan>
+      <tspan x="50" y="1059.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                  .:==:                         ........ .=*=       </tspan>
+      <tspan x="50" y="1079.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                    .-+=-.                     ......... :=*@#:     </tspan>
+      <tspan x="50" y="1099.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                      .-==-.                    ...::... .=+%@%+.   </tspan>
+      <tspan x="50" y="1119.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                        :-=+=:.                  ..:::.   =+#%%@%-  </tspan>
+      <tspan x="50" y="1139.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                          :-=+=-..              ......    :+#@%%@%+.</tspan>
+      <tspan x="50" y="1159.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">     .                   .                           ..     .-+******-           ..::.   . =#%%@@@%#</tspan>
+      <tspan x="50" y="1179.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">     .      .            .                            .:     .:=*#%@#-            :::  ..: :%@%%#***</tspan>
+      <tspan x="50" y="1200.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">.    .      .      .     .                              :.    ..-=+-  ...        .--. :=-+: =-.     </tspan>
+      <tspan x="50" y="1220.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">.           .      .     .                               ::.      :      ...:--: .-=-:++++=.:       </tspan>
+      <tspan x="50" y="1240.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">        .   .      .     ..                               :-:..  ..        ::=++-:=*******-.*.      </tspan>
+      <tspan x="50" y="1260.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">       ..  ..  .   .           ..                          :=-:::.    .:::-+-+##**#****#**--#+-..   </tspan>
+      <tspan x="50" y="1280.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">       .    .      .             .    ..                    :++-  ..=-+**#%%+*#*####*##***-:+#=*@%= </tspan>
+      <tspan x="50" y="1300.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">       .  .     .....    .        ..     .      .            :+-+**:=#%###%*=**#####****++- :===--=-</tspan>
+      <tspan x="50" y="1320.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">           .       ..              ..     .                   :###*: =#%@%+:=+*###**++=+++=.=%##+-:.</tspan>
+      <tspan x="50" y="1340.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                   ..     .          .     ..                  =**#: =+*#: :-=+*****+=====-.-**#- . </tspan>
+      <tspan x="50" y="1360.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                    . .   .           .      .                  ***    .: :-=++++==+======:.:**+    </tspan>
+      <tspan x="50" y="1381.00" textLength="560.00" lengthAdjust="spacingAndGlyphs">               .      .                ..      .                .#+:=+*+- .=++===========-:..*#=    </tspan>
+      <tspan x="50" y="1401.11" textLength="560.00" lengthAdjust="spacingAndGlyphs">               .                         .       .               -%%%#--*#:---=----=======-..+#=   :</tspan>
+      <tspan x="50" y="1421.22" textLength="560.00" lengthAdjust="spacingAndGlyphs">                           .   .           .      ..              *%%= .+%#---=----======-:..+*=  :=</tspan>
+      <tspan x="50" y="1441.33" textLength="560.00" lengthAdjust="spacingAndGlyphs">                           .   .            .                     .#%%*###%%*+=-=---==-----. +*= -++</tspan>
+      <tspan x="50" y="1461.44" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                              .                    -##%#+*%%%%*=----===---:. -*+-++*</tspan>
+      <tspan x="50" y="1481.56" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                    .           .                   +**+**#%%%@%#+-------:...-**=+=-</tspan>
+      <tspan x="50" y="1501.67" textLength="560.00" lengthAdjust="spacingAndGlyphs">         .                          .                               .***##%%%@@@@@%*+--::...:.+*+=-.</tspan>
+      <tspan x="50" y="1521.78" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                   .                                 -%#*+====+**#%@@%#+-.... :*+=++</tspan>
+      <tspan x="50" y="1541.89" textLength="560.00" lengthAdjust="spacingAndGlyphs">                                                                      -.          .:-+*##: ..  =*+++</tspan>
   </text>
 
-  <text class="name" x="50" y="1012">akosimico</text>
+  <text class="name" x="50" y="1618">akosimico</text>
 
-  <!-- Body -->
-  <text>
-    <tspan x="540" y="100" class="section">PROFILE</tspan>
-    
-    <tspan x="540" y="150" class="key">OS</tspan><tspan x="1040" y="150" class="value" id="os_data">Windows 11</tspan>
-    <tspan x="540" y="196" class="key">Uptime</tspan><tspan x="1040" y="196" class="value" id="uptime_data">22 years, 1 months, 30 days</tspan>
-    <tspan x="540" y="242" class="key">Kernel</tspan><tspan x="1040" y="242" class="value" id="kernel_data">Web / Python / Automation / Cloud</tspan>
-    <tspan x="540" y="288" class="key">Languages.Programming</tspan><tspan x="1040" y="288" class="value" id="programming_data">Python, JavaScript, C#, Java, PHP, HTML, CSS</tspan>
-    <tspan x="540" y="334" class="key">Frameworks &amp; Libraries</tspan><tspan x="1040" y="334" class="value" id="frameworks_data">Laravel, Node.js, Express, Django, .NET</tspan>
-    <tspan x="540" y="380" class="key">Databases &amp; Formats</tspan><tspan x="1040" y="380" class="value" id="databases_data">PostgreSQL, MySQL, SQL, JSON, XML, YAML</tspan>
-    <tspan x="540" y="426" class="key">Developer &amp; AI Tools</tspan><tspan x="1040" y="426" class="value" id="tools_data">VS Code, Visual Studio, Git, Cursor, Claude, Codex</tspan>
-    <tspan x="540" y="472" class="key">Languages.Human</tspan><tspan x="1040" y="472" class="value" id="real_language_data">English, Filipino</tspan>
-    <tspan x="540" y="518" class="key">Hobbies.Software</tspan><tspan x="1040" y="518" class="value" id="software_hobby_data">Automation, Web Dev, AI Systems, Gaming</tspan>
-    <tspan x="540" y="594" class="section">GITHUB STATS</tspan>
-    
-    <tspan x="540" y="644" class="key">Repositories</tspan><tspan x="1040" y="644" class="value" id="repo_total">36 (36 owned)</tspan>
-    <tspan x="540" y="690" class="key">Visibility</tspan><tspan x="1040" y="690" class="value" id="visibility_data">36 (1 public, 35 private)</tspan>
-    <tspan x="540" y="736" class="key">State</tspan><tspan x="1040" y="736" class="value" id="state_data">1 (1 archived)</tspan>
-    <tspan x="540" y="782" class="key">Commits</tspan><tspan x="1040" y="782" class="value" id="commit_data">282 total commits (68 public, 214 private)</tspan>
-    <tspan x="540" y="828" class="key">Contributions</tspan><tspan x="1040" y="828" class="value" id="contribution_data">4 total contributions (4 public)</tspan>
-    <tspan x="540" y="874" class="key">Lines of Code</tspan><tspan x="1040" y="874" class="value" id="lines_data">1,758,799 total (<tspan class="positive">1,782,082++</tspan>, <tspan class="negative">23,283--</tspan>)</tspan>
-    <tspan x="540" y="920" class="key">Signals</tspan><tspan x="1040" y="920" class="value" id="signal_data">1 follower</tspan>
-    <tspan x="540" y="966" class="key">Last Sync</tspan><tspan x="1040" y="966" class="value" id="generated_data">August 06, 2026 02:18 AM</tspan>
-  </text>
+  <!-- Right dashboard column: stat cards -->
+  <rect x="670" y="82" width="104" height="34" rx="8" fill="none" stroke="#047857" stroke-width="1.5"/>
+  <text x="722.0" y="104.0" text-anchor="middle" class="chip">PROFILE</text>
+  <rect x="670" y="134" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="134" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="158" class="label">OS</text>
+  <text x="694" y="188" xml:space="preserve"><tspan class="value" id="os_data">Windows 11</tspan></text>
+  <rect x="670" y="220" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="220" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="244" class="label">UPTIME</text>
+  <text x="694" y="274" xml:space="preserve"><tspan class="value" id="uptime_data">22 years, 1 months, 30 days</tspan></text>
+  <rect x="670" y="306" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="306" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="330" class="label">KERNEL</text>
+  <text x="694" y="360" xml:space="preserve"><tspan class="value" id="kernel_data">Web / Python / Automation / Cloud</tspan></text>
+  <rect x="670" y="392" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="392" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="416" class="label">LANGUAGES.PROGRAMMING</text>
+  <text x="694" y="446" xml:space="preserve"><tspan class="value" id="programming_data">Python, JavaScript, C#, Java, PHP, HTML, CSS</tspan></text>
+  <rect x="670" y="478" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="478" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="502" class="label">FRAMEWORKS &amp; LIBRARIES</text>
+  <text x="694" y="532" xml:space="preserve"><tspan class="value" id="frameworks_data">Laravel, Node.js, Express, Django, .NET</tspan></text>
+  <rect x="670" y="564" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="564" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="588" class="label">DATABASES &amp; FORMATS</text>
+  <text x="694" y="618" xml:space="preserve"><tspan class="value" id="databases_data">PostgreSQL, MySQL, SQL, JSON, XML, YAML</tspan></text>
+  <rect x="670" y="650" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="650" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="674" class="label">DEVELOPER &amp; AI TOOLS</text>
+  <text x="694" y="704" xml:space="preserve"><tspan class="value" id="tools_data">VS Code, Visual Studio, Git, Cursor, Claude, Codex</tspan></text>
+  <rect x="670" y="736" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="736" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="760" class="label">LANGUAGES.HUMAN</text>
+  <text x="694" y="790" xml:space="preserve"><tspan class="value" id="real_language_data">English, Filipino</tspan></text>
+  <rect x="670" y="822" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="822" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="846" class="label">HOBBIES.SOFTWARE</text>
+  <text x="694" y="876" xml:space="preserve"><tspan class="value" id="software_hobby_data">Automation, Web Dev, AI Systems, Gaming</tspan></text>
+  <rect x="670" y="920" width="154" height="34" rx="8" fill="none" stroke="#047857" stroke-width="1.5"/>
+  <text x="747.0" y="942.0" text-anchor="middle" class="chip">GITHUB STATS</text>
+  <rect x="670" y="972" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="972" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="996" class="label">REPOSITORIES</text>
+  <text x="694" y="1026" xml:space="preserve"><tspan class="value" id="repo_total">36 (36 owned)</tspan></text>
+  <rect x="670" y="1058" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1058" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="1082" class="label">VISIBILITY</text>
+  <text x="694" y="1112" xml:space="preserve"><tspan class="value" id="visibility_data">36 (1 public, 35 private)</tspan></text>
+  <rect x="670" y="1144" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1144" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="1168" class="label">STATE</text>
+  <text x="694" y="1198" xml:space="preserve"><tspan class="value" id="state_data">1 (1 archived)</tspan></text>
+  <rect x="670" y="1230" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1230" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="1254" class="label">COMMITS</text>
+  <text x="694" y="1284" xml:space="preserve"><tspan class="value" id="commit_data">284 total commits (70 public, 214 private)</tspan></text>
+  <rect x="670" y="1316" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1316" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="1340" class="label">CONTRIBUTIONS</text>
+  <text x="694" y="1370" xml:space="preserve"><tspan class="value" id="contribution_data">4 total contributions (4 public)</tspan></text>
+  <rect x="670" y="1402" width="1010" height="88" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1402" width="4" height="88" rx="2" fill="#047857"/>
+  <text x="694" y="1426" class="label">LINES OF CODE</text>
+  <text x="694" y="1456" xml:space="preserve"><tspan class="value" id="lines_data">1,758,911 total</tspan><tspan x="694" dy="26" class="value" style="font-size:19px">(<tspan class="positive">1,782,281++</tspan>, <tspan class="negative">23,370--</tspan>)</tspan></text>
+  <rect x="670" y="1504" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1504" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="1528" class="label">SIGNALS</text>
+  <text x="694" y="1558" xml:space="preserve"><tspan class="value" id="signal_data">1 follower</tspan></text>
+  <rect x="670" y="1590" width="1010" height="72" rx="10" fill="#ffffff" stroke="#cbd5e1" stroke-width="1"/>
+  <rect x="670" y="1590" width="4" height="72" rx="2" fill="#047857"/>
+  <text x="694" y="1614" class="label">LAST SYNC</text>
+  <text x="694" y="1644" xml:space="preserve"><tspan class="value" id="generated_data">August 06, 2026 02:42 AM</tspan></text>
 </svg>
