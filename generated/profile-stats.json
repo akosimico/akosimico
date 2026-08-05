@@ -3,13 +3,8 @@
   "activity": {
     "commits": {
       "private": 214,
-<<<<<<< HEAD
-      "public": 70,
-      "total": 284
-=======
-      "public": 71,
-      "total": 285
->>>>>>> 4ba1b6e (Update generated profile assets)
+      "public": 74,
+      "total": 288
     },
     "contributions": {
       "public": 4,
@@ -17,17 +12,13 @@
       "total": 4
     },
     "lines": {
-      "additions": 1782281,
-      "deletions": 23370,
-      "total": 1758911
+      "additions": 1782478,
+      "deletions": 23621,
+      "total": 1758857
     }
   },
   "coverage": "COMPLETE",
-<<<<<<< HEAD
-  "generated_at": "2026-08-05T18:42:08Z",
-=======
-  "generated_at": "2026-08-05T19:22:23Z",
->>>>>>> 4ba1b6e (Update generated profile assets)
+  "generated_at": "2026-08-05T19:33:08Z",
   "login": "akosimico",
   "owners": {
     "organizations": 0
