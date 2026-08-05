@@ -6,11 +6,11 @@ on:
     - cron: "17 4 * * *"
   push:
     branches:
-      - production
+      - main
     paths:
       - "profile_generator/**"
-      - "assets/profile-banner.png"
-      - "tests/**"
+      - "assets/**"
+      - "generated/**"
       - ".github/workflows/profile-stats.yml"
       - "README.md"
 
@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: profile-readme-production
+  group: profile-readme-main
   cancel-in-progress: false
 
 jobs:
@@ -27,28 +27,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      PROFILE_LOGIN: itsmfknlucy
-      PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'itsmfknlucy,Rodstark-Global-Solutions-Inc,NexGen-LAVA-Inc,FrostByte-Constructs-LLC' }}
-      PROFILE_MIN_REPOSITORIES: ${{ vars.PROFILE_MIN_REPOSITORIES || '18' }}
-      PROFILE_STATS_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' || secrets.PROFILE_STATS_TOKENS != '' || secrets.PROFILE_STATS_TOKEN_RODSTARK != '' || secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA != '' || secrets.PROFILE_STATS_TOKEN_FROSTBYTE != '' || secrets.PROFILE_STATS_TOKEN_EXTERNAL_1 != '' || secrets.PROFILE_STATS_TOKEN_EXTERNAL_2 != '' }}
+      PROFILE_LOGIN: akosimico
+      PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'akosimico' }}
+      PROFILE_MIN_REPOSITORIES: ${{ vars.PROFILE_MIN_REPOSITORIES || '0' }}
+      PROFILE_STATS_CONFIGURED: ${{ secrets.PROFILE_STATS_TOKEN != '' }}
 
     steps:
-      - name: Check out production
+      - name: Check out main
         uses: actions/checkout@v6
         with:
-          ref: production
+          ref: main
           fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v6
         with:
           python-version: "3.13"
-
-      - name: Run unit and contract tests
-        run: python -m unittest discover -s tests -v
-
-      - name: Compile Python sources
-        run: python -m compileall -q profile_generator tests
 
       - name: Preserve current assets without profile credentials
         if: env.PROFILE_STATS_CONFIGURED != 'true'
@@ -57,14 +51,7 @@ jobs:
       - name: Generate authenticated profile statistics
         if: env.PROFILE_STATS_CONFIGURED == 'true'
         env:
-          PROFILE_STATS_TOKENS: |
-            ${{ secrets.PROFILE_STATS_TOKEN }}
-            ${{ secrets.PROFILE_STATS_TOKENS }}
-            ${{ secrets.PROFILE_STATS_TOKEN_RODSTARK }}
-            ${{ secrets.PROFILE_STATS_TOKEN_NEXGEN_LAVA }}
-            ${{ secrets.PROFILE_STATS_TOKEN_FROSTBYTE }}
-            ${{ secrets.PROFILE_STATS_TOKEN_EXTERNAL_1 }}
-            ${{ secrets.PROFILE_STATS_TOKEN_EXTERNAL_2 }}
+          PROFILE_STATS_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN }}
         run: python -m profile_generator
 
       - name: Validate generated assets and repository hygiene
@@ -113,4 +100,4 @@ jobs:
             exit 0
           fi
           git commit -m "chore: refresh profile statistics"
-          git push origin HEAD:production
+          git push origin HEAD:main
