@@ -73,7 +73,7 @@ class GitHubClient:
         graphql_url: str = "https://api.github.com/graphql",
         timeout: float = 20.0,
         max_attempts: int = 3,
-        stats_max_attempts: int = 60,
+        stats_max_attempts: int = 10,
         sleep: Callable[[float], None] = time.sleep,
     ) -> None:
         if not token or not token.strip():
@@ -241,7 +241,7 @@ class GitHubClient:
             if response.status != 202:
                 break
             if attempt < self._stats_max_attempts:
-                self._sleep(min(float(2 ** (attempt - 1)), 60.0))
+                self._sleep(min(float(2 ** (attempt - 1)), 30.0))
         if response is None or response.status == 202:
             raise ApiError("repository contributor statistics remained unavailable")
         if response.status in {204, 409}:

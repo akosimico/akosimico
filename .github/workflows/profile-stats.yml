@@ -25,7 +25,7 @@ jobs:
   build:
     name: Collect, validate, and publish profile statistics
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     env:
       PROFILE_LOGIN: akosimico
       PROFILE_REQUIRED_OWNERS: ${{ secrets.PROFILE_REQUIRED_OWNERS || vars.PROFILE_REQUIRED_OWNERS || 'akosimico' }}
