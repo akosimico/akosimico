@@ -20,6 +20,7 @@ SECTION_FONT_SIZE: Final[int] = 18
 ASCII_FONT_SIZE: Final[float] = 7.6
 ASCII_RENDER_WIDTH: Final[int] = 400
 ASCII_LINE_HEIGHT: Final[float] = 9.6
+ASCII_BOTTOM_MARGIN: Final[int] = 110
 ASCII_START_Y: Final[int] = 90
 ASCII_X: Final[int] = 50
 BIRTH_DATE: Final[dt.date] = dt.date(2004, 6, 6)
@@ -64,20 +65,26 @@ def render_all(stats: ProfileStats) -> dict[str, str]:
     return {theme: render_svg(stats, theme) for theme in ("dark", "light")}
 
 
-def render_svg(stats: ProfileStats, theme: str) -> str:
-    """Return one deterministic SVG document with stable aggregate metric IDs."""
+def _scaled_ascii_metrics(total_height: int) -> tuple[float, float, float]:
+    """Scale the ASCII portrait so its 72 lines fill the sidebar's vertical space.
 
+    Never scales *below* the original density (min() would be wrong here — we
+    want to grow to fill blank space, not shrink on short cards), and keeps the
+    font-to-line-height ratio identical to the original design.
+    """
+    line_count = len(ASCII_PORTRAIT)
+    available_height = (total_height - ASCII_BOTTOM_MARGIN) - ASCII_START_Y
+    line_height = max(available_height / line_count, ASCII_LINE_HEIGHT)
+    font_size = line_height * (ASCII_FONT_SIZE / ASCII_LINE_HEIGHT)
+    render_width = SIDEBAR_WIDTH - ASCII_X - 30
+    return render_width, line_height, font_size
+
+
+def render_svg(stats: ProfileStats, theme: str) -> str:
     stats.validate()
     if theme not in THEMES:
         raise ValueError(f"unsupported theme: {theme}")
     colors = THEMES[theme]
-
-    ascii_spans = "\n".join(
-        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ASCII_LINE_HEIGHT}" '
-        f'textLength="{ASCII_RENDER_WIDTH}" lengthAdjust="spacingAndGlyphs">'
-        f"{_escape(line)}</tspan>"
-        for index, line in enumerate(ASCII_PORTRAIT)
-    )
 
     profile_rows = (
         ("OS", "Windows 11", "os_data"),
@@ -103,11 +110,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
             "VS Code, Visual Studio, Git, Cursor, Claude, Codex",
             "tools_data",
         ),
-        (
-            "Languages.Human",
-            "English, Filipino",
-            "real_language_data",
-        ),
+        ("Languages.Human", "English, Filipino", "real_language_data"),
         (
             "Hobbies.Software",
             "Automation, Web Dev, AI Systems, Gaming",
@@ -140,6 +143,18 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     total_height = max(cursor_y + 60, MIN_CARD_HEIGHT)
     body_svg = "\n".join(body_parts)
 
+    # ASCII portrait now scales to fill the sidebar's vertical space.
+    ascii_render_width, ascii_line_height, ascii_font_size = _scaled_ascii_metrics(
+        total_height
+    )
+
+    ascii_spans = "\n".join(
+        f'      <tspan x="{ASCII_X}" y="{ASCII_START_Y + index * ascii_line_height:.2f}" '
+        f'textLength="{ascii_render_width:.2f}" lengthAdjust="spacingAndGlyphs">'
+        f"{_escape(line)}</tspan>"
+        for index, line in enumerate(ASCII_PORTRAIT)
+    )
+
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{total_height}" viewBox="0 0 {CARD_WIDTH} {total_height}" role="img" aria-labelledby="title desc">
 <title id="title">Mico Helis GitHub profile identity and account statistics</title>
@@ -159,7 +174,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     </radialGradient>
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
-      .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 500; }}
+      .ascii {{ fill: {colors['ascii']}; font-size: {ascii_font_size:.2f}px; font-weight: 500; }}
       .name {{ fill: {colors['title']}; font-size: 32px; font-weight: 700; }}
       .section {{ fill: {colors['key']}; font-size: {SECTION_FONT_SIZE}px; font-weight: 700; letter-spacing: 2px; }}
       .key {{ fill: {colors['muted']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 500; }}

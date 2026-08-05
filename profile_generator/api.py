@@ -243,7 +243,11 @@ class GitHubClient:
             if attempt < self._stats_max_attempts:
                 self._sleep(min(float(2 ** (attempt - 1)), 30.0))
         if response is None or response.status == 202:
-            raise ApiError("repository contributor statistics remained unavailable")
+            # GitHub's asynchronous contributor statistics engine never
+            # converged for this repository (persistent HTTP 202). Fall back to
+            # summing authored line changes from the commit history, which is
+            # reliably available.
+            return self._repository_authored_lines_via_commits(repository_path, login)
         if response.status in {204, 409}:
             return 0, 0
 
@@ -281,6 +285,72 @@ class GitHubClient:
             return additions, deletions
 
         return 0, 0
+
+    def _repository_authored_lines_via_commits(
+        self,
+        repository_path: str,
+        login: str,
+    ) -> tuple[int, int]:
+        """Sum this user's line changes by walking the exported commit history.
+
+        Used as a fallback when GitHub's contributor statistics endpoint
+        repeatedly returns HTTP 202 (Accepted) and never becomes available.
+        """
+        target = login.casefold()
+        additions = 0
+        deletions = 0
+        page = 1
+        while True:
+            query = urllib.parse.urlencode({"page": page, "per_page": 100})
+            response = self._request_response(
+                "GET",
+                f"{self._rest_base_url}/repos/{repository_path}/commits?{query}",
+                operation="repository commit history",
+                accepted_statuses={200, 409},
+            )
+            if response.status == 409:
+                break
+            payload = self._decode_json(response, "repository commit history")
+            if not isinstance(payload, list):
+                raise ApiError("repository commit history returned an invalid payload")
+            if not payload:
+                break
+            for commit in payload:
+                if not isinstance(commit, dict):
+                    continue
+                author = commit.get("author")
+                if not isinstance(author, dict):
+                    continue
+                author_login = author.get("login")
+                if (
+                    not isinstance(author_login, str)
+                    or author_login.casefold() != target
+                ):
+                    continue
+                sha = commit.get("sha")
+                if not isinstance(sha, str) or not sha:
+                    continue
+                detail = self._request_json(
+                    "GET",
+                    f"{self._rest_base_url}/repos/{repository_path}/commits/"
+                    f"{urllib.parse.quote(sha, safe='')}",
+                    operation="repository commit detail",
+                )
+                if not isinstance(detail, dict):
+                    continue
+                stats = detail.get("stats")
+                if not isinstance(stats, dict):
+                    continue
+                additions += self._non_negative_int(
+                    stats.get("additions"), "repository additions"
+                )
+                deletions += self._non_negative_int(
+                    stats.get("deletions"), "repository deletions"
+                )
+            if len(payload) < 100:
+                break
+            page += 1
+        return additions, deletions
 
     def _request_json(
         self,
