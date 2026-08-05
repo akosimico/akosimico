@@ -12,19 +12,19 @@
 </p>
 
 <p align="center">
-  Building practical software, automation tools, and AI-powered systems — with a focus on clean, maintainable code that ships.
+  Turning real-world problems into scalable software, smart automations, and AI integrations — prioritizing code quality and fast execution.
 </p>
 
 <p align="center">
-  <a href="https://github.com/akosimico">GitHub</a>&nbsp;&nbsp;·&nbsp;&nbsp;
+  <a href="https://www.linkedin.com/in/akosimico/">Linkedin</a>&nbsp;&nbsp;·&nbsp;&nbsp;
   <a href="https://github.com/akosimico?tab=repositories">Repositories</a>
 </p>
 
 ---
 
-I build things that solve real problems: web applications, automation scripts, AI-assisted workflows, and developer tools. I care about code that is readable, reliable, and easy to maintain.
+I build software that simplifies workflows, automates repetitive tasks, and helps people work more efficiently.
 
-> Build software that works, runs, and lasts.
+> Creating software that makes work easier.
 
 ## What I Do
 
