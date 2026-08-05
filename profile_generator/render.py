@@ -10,20 +10,21 @@ from typing import Final
 from .models import ProfileStats
 from .portrait import ASCII_PORTRAIT
 
-CARD_WIDTH: Final[int] = 1500
-SIDEBAR_WIDTH: Final[int] = 420
-CONTENT_X: Final[int] = SIDEBAR_WIDTH + 50
-VALUE_X: Final[int] = SIDEBAR_WIDTH + 480
-ROW_HEIGHT: Final[int] = 32
-CONTENT_FONT_SIZE: Final[int] = 17
-SECTION_FONT_SIZE: Final[int] = 14
-ASCII_FONT_SIZE: Final[float] = 5.8
-ASCII_RENDER_WIDTH: Final[int] = 340
-ASCII_LINE_HEIGHT: Final[float] = 7.3
-ASCII_START_Y: Final[int] = 40
-ASCII_X: Final[int] = 40
+CARD_WIDTH: Final[int] = 1700
+SIDEBAR_WIDTH: Final[int] = 480
+CONTENT_X: Final[int] = SIDEBAR_WIDTH + 60
+VALUE_X: Final[int] = SIDEBAR_WIDTH + 560
+ROW_HEIGHT: Final[int] = 46
+CONTENT_FONT_SIZE: Final[int] = 22
+SECTION_FONT_SIZE: Final[int] = 18
+ASCII_FONT_SIZE: Final[float] = 7.6
+ASCII_RENDER_WIDTH: Final[int] = 400
+ASCII_LINE_HEIGHT: Final[float] = 9.6
+ASCII_START_Y: Final[int] = 90
+ASCII_X: Final[int] = 50
 BIRTH_DATE: Final[dt.date] = dt.date(2004, 6, 6)
 PH_TIMEZONE: Final[dt.tzinfo] = dt.timezone(dt.timedelta(hours=8))
+MIN_CARD_HEIGHT: Final[int] = 900
 
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
@@ -117,18 +118,18 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     stats_rows = _stats_rows(stats)
 
     # Layout: section header, then rows, computed top-to-bottom.
-    cursor_y = 70
+    cursor_y = 100
     body_parts: list[str] = []
 
     body_parts.append(_section_header("PROFILE", cursor_y, colors))
-    cursor_y += 34
+    cursor_y += 50
     for label, value, element_id in profile_rows:
         body_parts.append(_row(label, value, element_id, cursor_y, colors))
         cursor_y += ROW_HEIGHT
-    cursor_y += 20
+    cursor_y += 30
 
     body_parts.append(_section_header("GITHUB STATS", cursor_y, colors))
-    cursor_y += 34
+    cursor_y += 50
     for row in stats_rows:
         if row[2] == "lines_data":
             body_parts.append(_lines_row(stats, cursor_y, colors))
@@ -136,7 +137,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
             body_parts.append(_row(*row, cursor_y, colors))
         cursor_y += ROW_HEIGHT
 
-    total_height = max(cursor_y + 40, 400)
+    total_height = max(cursor_y + 60, MIN_CARD_HEIGHT)
     body_svg = "\n".join(body_parts)
 
     return f"""<?xml version="1.0" encoding="UTF-8"?>
@@ -159,7 +160,7 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     <style>
       text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
       .ascii {{ fill: {colors['ascii']}; font-size: {ASCII_FONT_SIZE}px; font-weight: 500; }}
-      .name {{ fill: {colors['title']}; font-size: 24px; font-weight: 700; }}
+      .name {{ fill: {colors['title']}; font-size: 32px; font-weight: 700; }}
       .section {{ fill: {colors['key']}; font-size: {SECTION_FONT_SIZE}px; font-weight: 700; letter-spacing: 2px; }}
       .key {{ fill: {colors['muted']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 500; }}
       .value {{ fill: {colors['value']}; font-size: {CONTENT_FONT_SIZE}px; font-weight: 600; }}
@@ -175,9 +176,9 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
   <rect x="{SIDEBAR_WIDTH}" y="10" width="1" height="{total_height - 20}" fill="{colors['border']}"/>
   <rect x="10" y="10" width="{SIDEBAR_WIDTH}" height="{total_height - 20}" fill="url(#accent-glow)"/>
 
-<text x="40" y="34"
+<text x="{ASCII_X}" y="42"
       fill="{colors['muted']}"
-      font-size="14"
+      font-size="18"
       font-family="Consolas, monospace">
 $ python profile.py
 </text>
@@ -186,7 +187,7 @@ $ python profile.py
 {ascii_spans}
   </text>
 
-  <text class="name" x="{ASCII_X}" y="{total_height - 40}">akosimico</text>
+  <text class="name" x="{ASCII_X}" y="{total_height - 60}">akosimico</text>
 
   <!-- Body -->
   <text>
