@@ -1,7 +1,8 @@
 """Environment-only command line orchestration for profile generation."""
 
 from __future__ import annotations
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 
 import json
 import os
@@ -164,7 +165,7 @@ def write_outputs(
             temporary.unlink(missing_ok=True)
 
 
-load_dotenv()
+# load_dotenv()
 
 
 def main() -> int:
