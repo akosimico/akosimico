@@ -1,9 +1,12 @@
 """Render the GitHub profile identity card and aggregate account statistics.
 
-Layout: a terminal-window "dashboard" — a title bar with traffic-light dots
-and a decorative tab strip, a prominent ASCII portrait pane on the left (like
-a terminal running `python profile.py`), and a right-hand column of stat
-"cards" grouped under tab-styled section headers.
+Layout: an authentic "neofetch"-style terminal readout — a titlebar with
+traffic-light dots and a real window-title breadcrumb, a large ASCII
+portrait on the left, and a single-column `label: value` readout on the
+right grouped under comment-style section dividers (`# profile`,
+`# github stats`). A small palette swatch strip and a blinking cursor
+finish the terminal illusion. Row count (and therefore card height) is
+driven entirely by content.
 """
 
 from __future__ import annotations
@@ -19,40 +22,39 @@ from .portrait import ASCII_PORTRAIT
 # ---------------------------------------------------------------------------
 # Overall frame
 # ---------------------------------------------------------------------------
-CARD_WIDTH: Final[int] = 1700
-MIN_CARD_HEIGHT: Final[int] = 900
-OUTER_MARGIN: Final[int] = 20
+CARD_WIDTH: Final[int] = 1500
+OUTER_MARGIN: Final[int] = 24
 
-# Title bar (traffic lights + decorative tab strip)
-CHROME_HEIGHT: Final[int] = 56
-TAB_Y: Final[int] = 18
-TAB_HEIGHT: Final[int] = 30
-TAB_LABELS: Final[tuple[str, ...]] = ("portrait.ascii", "profile.json", "stats.log")
+CHROME_HEIGHT: Final[int] = 44
+TITLE_TEXT: Final[str] = "akosimico@github:~/profile"
 
-# Left "terminal" pane — home of the ASCII portrait
-LEFT_PANEL_X: Final[int] = OUTER_MARGIN
-LEFT_PANEL_WIDTH: Final[int] = 620
-ASCII_X: Final[int] = LEFT_PANEL_X + 30
-ASCII_PANEL_TOP_OFFSET: Final[int] = 58  # space under chrome for the prompt line
-ASCII_BOTTOM_MARGIN: Final[int] = 100  # space reserved for the name label
+# Left pane — ASCII portrait
+LEFT_WIDTH: Final[int] = 560
+LEFT_X: Final[int] = OUTER_MARGIN
+ASCII_X: Final[int] = LEFT_X + 26
+ASCII_TOP_OFFSET: Final[int] = 54  # room under chrome for the prompt line
+ASCII_BOTTOM_MARGIN: Final[int] = 46
 ASCII_LINE_HEIGHT: Final[float] = 9.6
 ASCII_FONT_SIZE: Final[float] = 7.6
 
-# Right "dashboard" column — stat cards grouped under tab-chip section headers
-PANEL_GAP: Final[int] = 30
-RIGHT_PANEL_X: Final[int] = LEFT_PANEL_X + LEFT_PANEL_WIDTH + PANEL_GAP
-RIGHT_PANEL_WIDTH: Final[int] = CARD_WIDTH - RIGHT_PANEL_X - OUTER_MARGIN
+# Right pane — neofetch-style readout
+COLUMN_GAP: Final[int] = 44
+RIGHT_X: Final[int] = LEFT_X + LEFT_WIDTH + COLUMN_GAP
+RIGHT_WIDTH: Final[int] = CARD_WIDTH - RIGHT_X - OUTER_MARGIN
+RIGHT_TOP: Final[int] = CHROME_HEIGHT + 46
 
-SECTION_CHIP_HEIGHT: Final[int] = 34
-SECTION_GAP_AFTER: Final[int] = 18
-SECTION_GAP_BEFORE: Final[int] = 26
+ROW_HEIGHT: Final[int] = 30
+ROW_HEIGHT_TALL: Final[int] = 52  # rows with a wrapped second line (Lines of Code)
+GROUP_GAP_BEFORE: Final[int] = 28
+GROUP_HEADER_HEIGHT: Final[int] = 26
+LABEL_VALUE_GAP: Final[int] = 18
+ROW_FONT_SIZE: Final[int] = 15
+LABEL_CHAR_WIDTH: Final[float] = 8.7  # bold mono @ 15px
+VALUE_CHAR_WIDTH: Final[float] = 8.3  # regular mono @ 15px
 
-CARD_GAP: Final[int] = 14
-CARD_ROW_HEIGHT: Final[int] = 72
-CARD_ROW_HEIGHT_TALL: Final[int] = 88  # rows whose value needs two tspans
-CARD_PADDING_X: Final[int] = 24
-CARD_LABEL_SIZE: Final[int] = 14
-CARD_VALUE_SIZE: Final[int] = 23
+SWATCH_SIZE: Final[int] = 16
+SWATCH_GAP: Final[int] = 6
+SWATCH_ROW_HEIGHT: Final[int] = 40
 
 BIRTH_DATE: Final[dt.date] = dt.date(2004, 6, 6)
 PH_TIMEZONE: Final[dt.tzinfo] = dt.timezone(dt.timedelta(hours=8))
@@ -62,39 +64,33 @@ TRAFFIC_LIGHTS: Final[tuple[str, ...]] = ("#ff5f56", "#ffbd2e", "#27c93f")
 THEMES: Final[dict[str, dict[str, str]]] = {
     "dark": {
         "background": "#050805",
-        "panel": "#0a120a",
-        "sidebar": "#081008",
         "chrome": "#0d160d",
-        "card": "#0a140a",
         "border": "#14532d",
         "title": "#f0fdf4",
         "key": "#22c55e",
         "value": "#dcfce7",
         "muted": "#4ade80",
+        "comment": "#3f7a4d",
         "ascii": "#16a34a",
-        "glow": "#22c55e",
         "positive": "#4ade80",
         "negative": "#f87171",
-        "tab_inactive": "#0d160d",
-        "tab_inactive_text": "#3f6b47",
+        "cursor": "#22c55e",
+        "swatches": ("#22c55e", "#4ade80", "#16a34a", "#f0fdf4", "#f87171"),
     },
     "light": {
         "background": "#f0f4f1",
-        "panel": "#ffffff",
-        "sidebar": "#e8f0ea",
         "chrome": "#e2ece4",
-        "card": "#ffffff",
         "border": "#cbd5e1",
         "title": "#064e3b",
         "key": "#047857",
         "value": "#0f172a",
         "muted": "#475569",
+        "comment": "#7c9484",
         "ascii": "#115e59",
-        "glow": "#ccfbf1",
         "positive": "#0f766e",
         "negative": "#b91c1c",
-        "tab_inactive": "#dbe6de",
-        "tab_inactive_text": "#7c8c82",
+        "cursor": "#047857",
+        "swatches": ("#047857", "#0f766e", "#115e59", "#0f172a", "#b91c1c"),
     },
 }
 
@@ -112,75 +108,29 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
     colors = THEMES[theme]
 
     profile_rows = (
-        ("OS", "Windows 11", "os_data"),
-        ("Uptime", _display_uptime(stats.generated_at), "uptime_data"),
-        ("Kernel", "Web / Python / Automation / Cloud", "kernel_data"),
-        (
-            "Languages.Programming",
-            "Python, JavaScript, C#, Java, PHP, HTML, CSS",
-            "programming_data",
-        ),
-        (
-            "Frameworks & Libraries",
-            "Laravel, Node.js, Express, Django, .NET",
-            "frameworks_data",
-        ),
-        (
-            "Databases & Formats",
-            "PostgreSQL, MySQL, SQL, JSON, XML, YAML",
-            "databases_data",
-        ),
-        (
-            "Developer & AI Tools",
-            "VS Code, Visual Studio, Git, Cursor, Claude, Codex",
-            "tools_data",
-        ),
-        ("Languages.Human", "English, Filipino", "real_language_data"),
-        (
-            "Hobbies.Software",
-            "Automation, Web Dev, AI Systems, Gaming",
-            "software_hobby_data",
-        ),
+        ("os", "Windows 11"),
+        ("uptime", _display_uptime(stats.generated_at)),
+        ("kernel", "Web / Python / Automation / Cloud"),
+        ("languages.programming", "Python, JavaScript, C#, Java, PHP, HTML, CSS"),
+        ("frameworks", "Laravel, Node.js, Express, Django, .NET"),
+        ("databases", "PostgreSQL, MySQL, SQL, JSON, XML, YAML"),
+        ("tools", "VS Code, Visual Studio, Git, Cursor, Claude, Codex"),
+        ("languages.human", "English, Filipino"),
+        ("hobbies", "Automation, Web Dev, AI Systems, Gaming"),
     )
-
     stats_rows = _stats_rows(stats)
 
-    # --- Lay out the right-hand dashboard column top-to-bottom -----------
-    cards: list[tuple[int, int, str]] = []  # (y, height, svg_group)
-    cursor_y = CHROME_HEIGHT + SECTION_GAP_BEFORE
+    readout_svg, readout_bottom = _readout(profile_rows, stats_rows, stats, colors)
 
-    chip, cursor_y = _section_chip("PROFILE", cursor_y, colors)
-    cards.append(
-        (cursor_y - SECTION_CHIP_HEIGHT - SECTION_GAP_AFTER, SECTION_CHIP_HEIGHT, chip)
+    ascii_start_y = CHROME_HEIGHT + ASCII_TOP_OFFSET
+    ascii_min_height = (
+        ascii_start_y
+        + len(ASCII_PORTRAIT) * ASCII_LINE_HEIGHT
+        + ASCII_BOTTOM_MARGIN
+        + OUTER_MARGIN
     )
-    for label, value, element_id in profile_rows:
-        height = CARD_ROW_HEIGHT
-        card = _card(label, value, element_id, cursor_y, height, colors)
-        cards.append((cursor_y, height, card))
-        cursor_y += height + CARD_GAP
+    total_height = round(max(readout_bottom + OUTER_MARGIN, ascii_min_height))
 
-    cursor_y += SECTION_GAP_BEFORE - CARD_GAP
-    chip, cursor_y = _section_chip("GITHUB STATS", cursor_y, colors)
-    cards.append(
-        (cursor_y - SECTION_CHIP_HEIGHT - SECTION_GAP_AFTER, SECTION_CHIP_HEIGHT, chip)
-    )
-    for row in stats_rows:
-        if row[2] == "lines_data":
-            height = CARD_ROW_HEIGHT_TALL
-            card = _lines_card(stats, cursor_y, height, colors)
-        else:
-            height = CARD_ROW_HEIGHT
-            card = _card(*row, cursor_y, height, colors)
-        cards.append((cursor_y, height, card))
-        cursor_y += height + CARD_GAP
-
-    right_panel_bottom = cursor_y - CARD_GAP + OUTER_MARGIN
-    total_height = max(right_panel_bottom, MIN_CARD_HEIGHT)
-
-    dashboard_svg = "\n".join(svg for _, _, svg in cards)
-
-    # --- Scale the ASCII portrait to fill the left terminal pane ---------
-    ascii_start_y = CHROME_HEIGHT + ASCII_PANEL_TOP_OFFSET
     ascii_render_width, ascii_line_height, ascii_font_size = _scaled_ascii_metrics(
         total_height, ascii_start_y
     )
@@ -191,144 +141,135 @@ def render_svg(stats: ProfileStats, theme: str) -> str:
         for index, line in enumerate(ASCII_PORTRAIT)
     )
 
-    tab_strip = _tab_strip(colors)
-
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="{CARD_WIDTH}" height="{total_height}" viewBox="0 0 {CARD_WIDTH} {total_height}" role="img" aria-labelledby="title desc">
-<title id="title">Mico Helis GitHub profile identity and account statistics</title>
-  <desc id="desc">Terminal-window dashboard with a tabbed title bar, a prominent ASCII portrait pane, and a right-hand column of stat cards grouped under tab-styled section headers.</desc>
-  <defs>
-    <linearGradient id="panel-gradient" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="{colors['panel']}"/>
-      <stop offset="1" stop-color="{colors['background']}"/>
-    </linearGradient>
-    <linearGradient id="sidebar-gradient" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="{colors['sidebar']}"/>
-      <stop offset="1" stop-color="{colors['background']}"/>
-    </linearGradient>
-    <radialGradient id="accent-glow" cx="0.15" cy="0.05" r="0.7">
-      <stop offset="0" stop-color="{colors['glow']}" stop-opacity="0.22"/>
-      <stop offset="1" stop-color="{colors['glow']}" stop-opacity="0"/>
-    </radialGradient>
-    <style>
-      text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
-      .ascii {{ fill: {colors['ascii']}; font-size: {ascii_font_size:.2f}px; font-weight: 500; }}
-      .name {{ fill: {colors['title']}; font-size: 30px; font-weight: 700; }}
-      .chip {{ fill: {colors['key']}; font-size: 15px; font-weight: 700; letter-spacing: 2px; }}
-      .tab-active {{ fill: {colors['title']}; font-size: 14px; font-weight: 600; }}
-      .tab-inactive {{ fill: {colors['tab_inactive_text']}; font-size: 14px; font-weight: 500; }}
-      .label {{ fill: {colors['muted']}; font-size: {CARD_LABEL_SIZE}px; font-weight: 600; letter-spacing: 1.5px; }}
-      .value {{ fill: {colors['value']}; font-size: {CARD_VALUE_SIZE}px; font-weight: 700; }}
-      .positive {{ fill: {colors['positive']}; font-weight: 700; }}
-      .negative {{ fill: {colors['negative']}; font-weight: 700; }}
-    </style>
-  </defs>
-  <rect width="{CARD_WIDTH}" height="{total_height}" rx="22" fill="{colors['background']}"/>
-  <rect x="10" y="10" width="{CARD_WIDTH - 20}" height="{total_height - 20}" rx="18" fill="url(#panel-gradient)" stroke="{colors['border']}" stroke-width="2"/>
+  <title id="title">Mico Helis GitHub profile identity and account statistics</title>
+  <desc id="desc">Neofetch-style terminal readout with an ASCII portrait on the left and a labeled system/stats list on the right.</desc>
+  <style>
+    text {{ font-family: Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; white-space: pre; }}
+    .ascii {{ fill: {colors['ascii']}; font-size: {ascii_font_size:.2f}px; font-weight: 500; }}
+    .name {{ fill: {colors['title']}; font-size: 26px; font-weight: 700; }}
+    .win-title {{ fill: {colors['muted']}; font-size: 13px; font-weight: 500; }}
+    .group {{ fill: {colors['comment']}; font-size: 14px; font-weight: 600; }}
+    .label {{ fill: {colors['key']}; font-size: {ROW_FONT_SIZE}px; font-weight: 700; }}
+    .value {{ fill: {colors['value']}; font-size: {ROW_FONT_SIZE}px; font-weight: 400; }}
+    .positive {{ fill: {colors['positive']}; font-weight: 700; }}
+    .negative {{ fill: {colors['negative']}; font-weight: 700; }}
+  </style>
+  <rect width="{CARD_WIDTH}" height="{total_height}" rx="18" fill="{colors['background']}"/>
+  <rect x="8" y="8" width="{CARD_WIDTH - 16}" height="{total_height - 16}" rx="14" fill="none" stroke="{colors['border']}" stroke-width="1.5"/>
 
-  <!-- Title bar: traffic lights + decorative tab strip -->
-  <path d="M 10 28 A 18 18 0 0 1 28 10 H {CARD_WIDTH - 28} A 18 18 0 0 1 {CARD_WIDTH - 10} 28 V {CHROME_HEIGHT} H 10 Z" fill="{colors['chrome']}"/>
-  <rect x="10" y="{CHROME_HEIGHT - 1}" width="{CARD_WIDTH - 20}" height="1" fill="{colors['border']}"/>
-  <circle cx="46" cy="{CHROME_HEIGHT // 2}" r="7" fill="{TRAFFIC_LIGHTS[0]}"/>
-  <circle cx="70" cy="{CHROME_HEIGHT // 2}" r="7" fill="{TRAFFIC_LIGHTS[1]}"/>
-  <circle cx="94" cy="{CHROME_HEIGHT // 2}" r="7" fill="{TRAFFIC_LIGHTS[2]}"/>
-{tab_strip}
+  <!-- Titlebar -->
+  <path d="M 8 22 A 14 14 0 0 1 22 8 H {CARD_WIDTH - 22} A 14 14 0 0 1 {CARD_WIDTH - 8} 22 V {CHROME_HEIGHT} H 8 Z" fill="{colors['chrome']}"/>
+  <rect x="8" y="{CHROME_HEIGHT - 1}" width="{CARD_WIDTH - 16}" height="1" fill="{colors['border']}"/>
+  <circle cx="40" cy="{CHROME_HEIGHT // 2}" r="6" fill="{TRAFFIC_LIGHTS[0]}"/>
+  <circle cx="60" cy="{CHROME_HEIGHT // 2}" r="6" fill="{TRAFFIC_LIGHTS[1]}"/>
+  <circle cx="80" cy="{CHROME_HEIGHT // 2}" r="6" fill="{TRAFFIC_LIGHTS[2]}"/>
+  <text x="{CARD_WIDTH / 2:.0f}" y="{CHROME_HEIGHT / 2 + 4.5:.1f}" text-anchor="middle" class="win-title">{_escape(TITLE_TEXT)}</text>
 
-  <!-- Left terminal pane: ASCII portrait -->
-  <rect x="{LEFT_PANEL_X}" y="{CHROME_HEIGHT}" width="{LEFT_PANEL_WIDTH}" height="{total_height - CHROME_HEIGHT - OUTER_MARGIN}" rx="14" fill="url(#sidebar-gradient)" stroke="{colors['border']}" stroke-width="1.5"/>
-  <rect x="{LEFT_PANEL_X}" y="{CHROME_HEIGHT}" width="{LEFT_PANEL_WIDTH}" height="{total_height - CHROME_HEIGHT - OUTER_MARGIN}" rx="14" fill="url(#accent-glow)"/>
-
-  <text x="{ASCII_X}" y="{CHROME_HEIGHT + 34}" fill="{colors['muted']}" font-size="17" font-family="Consolas, monospace">$ python profile.py</text>
-
+  <!-- Left pane: ASCII portrait -->
+  <text x="{ASCII_X}" y="{CHROME_HEIGHT + 30}" fill="{colors['muted']}" font-size="14" font-family="Consolas, monospace">$ whoami</text>
   <text class="ascii" aria-hidden="true" xml:space="preserve">
 {ascii_spans}
   </text>
+  <text class="name" x="{ASCII_X}" y="{total_height - OUTER_MARGIN - 14}">akosimico<tspan fill="{colors['cursor']}">_<animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/></tspan></text>
 
-  <text class="name" x="{ASCII_X}" y="{total_height - OUTER_MARGIN - 44}">akosimico</text>
+  <!-- Divider between panes -->
+  <line x1="{LEFT_X + LEFT_WIDTH + COLUMN_GAP / 2:.0f}" y1="{CHROME_HEIGHT + 16}" x2="{LEFT_X + LEFT_WIDTH + COLUMN_GAP / 2:.0f}" y2="{total_height - OUTER_MARGIN}" stroke="{colors['border']}" stroke-width="1"/>
 
-  <!-- Right dashboard column: stat cards -->
-{dashboard_svg}
+  <!-- Right pane: readout -->
+{readout_svg}
 </svg>
 """
 
 
 # ---------------------------------------------------------------------------
-# Chrome / tabs
+# Readout: single-column `label: value` list, grouped, neofetch-style
 # ---------------------------------------------------------------------------
-def _tab_strip(colors: dict[str, str]) -> str:
-    x = 130
+def _readout(
+    profile_rows: tuple[tuple[str, str], ...],
+    stats_rows: list[tuple[str, str]],
+    stats: ProfileStats,
+    colors: dict[str, str],
+) -> tuple[str, float]:
+    label_width = (
+        max(len(label) for label, _ in (*profile_rows, *stats_rows)) * LABEL_CHAR_WIDTH
+    )
+    value_x = RIGHT_X + label_width + LABEL_VALUE_GAP
+    value_width = RIGHT_X + RIGHT_WIDTH - value_x
+
+    y = float(RIGHT_TOP)
     parts: list[str] = []
-    for index, label in enumerate(TAB_LABELS):
-        width = 26 + len(label) * 8
-        active = index == 0
-        fill = colors["panel"] if active else colors["tab_inactive"]
-        text_class = "tab-active" if active else "tab-inactive"
+
+    def group(title: str) -> None:
+        nonlocal y
+        y += GROUP_GAP_BEFORE if parts else 0
+        dashes = "-" * 3
         parts.append(
-            f'  <rect x="{x}" y="{TAB_Y}" width="{width}" height="{TAB_HEIGHT}" rx="8" '
-            f'fill="{fill}" stroke="{colors["border"]}" stroke-width="1"/>\n'
-            f'  <text x="{x + width / 2:.1f}" y="{TAB_Y + TAB_HEIGHT / 2 + 5:.1f}" '
-            f'text-anchor="middle" class="{text_class}">{_escape(label)}</text>'
+            f'  <text x="{RIGHT_X}" y="{y:.2f}" class="group">{dashes} {_escape(title)} '
+            f'{"-" * max(2, int((RIGHT_WIDTH - len(title) * 8.4 - 40) / 8.4))}</text>'
         )
-        if active:
-            parts.append(
-                f'  <rect x="{x + 6}" y="{TAB_Y + TAB_HEIGHT - 2}" width="{width - 12}" height="2.5" '
-                f'fill="{colors["glow"]}"/>'
-            )
-        x += width + 10
-    return "\n".join(parts)
+        y += GROUP_HEADER_HEIGHT
+
+    def row(label: str, value: str) -> None:
+        nonlocal y
+        parts.append(
+            f'  <text x="{RIGHT_X}" y="{y:.2f}" class="label">{_escape(label)}</text>'
+            f'  <text x="{value_x:.1f}" y="{y:.2f}" xml:space="preserve">{_value_span(value, value_width)}</text>'
+        )
+        y += ROW_HEIGHT
+
+    def lines_row(stats: ProfileStats) -> None:
+        nonlocal y
+        details: list[str] = []
+        if stats.lines_added:
+            details.append(f'<tspan class="positive">{stats.lines_added:,}++</tspan>')
+        if stats.lines_deleted:
+            details.append(f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>')
+        joined = ", ".join(details)
+        parts.append(
+            f'  <text x="{RIGHT_X}" y="{y:.2f}" class="label">lines of code</text>'
+            f'  <text x="{value_x:.1f}" y="{y:.2f}" xml:space="preserve">'
+            f'{_value_span(f"{stats.total_lines:,} total", value_width)}</text>'
+        )
+        y += 22
+        parts.append(
+            f'  <text x="{value_x:.1f}" y="{y:.2f}" class="value" xml:space="preserve">({joined})</text>'
+        )
+        y += ROW_HEIGHT - 22 + 16
+
+    group("profile")
+    for label, value in profile_rows:
+        row(label, value)
+
+    group("github stats")
+    for label, value in stats_rows:
+        if label == "lines of code":
+            lines_row(stats)
+        else:
+            row(label, value)
+
+    # Palette swatch strip — a small decorative flourish, neofetch-style.
+    y += GROUP_GAP_BEFORE - 12
+    swatch_x = RIGHT_X
+    for color in colors["swatches"]:
+        parts.append(
+            f'  <rect x="{swatch_x:.1f}" y="{y - SWATCH_SIZE:.1f}" width="{SWATCH_SIZE}" '
+            f'height="{SWATCH_SIZE}" rx="3" fill="{color}"/>'
+        )
+        swatch_x += SWATCH_SIZE + SWATCH_GAP
+    y += SWATCH_ROW_HEIGHT - SWATCH_SIZE
+
+    return "\n".join(parts), y
 
 
-# ---------------------------------------------------------------------------
-# Dashboard cards
-# ---------------------------------------------------------------------------
-def _section_chip(title: str, y: int, colors: dict[str, str]) -> tuple[str, int]:
-    width = 34 + len(title) * 10
-    svg = (
-        f'  <rect x="{RIGHT_PANEL_X}" y="{y}" width="{width}" height="{SECTION_CHIP_HEIGHT}" rx="8" '
-        f'fill="none" stroke="{colors["key"]}" stroke-width="1.5"/>\n'
-        f'  <text x="{RIGHT_PANEL_X + width / 2:.1f}" y="{y + SECTION_CHIP_HEIGHT / 2 + 5:.1f}" '
-        f'text-anchor="middle" class="chip">{_escape(title)}</text>'
-    )
-    return svg, y + SECTION_CHIP_HEIGHT + SECTION_GAP_AFTER
-
-
-def _card(
-    label: str, value: str, element_id: str, y: int, height: int, colors: dict[str, str]
-) -> str:
-    value_span = f'<tspan class="value" id="{element_id}">{_escape(value)}</tspan>'
-    return _card_shell(label, value_span, y, height, colors)
-
-
-def _lines_card(
-    stats: "ProfileStats", y: int, height: int, colors: dict[str, str]
-) -> str:
-    details: list[str] = []
-    if stats.lines_added:
-        details.append(f'<tspan class="positive">{stats.lines_added:,}++</tspan>')
-    if stats.lines_deleted:
-        details.append(f'<tspan class="negative">{stats.lines_deleted:,}--</tspan>')
-    joined = ", ".join(details)
-    value_span = (
-        f'<tspan class="value" id="lines_data">{stats.total_lines:,} total</tspan>'
-        f'<tspan x="{RIGHT_PANEL_X + CARD_PADDING_X}" dy="26" class="value" '
-        f'style="font-size:{CARD_VALUE_SIZE - 4}px">({joined})</tspan>'
-    )
-    return _card_shell("Lines of Code", value_span, y, height, colors)
-
-
-def _card_shell(
-    label: str, value_markup: str, y: int, height: int, colors: dict[str, str]
-) -> str:
-    label_y = y + 24
-    value_y = label_y + 30
+def _value_span(value: str, available_width: float) -> str:
+    estimated = len(value) * VALUE_CHAR_WIDTH
+    if estimated <= available_width:
+        return f'<tspan class="value">{_escape(value)}</tspan>'
     return (
-        f'  <rect x="{RIGHT_PANEL_X}" y="{y}" width="{RIGHT_PANEL_WIDTH}" height="{height}" rx="10" '
-        f'fill="{colors["card"]}" stroke="{colors["border"]}" stroke-width="1"/>\n'
-        f'  <rect x="{RIGHT_PANEL_X}" y="{y}" width="4" height="{height}" rx="2" fill="{colors["key"]}"/>\n'
-        f'  <text x="{RIGHT_PANEL_X + CARD_PADDING_X}" y="{label_y}" class="label">'
-        f"{_escape(label.upper())}</text>\n"
-        f'  <text x="{RIGHT_PANEL_X + CARD_PADDING_X}" y="{value_y}" xml:space="preserve">'
-        f"{value_markup}</text>"
+        f'<tspan class="value" textLength="{available_width:.1f}" '
+        f'lengthAdjust="spacingAndGlyphs">{_escape(value)}</tspan>'
     )
 
 
@@ -338,27 +279,21 @@ def _card_shell(
 def _scaled_ascii_metrics(
     total_height: int, ascii_start_y: int
 ) -> tuple[float, float, float]:
-    """Scale the ASCII portrait so its 72 lines fill the terminal pane's vertical space.
-
-    Never scales *below* the original density (min() would be wrong here — we
-    want to grow to fill blank space, not shrink on short cards), and keeps the
-    font-to-line-height ratio identical to the original design.
-    """
     line_count = len(ASCII_PORTRAIT)
     available_height = (
         total_height - OUTER_MARGIN - ASCII_BOTTOM_MARGIN
     ) - ascii_start_y
     line_height = max(available_height / line_count, ASCII_LINE_HEIGHT)
     font_size = line_height * (ASCII_FONT_SIZE / ASCII_LINE_HEIGHT)
-    render_width = LEFT_PANEL_WIDTH - (ASCII_X - LEFT_PANEL_X) - 30
+    render_width = LEFT_WIDTH - (ASCII_X - LEFT_X) - 26
     return render_width, line_height, font_size
 
 
 # ---------------------------------------------------------------------------
-# Stats assembly (unchanged logic, carried over from the previous layout)
+# Stats assembly (logic unchanged, carried over from the previous layout)
 # ---------------------------------------------------------------------------
-def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
-    rows: list[tuple[str, str, str]] = []
+def _stats_rows(stats: ProfileStats) -> list[tuple[str, str]]:
+    rows: list[tuple[str, str]] = []
     coverage = stats.coverage.upper()
     inventory_verified = coverage.startswith("COMPLETE") or coverage.startswith(
         "INVENTORY_COMPLETE"
@@ -367,30 +302,27 @@ def _stats_rows(stats: ProfileStats) -> list[tuple[str, str, str]]:
     inventory = stats.inventory
 
     if inventory_verified and inventory.total:
-        rows.append(("Repositories", _repository_line(stats), "repo_total"))
-        rows.append(("Visibility", _visibility_line(stats), "visibility_data"))
+        rows.append(("repositories", _repository_line(stats)))
+        rows.append(("visibility", _visibility_line(stats)))
         if inventory.state_total:
-            rows.append(("State", _state_line(stats), "state_data"))
+            rows.append(("state", _state_line(stats)))
         if inventory.organizations:
             rows.append(
                 (
-                    "Organizations",
+                    "organizations",
                     f"{inventory.organizations:,} {_plural(inventory.organizations, 'organization')}",
-                    "organization_data",
                 )
             )
         if activity_verified and stats.total_commits:
-            rows.append(("Commits", _commit_line(stats), "commit_data"))
+            rows.append(("commits", _commit_line(stats)))
         if activity_verified and stats.total_contributions:
-            rows.append(
-                ("Contributions", _contribution_line(stats), "contribution_data")
-            )
+            rows.append(("contributions", _contribution_line(stats)))
         if activity_verified and (stats.lines_added or stats.lines_deleted):
-            rows.append(("Lines of Code", "", "lines_data"))
+            rows.append(("lines of code", ""))
         if inventory.stars_owned or stats.followers:
-            rows.append(("Signals", _signal_line(stats), "signal_data"))
+            rows.append(("signals", _signal_line(stats)))
 
-    rows.append(("Last Sync", _display_timestamp(stats.generated_at), "generated_data"))
+    rows.append(("last sync", _display_timestamp(stats.generated_at)))
     return rows
 
 
