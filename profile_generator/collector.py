@@ -20,7 +20,9 @@ class ProfileApi(Protocol):
 
     def contribution_counts(self, from_iso: str, to_iso: str) -> tuple[int, int]: ...
 
-    def repository_activity(self, full_name: str, login: str) -> tuple[int, int, int]: ...
+    def repository_activity(
+        self, full_name: str, login: str
+    ) -> tuple[int, int, int]: ...
 
 
 @dataclass(slots=True)
@@ -65,8 +67,12 @@ def collect_profile_stats(
             authenticated_login = token_login
             created_at = token_created_at
             followers = token_followers
-        elif _format_iso(_parse_iso(token_created_at)) != _format_iso(_parse_iso(created_at)):
-            raise CollectionError("token sources returned inconsistent account creation metadata")
+        elif _format_iso(_parse_iso(token_created_at)) != _format_iso(
+            _parse_iso(created_at)
+        ):
+            raise CollectionError(
+                "token sources returned inconsistent account creation metadata"
+            )
 
         for affiliation in ("owner", "organization_member", "collaborator"):
             repositories = client.list_repositories(affiliation)
@@ -81,20 +87,30 @@ def collect_profile_stats(
                         client_indexes={index},
                     )
                     continue
-                if _repository_identity(existing.payload) != _repository_identity(payload):
-                    raise CollectionError("repository identity conflict detected during deduplication")
+                if _repository_identity(existing.payload) != _repository_identity(
+                    payload
+                ):
+                    raise CollectionError(
+                        "repository identity conflict detected during deduplication"
+                    )
                 existing.affiliations.add(affiliation)
                 existing.client_indexes.add(index)
 
     inventory, observed_owners = _build_inventory(merged.values())
-    required = {owner.strip().casefold() for owner in required_owners if owner and owner.strip()}
+    required = {
+        owner.strip().casefold() for owner in required_owners if owner and owner.strip()
+    }
     missing_count = len(required - observed_owners)
     if missing_count:
         owner_label = "owner" if missing_count == 1 else "owners"
         verb = "was" if missing_count == 1 else "were"
-        raise CollectionError(f"{missing_count} required resource {owner_label} {verb} not represented")
+        raise CollectionError(
+            f"{missing_count} required resource {owner_label} {verb} not represented"
+        )
 
-    repository_floor = _non_negative_int(minimum_repositories, "minimum repository count")
+    repository_floor = _non_negative_int(
+        minimum_repositories, "minimum repository count"
+    )
     if inventory.total < repository_floor:
         raise CollectionError(
             f"repository inventory contains {inventory.total} repositories; "
@@ -124,8 +140,11 @@ def collect_profile_stats(
                     _non_negative_int(result[2], "repository deletions"),
                 )
                 break
-            except (CollectionError, RuntimeError, TypeError, IndexError, ValueError):
-                continue
+            except Exception as exc:
+                print(
+                    f"FAILED {_required_text(repository.payload, 'full_name', 'repository')}: {exc}"
+                )
+                raise
         if activity is None:
             raise CollectionError(
                 "repository activity could not be collected from available credentials"
@@ -219,13 +238,18 @@ def _build_inventory(
         forks += int(_required_bool(payload, "fork"))
         disabled += int(_required_bool(payload, "disabled"))
         if primary == "owner":
-            stars_owned += _non_negative_int(payload.get("stargazers_count"), "stargazer count")
+            stars_owned += _non_negative_int(
+                payload.get("stargazers_count"), "stargazer count"
+            )
 
         owner = payload["owner"]
         owner_login = _required_text(owner, "login", "repository owner")
         owner_key = owner_login.casefold()
         observed_owners.add(owner_key)
-        if _required_text(owner, "type", "repository owner").casefold() == "organization":
+        if (
+            _required_text(owner, "type", "repository owner").casefold()
+            == "organization"
+        ):
             organization_owners.add(owner_key)
 
     inventory = InventoryStats(
@@ -283,7 +307,11 @@ def _repository_identity(payload: dict[str, Any]) -> tuple[str, str]:
 
 def _repository_visibility(payload: dict[str, Any]) -> str:
     visibility = payload.get("visibility")
-    if isinstance(visibility, str) and visibility.casefold() in {"public", "private", "internal"}:
+    if isinstance(visibility, str) and visibility.casefold() in {
+        "public",
+        "private",
+        "internal",
+    }:
         return visibility.casefold()
     private = payload.get("private")
     if isinstance(private, bool):
