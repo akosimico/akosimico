@@ -108,7 +108,7 @@
   <!-- Right pane: readout -->
   <text x="628" y="90.00" class="group">--- profile -----------------------------------------------------------------------------------------</text>
   <text x="628" y="116.00" class="label">os</text>  <text x="828.7" y="116.00" xml:space="preserve"><tspan class="value">Windows 11</tspan></text>
-  <text x="628" y="146.00" class="label">uptime</text>  <text x="828.7" y="146.00" xml:space="preserve"><tspan class="value">22 years, 2 months, 11 days</tspan></text>
+  <text x="628" y="146.00" class="label">uptime</text>  <text x="828.7" y="146.00" xml:space="preserve"><tspan class="value">22 years, 2 months, 12 days</tspan></text>
   <text x="628" y="176.00" class="label">kernel</text>  <text x="828.7" y="176.00" xml:space="preserve"><tspan class="value">Web / Python / Automation / Cloud</tspan></text>
   <text x="628" y="206.00" class="label">languages.programming</text>  <text x="828.7" y="206.00" xml:space="preserve"><tspan class="value">Python, JavaScript, C#, Java, PHP, HTML, CSS</tspan></text>
   <text x="628" y="236.00" class="label">frameworks</text>  <text x="828.7" y="236.00" xml:space="preserve"><tspan class="value">Laravel, Node.js, Express, Django, .NET</tspan></text>
@@ -120,12 +120,12 @@
   <text x="628" y="440.00" class="label">repositories</text>  <text x="828.7" y="440.00" xml:space="preserve"><tspan class="value">39 (39 owned)</tspan></text>
   <text x="628" y="470.00" class="label">visibility</text>  <text x="828.7" y="470.00" xml:space="preserve"><tspan class="value">39 (1 public, 38 private)</tspan></text>
   <text x="628" y="500.00" class="label">state</text>  <text x="828.7" y="500.00" xml:space="preserve"><tspan class="value">1 (1 archived)</tspan></text>
-  <text x="628" y="530.00" class="label">commits</text>  <text x="828.7" y="530.00" xml:space="preserve"><tspan class="value">316 total commits (86 public, 230 private)</tspan></text>
+  <text x="628" y="530.00" class="label">commits</text>  <text x="828.7" y="530.00" xml:space="preserve"><tspan class="value">317 total commits (87 public, 230 private)</tspan></text>
   <text x="628" y="560.00" class="label">contributions</text>  <text x="828.7" y="560.00" xml:space="preserve"><tspan class="value">286 total contributions (20 public, 266 restricted)</tspan></text>
   <text x="628" y="590.00" class="label">lines of code</text>  <text x="828.7" y="590.00" xml:space="preserve"><tspan class="value">1,786,748 total</tspan></text>
   <text x="828.7" y="612.00" class="value" xml:space="preserve">(<tspan class="positive">1,811,287++</tspan>, <tspan class="negative">24,539--</tspan>)</text>
   <text x="628" y="636.00" class="label">signals</text>  <text x="828.7" y="636.00" xml:space="preserve"><tspan class="value">1 follower</tspan></text>
-  <text x="628" y="666.00" class="label">last sync</text>  <text x="828.7" y="666.00" xml:space="preserve"><tspan class="value">August 17, 2026 12:58 PM</tspan></text>
+  <text x="628" y="666.00" class="label">last sync</text>  <text x="828.7" y="666.00" xml:space="preserve"><tspan class="value">August 18, 2026 12:53 PM</tspan></text>
   <rect x="628.0" y="696.0" width="16" height="16" rx="3" fill="#047857"/>
   <rect x="650.0" y="696.0" width="16" height="16" rx="3" fill="#0f766e"/>
   <rect x="672.0" y="696.0" width="16" height="16" rx="3" fill="#115e59"/>
