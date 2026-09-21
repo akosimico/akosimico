@@ -2,23 +2,23 @@
   "account_created_at": "2024-05-09T00:49:42Z",
   "activity": {
     "commits": {
-      "private": 252,
-      "public": 107,
-      "total": 359
+      "private": 336,
+      "public": 139,
+      "total": 475
     },
     "contributions": {
-      "public": 24,
-      "restricted": 291,
-      "total": 315
+      "public": 57,
+      "restricted": 382,
+      "total": 439
     },
     "lines": {
-      "additions": 1842666,
-      "deletions": 26117,
-      "total": 1816549
+      "additions": 1907667,
+      "deletions": 32801,
+      "total": 1874866
     }
   },
   "coverage": "COMPLETE",
-  "generated_at": "2026-09-04T08:51:24Z",
+  "generated_at": "2026-09-21T18:41:19Z",
   "login": "akosimico",
   "owners": {
     "organizations": 0
@@ -26,13 +26,13 @@
   "repositories": {
     "collaborator": 0,
     "organization_member": 0,
-    "owned": 42,
-    "total": 42
+    "owned": 52,
+    "total": 52
   },
   "schema_version": 2,
   "signals": {
-    "followers": 1,
-    "stars_owned": 0
+    "followers": 4,
+    "stars_owned": 2
   },
   "state": {
     "archived": 1,
@@ -41,7 +41,7 @@
   },
   "visibility": {
     "internal": 0,
-    "private": 40,
-    "public": 2
+    "private": 47,
+    "public": 5
   }
 }
